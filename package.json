@@ -4,10 +4,13 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node tests/backup-restore.test.cjs && node --test tests/worker.test.mjs",
-    "check": "node --check worker/index.js",
+    "test": "node tests/backup-restore.test.cjs && node --test tests/worker.test.mjs tests/staging.test.mjs",
+    "check": "node --check worker/index.js && node --check worker/staging.js && node --check scripts/build-staging.mjs && node --check scripts/smoke-staging.mjs",
     "build:worker": "wrangler deploy --dry-run --config worker/wrangler.jsonc",
-    "smoke:live": "node scripts/smoke-live.mjs"
+    "build:staging": "node scripts/build-staging.mjs && wrangler deploy --dry-run --config worker/wrangler.staging.jsonc",
+    "deploy:staging": "node scripts/build-staging.mjs && wrangler deploy --config worker/wrangler.staging.jsonc",
+    "smoke:live": "node scripts/smoke-live.mjs",
+    "smoke:staging": "node scripts/smoke-staging.mjs"
   },
   "devDependencies": {
     "wrangler": "^4.0.0"
