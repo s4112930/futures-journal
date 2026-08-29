@@ -2,281 +2,312 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  >
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="theme-color" content="#f4f1eb">
+
   <title>期貨交易日誌</title>
 
   <style>
-    :root{
-      --bg:#f4f1eb;
-      --card:#ffffff;
-      --text:#38424a;
-      --muted:#8d969b;
-      --blue:#72889a;
-      --green:#83988a;
-      --red:#b57f7f;
-      --beige:#b7aa99;
-      --border:#e6e2dc;
-      --soft:#eef0ee;
+    :root {
+      --bg: #f4f1eb;
+      --card: #ffffff;
+      --text: #38424a;
+      --muted: #8d969b;
+      --blue: #72889a;
+      --green: #83988a;
+      --red: #b57f7f;
+      --border: #e6e2dc;
+      --soft: #eef0ee;
+      --soft2: #f7f6f3;
     }
 
-    *{box-sizing:border-box;}
-
-    body{
-      margin:0;
-      font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
-      background:var(--bg);
-      color:var(--text);
+    * {
+      box-sizing: border-box;
     }
 
-    .app{
-      max-width:620px;
-      margin:auto;
-      padding:24px 16px 110px;
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "PingFang TC",
+        "Noto Sans TC",
+        sans-serif;
     }
 
-    h1{
-      margin:0 0 20px;
-      font-size:25px;
+    .app {
+      max-width: 620px;
+      margin: auto;
+      padding: 24px 16px 110px;
     }
 
-    .sub{
-      color:var(--muted);
-      font-size:12px;
-      margin-bottom:5px;
-      letter-spacing:1px;
+    h1 {
+      margin: 0 0 20px;
+      font-size: 25px;
     }
 
-    .stats{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:12px;
+    h3 {
+      margin: 0;
     }
 
-    .card{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:18px;
-      padding:16px;
+    .sub {
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 1px;
+      margin-bottom: 5px;
     }
 
-    .label{
-      color:var(--muted);
-      font-size:13px;
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
     }
 
-    .value{
-      margin-top:8px;
-      font-size:22px;
-      font-weight:700;
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
     }
 
-    .green{color:var(--green);}
-    .red{color:var(--red);}
-
-    .section{
-      margin-top:28px;
+    .label {
+      color: var(--muted);
+      font-size: 13px;
     }
 
-    .section-title{
-      font-weight:700;
-      margin-bottom:12px;
+    .value {
+      margin-top: 8px;
+      font-size: 22px;
+      font-weight: 700;
     }
 
-    .trade{
-      background:white;
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:14px;
-      margin-bottom:10px;
+    .green {
+      color: var(--green);
     }
 
-    .trade-row{
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      align-items:flex-start;
+    .red {
+      color: var(--red);
     }
 
-    .small{
-      color:var(--muted);
-      font-size:12px;
-      margin-top:4px;
-      line-height:1.5;
+    .section {
+      margin-top: 28px;
     }
 
-    input,select,textarea{
-      width:100%;
-      padding:13px;
-      border:1px solid var(--border);
-      border-radius:13px;
-      background:white;
-      font-size:16px;
-      color:var(--text);
-      outline:none;
+    .section-title {
+      font-weight: 700;
+      margin-bottom: 12px;
     }
 
-    textarea{
-      min-height:90px;
-      resize:vertical;
+    .trade {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 10px;
     }
 
-    label{
-      display:block;
-      margin-bottom:6px;
-      font-size:13px;
-      color:var(--muted);
+    .trade-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: flex-start;
     }
 
-    .field{
-      margin-bottom:14px;
+    .small {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+      margin-top: 4px;
     }
 
-    .two{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
+    .field {
+      margin-bottom: 14px;
     }
 
-    button{
-      font-family:inherit;
+    label {
+      display: block;
+      margin: 0 0 6px 2px;
+      color: var(--muted);
+      font-size: 13px;
     }
 
-    .primary{
-      width:100%;
-      border:0;
-      border-radius:14px;
-      padding:15px;
-      background:var(--blue);
-      color:white;
-      font-size:16px;
-      font-weight:700;
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 13px;
+      background: #fff;
+      color: var(--text);
+      font-size: 16px;
+      outline: none;
     }
 
-    .page{display:none;}
-    .page.active{display:block;}
-
-    .bottom{
-      position:fixed;
-      left:0;
-      right:0;
-      bottom:0;
-      background:rgba(255,255,255,.96);
-      border-top:1px solid var(--border);
-      padding:8px 10px calc(8px + env(safe-area-inset-bottom));
+    textarea {
+      min-height: 90px;
+      resize: vertical;
     }
 
-    .nav{
-      max-width:620px;
-      margin:auto;
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
+    .two {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
     }
 
-    .nav button{
-      border:0;
-      background:none;
-      padding:10px 4px;
-      color:var(--muted);
-      font-size:12px;
+    button {
+      font-family: inherit;
+      cursor: pointer;
     }
 
-    .nav button.active{
-      color:var(--blue);
-      font-weight:700;
+    .primary {
+      width: 100%;
+      border: 0;
+      border-radius: 14px;
+      padding: 15px;
+      background: var(--blue);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
     }
 
-    .ai{
-      background:var(--soft);
-      border-radius:15px;
-      padding:15px;
-      font-size:14px;
-      line-height:1.7;
+    .primary:disabled {
+      opacity: 0.6;
     }
 
-    .delete{
-      margin-top:10px;
-      border:0;
-      background:none;
-      color:var(--red);
-      padding:0;
-      font-size:12px;
+    .page {
+      display: none;
     }
 
-    .empty{
-      text-align:center;
-      color:var(--muted);
-      padding:25px 0;
+    .page.active {
+      display: block;
     }
 
-    .detail-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:8px;
-      margin-top:12px;
+    .bottom {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255,255,255,0.96);
+      border-top: 1px solid var(--border);
+      padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
     }
 
-    .detail-item{
-      background:#f8f8f6;
-      border-radius:12px;
-      padding:10px;
+    .nav {
+      max-width: 620px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
     }
 
-    .detail-item span{
-      display:block;
-      color:var(--muted);
-      font-size:11px;
-      margin-bottom:4px;
+    .nav button {
+      border: 0;
+      background: none;
+      padding: 10px 4px;
+      color: var(--muted);
+      font-size: 12px;
     }
 
-    .analysis-block{
-      background:white;
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:14px;
-      margin-bottom:10px;
+    .nav button.active {
+      color: var(--blue);
+      font-weight: 700;
     }
 
-    .analysis-block h3{
-      font-size:14px;
-      margin:0 0 8px;
+    .ai-info {
+      background: var(--soft);
+      border-radius: 15px;
+      padding: 15px;
+      font-size: 14px;
+      line-height: 1.7;
     }
 
-    .analysis-block p{
-      margin:0;
-      font-size:13px;
-      line-height:1.7;
-      color:var(--muted);
+    .delete {
+      margin-top: 10px;
+      border: 0;
+      background: none;
+      color: var(--red);
+      padding: 0;
+      font-size: 12px;
     }
 
-    .product-row{
-      display:flex;
-      justify-content:space-between;
-      padding:12px 0;
-      border-bottom:1px solid var(--border);
+    .empty {
+      text-align: center;
+      color: var(--muted);
+      padding: 25px 0;
     }
 
-    .product-row:last-child{
-      border-bottom:0;
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 12px;
     }
 
-    .badge{
-      display:inline-block;
-      padding:4px 8px;
-      border-radius:999px;
-      background:#edf0ef;
-      color:#68756c;
-      font-size:11px;
+    .detail-item {
+      background: #f8f8f6;
+      border-radius: 12px;
+      padding: 10px;
     }
 
-    .rr{
-      margin-top:8px;
-      padding:10px;
-      background:#f6f5f1;
-      border-radius:12px;
-      font-size:12px;
-      color:var(--muted);
+    .detail-item span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      margin-bottom: 4px;
+    }
+
+    .analysis-block {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+
+    .analysis-result {
+      white-space: pre-wrap;
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 12px;
+      background: var(--soft2);
+      font-size: 13px;
+      line-height: 1.8;
+      color: var(--text);
+    }
+
+    .product-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .product-row:last-child {
+      border-bottom: 0;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: #edf0ef;
+      color: #68756c;
+      font-size: 11px;
+    }
+
+    .rr {
+      margin-top: 8px;
+      padding: 10px;
+      background: #f6f5f1;
+      border-radius: 12px;
+      color: var(--muted);
+      font-size: 12px;
     }
   </style>
 </head>
@@ -285,11 +316,13 @@
 
 <div class="app">
 
+  <!-- 首頁 -->
   <section id="homePage" class="page active">
     <div class="sub">MY TRADING JOURNAL</div>
     <h1>期貨交易日誌</h1>
 
     <div class="stats">
+
       <div class="card">
         <div class="label">總損益</div>
         <div id="totalProfit" class="value">NT$0</div>
@@ -309,6 +342,7 @@
         <div class="label">交易筆數</div>
         <div id="tradeCount" class="value">0</div>
       </div>
+
     </div>
 
     <div class="section">
@@ -318,6 +352,7 @@
   </section>
 
 
+  <!-- 新增交易 -->
   <section id="addPage" class="page">
     <div class="sub">NEW TRADE</div>
     <h1>新增交易</h1>
@@ -326,7 +361,10 @@
 
       <div class="field">
         <label>操作商品名稱</label>
-        <input id="product" placeholder="例如：小台指期、黃金、NASDAQ">
+        <input
+          id="product"
+          placeholder="例如：小台指期、黃金、NASDAQ"
+        >
       </div>
 
       <div class="field">
@@ -338,6 +376,7 @@
       </div>
 
       <div class="two">
+
         <div class="field">
           <label>進場時間</label>
           <input id="entryTime" type="datetime-local">
@@ -347,9 +386,11 @@
           <label>出場時間</label>
           <input id="exitTime" type="datetime-local">
         </div>
+
       </div>
 
       <div class="two">
+
         <div class="field">
           <label>進場價格</label>
           <input id="entryPrice" type="number" step="any">
@@ -359,9 +400,11 @@
           <label>出場價格</label>
           <input id="exitPrice" type="number" step="any">
         </div>
+
       </div>
 
       <div class="two">
+
         <div class="field">
           <label>停損價</label>
           <input id="stopLoss" type="number" step="any">
@@ -371,9 +414,11 @@
           <label>停利價</label>
           <input id="takeProfit" type="number" step="any">
         </div>
+
       </div>
 
       <div class="two">
+
         <div class="field">
           <label>口數</label>
           <input id="quantity" type="number" min="1" value="1">
@@ -383,43 +428,60 @@
           <label>手續費</label>
           <input id="fee" type="number" min="0" value="0">
         </div>
+
       </div>
 
       <div class="field">
         <label>獲利 / 虧損金額</label>
-        <input id="profit" type="number" placeholder="例如：2850 或 -1200">
+        <input
+          id="profit"
+          type="number"
+          placeholder="例如：2850 或 -1200"
+        >
       </div>
 
       <div class="field">
         <label>每一單紀錄</label>
-        <textarea id="note" placeholder="可記錄行情、策略或交易規則"></textarea>
+        <textarea
+          id="note"
+          placeholder="可記錄行情、策略、進場依據或其他可驗證資訊"
+        ></textarea>
       </div>
 
-      <button class="primary" onclick="saveTrade()">儲存交易</button>
+      <button
+        class="primary"
+        onclick="saveTrade()"
+      >
+        儲存交易
+      </button>
 
     </div>
   </section>
 
 
+  <!-- AI 分析 -->
   <section id="analysisPage" class="page">
-    <div class="sub">OBJECTIVE REVIEW</div>
-    <h1>交易分析</h1>
+    <div class="sub">OBJECTIVE AI REVIEW</div>
+    <h1>AI 客觀分析</h1>
 
-    <div class="ai">
-      <strong>AI 客觀分析原則</strong><br><br>
-      系統只依照可驗證的交易資料進行分析，
-      不推測情緒、個性或主觀動機。<br><br>
-      若資料不足，會直接顯示：
+    <div class="ai-info">
+      <strong>分析原則</strong><br><br>
+
+      AI 只依照你提供的交易資料進行事後分析，
+      不推測你的情緒、心理、人格或主觀動機。<br><br>
+
+      資料不足時必須明確說明：
       「資料不足，無法客觀判定」。
     </div>
 
     <div class="section">
-      <div class="section-title">逐筆分析</div>
+      <div class="section-title">逐筆交易分析</div>
       <div id="analysisList"></div>
     </div>
   </section>
 
 
+  <!-- 績效 -->
   <section id="statsPage" class="page">
     <div class="sub">PERFORMANCE</div>
     <h1>績效統計</h1>
@@ -433,388 +495,876 @@
 </div>
 
 
+<!-- 底部選單 -->
 <div class="bottom">
   <div class="nav">
-    <button id="homeBtn" class="active" onclick="showPage('home')">首頁</button>
-    <button id="addBtn" onclick="showPage('add')">新增交易</button>
-    <button id="analysisBtn" onclick="showPage('analysis')">分析</button>
-    <button id="statsBtn" onclick="showPage('stats')">績效</button>
+
+    <button
+      id="homeBtn"
+      class="active"
+      onclick="showPage('home')"
+    >
+      首頁
+    </button>
+
+    <button
+      id="addBtn"
+      onclick="showPage('add')"
+    >
+      新增交易
+    </button>
+
+    <button
+      id="analysisBtn"
+      onclick="showPage('analysis')"
+    >
+      AI 分析
+    </button>
+
+    <button
+      id="statsBtn"
+      onclick="showPage('stats')"
+    >
+      績效
+    </button>
+
   </div>
 </div>
 
 
 <script>
-let trades = JSON.parse(localStorage.getItem("futuresTrades")) || [];
 
-function showPage(page){
-  document.querySelectorAll(".page").forEach(x => x.classList.remove("active"));
-  document.querySelectorAll(".nav button").forEach(x => x.classList.remove("active"));
+const AI_API =
+  "https://futures-ai-worker.s4112930.workers.dev";
 
-  if(page === "home"){
+let trades =
+  JSON.parse(
+    localStorage.getItem("futuresTrades")
+  ) || [];
+
+
+/* =========================
+   頁面切換
+========================= */
+
+function showPage(page) {
+
+  document
+    .querySelectorAll(".page")
+    .forEach(x => x.classList.remove("active"));
+
+  document
+    .querySelectorAll(".nav button")
+    .forEach(x => x.classList.remove("active"));
+
+  if (page === "home") {
     homePage.classList.add("active");
     homeBtn.classList.add("active");
   }
 
-  if(page === "add"){
+  if (page === "add") {
     addPage.classList.add("active");
     addBtn.classList.add("active");
   }
 
-  if(page === "analysis"){
+  if (page === "analysis") {
     analysisPage.classList.add("active");
     analysisBtn.classList.add("active");
   }
 
-  if(page === "stats"){
+  if (page === "stats") {
     statsPage.classList.add("active");
     statsBtn.classList.add("active");
   }
+
 }
 
-function saveTrade(){
-  const productValue = product.value.trim();
 
-  if(!productValue){
+/* =========================
+   儲存交易
+========================= */
+
+function saveTrade() {
+
+  const productValue =
+    document.getElementById("product").value.trim();
+
+  const profitValue =
+    document.getElementById("profit").value;
+
+  if (!productValue) {
     alert("請輸入商品名稱");
     return;
   }
 
-  if(profit.value === ""){
+  if (profitValue === "") {
     alert("請輸入獲利或虧損金額");
     return;
   }
 
   const trade = {
-    id:Date.now(),
-    product:productValue,
-    direction:direction.value,
-    entryTime:entryTime.value,
-    exitTime:exitTime.value,
-    entryPrice:entryPrice.value,
-    exitPrice:exitPrice.value,
-    stopLoss:stopLoss.value,
-    takeProfit:takeProfit.value,
-    quantity:Number(quantity.value || 1),
-    fee:Number(fee.value || 0),
-    profit:Number(profit.value),
-    note:note.value
+
+    id: Date.now(),
+
+    product: productValue,
+
+    direction:
+      document.getElementById("direction").value,
+
+    entryTime:
+      document.getElementById("entryTime").value,
+
+    exitTime:
+      document.getElementById("exitTime").value,
+
+    entryPrice:
+      document.getElementById("entryPrice").value,
+
+    exitPrice:
+      document.getElementById("exitPrice").value,
+
+    stopLoss:
+      document.getElementById("stopLoss").value,
+
+    takeProfit:
+      document.getElementById("takeProfit").value,
+
+    quantity:
+      Number(
+        document.getElementById("quantity").value || 1
+      ),
+
+    fee:
+      Number(
+        document.getElementById("fee").value || 0
+      ),
+
+    profit:
+      Number(profitValue),
+
+    note:
+      document.getElementById("note").value,
+
+    aiAnalysis: ""
+
   };
 
   trades.unshift(trade);
 
-  localStorage.setItem(
-    "futuresTrades",
-    JSON.stringify(trades)
-  );
+  saveTrades();
 
   clearForm();
+
   render();
+
   showPage("home");
+
 }
 
-function clearForm(){
-  product.value="";
-  entryTime.value="";
-  exitTime.value="";
-  entryPrice.value="";
-  exitPrice.value="";
-  stopLoss.value="";
-  takeProfit.value="";
-  quantity.value="1";
-  fee.value="0";
-  profit.value="";
-  note.value="";
-}
 
-function deleteTrade(id){
-  if(!confirm("確定刪除這筆交易嗎？")) return;
+/* =========================
+   儲存 localStorage
+========================= */
 
-  trades = trades.filter(t => t.id !== id);
+function saveTrades() {
 
   localStorage.setItem(
     "futuresTrades",
     JSON.stringify(trades)
   );
 
+}
+
+
+/* =========================
+   清除輸入
+========================= */
+
+function clearForm() {
+
+  product.value = "";
+  entryTime.value = "";
+  exitTime.value = "";
+  entryPrice.value = "";
+  exitPrice.value = "";
+  stopLoss.value = "";
+  takeProfit.value = "";
+  quantity.value = "1";
+  fee.value = "0";
+  profit.value = "";
+  note.value = "";
+
+}
+
+
+/* =========================
+   刪除交易
+========================= */
+
+function deleteTrade(id) {
+
+  if (!confirm("確定刪除這筆交易嗎？")) {
+    return;
+  }
+
+  trades =
+    trades.filter(
+      trade => trade.id !== id
+    );
+
+  saveTrades();
+
   render();
+
 }
 
-function money(n){
-  const sign = n > 0 ? "+" : n < 0 ? "-" : "";
-  return sign + "NT$" + Math.abs(n).toLocaleString();
+
+/* =========================
+   金額格式
+========================= */
+
+function money(n) {
+
+  const number = Number(n) || 0;
+
+  const sign =
+    number > 0
+      ? "+"
+      : number < 0
+      ? "-"
+      : "";
+
+  return (
+    sign +
+    "NT$" +
+    Math.abs(number).toLocaleString("zh-TW")
+  );
+
 }
 
-function formatTime(time){
-  if(!time) return "未填寫";
+
+/* =========================
+   時間格式
+========================= */
+
+function formatTime(time) {
+
+  if (!time) {
+    return "未填寫";
+  }
 
   const d = new Date(time);
 
-  return d.toLocaleString("zh-TW",{
-    month:"2-digit",
-    day:"2-digit",
-    hour:"2-digit",
-    minute:"2-digit"
-  });
+  return d.toLocaleString(
+    "zh-TW",
+    {
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit"
+    }
+  );
+
 }
 
-function calculateRR(t){
+
+/* =========================
+   風險報酬比
+========================= */
+
+function calculateRR(t) {
+
   const entry = Number(t.entryPrice);
   const stop = Number(t.stopLoss);
   const target = Number(t.takeProfit);
 
-  if(!entry || !stop || !target) return null;
+  if (!entry || !stop || !target) {
+    return null;
+  }
 
   let risk;
   let reward;
 
-  if(t.direction === "做多"){
+  if (t.direction === "做多") {
+
     risk = entry - stop;
     reward = target - entry;
-  }else{
+
+  } else {
+
     risk = stop - entry;
     reward = entry - target;
+
   }
 
-  if(risk <= 0 || reward <= 0) return null;
+  if (risk <= 0 || reward <= 0) {
+    return null;
+  }
 
   return reward / risk;
+
 }
 
-function renderHome(){
-  const total = trades.reduce((sum,t) => sum + t.profit,0);
+
+/* =========================
+   首頁
+========================= */
+
+function renderHome() {
+
+  const total =
+    trades.reduce(
+      (sum, t) => sum + Number(t.profit || 0),
+      0
+    );
 
   const now = new Date();
 
-  const monthly = trades.filter(t => {
-    if(!t.entryTime) return false;
+  const monthly =
+    trades.filter(t => {
 
-    const d = new Date(t.entryTime);
+      if (!t.entryTime) {
+        return false;
+      }
 
-    return d.getMonth() === now.getMonth()
-      && d.getFullYear() === now.getFullYear();
-  });
+      const d = new Date(t.entryTime);
 
-  const monthTotal = monthly.reduce((sum,t) => sum + t.profit,0);
+      return (
+        d.getMonth() === now.getMonth() &&
+        d.getFullYear() === now.getFullYear()
+      );
 
-  const wins = trades.filter(t => t.profit > 0).length;
+    });
 
-  const rate = trades.length
-    ? Math.round(wins / trades.length * 100)
-    : 0;
+  const monthTotal =
+    monthly.reduce(
+      (sum, t) => sum + Number(t.profit || 0),
+      0
+    );
 
-  totalProfit.innerText = money(total);
-  monthProfit.innerText = money(monthTotal);
-  winRate.innerText = rate + "%";
-  tradeCount.innerText = trades.length;
+  const wins =
+    trades.filter(
+      t => Number(t.profit) > 0
+    ).length;
 
-  totalProfit.className = "value " + (total >= 0 ? "green":"red");
-  monthProfit.className = "value " + (monthTotal >= 0 ? "green":"red");
+  const rate =
+    trades.length
+      ? Math.round(
+          wins / trades.length * 100
+        )
+      : 0;
 
-  if(!trades.length){
-    tradeList.innerHTML = '<div class="empty">目前還沒有交易紀錄</div>';
+  totalProfit.innerText =
+    money(total);
+
+  monthProfit.innerText =
+    money(monthTotal);
+
+  winRate.innerText =
+    rate + "%";
+
+  tradeCount.innerText =
+    trades.length;
+
+  totalProfit.className =
+    "value " +
+    (total >= 0 ? "green" : "red");
+
+  monthProfit.className =
+    "value " +
+    (monthTotal >= 0 ? "green" : "red");
+
+
+  if (!trades.length) {
+
+    tradeList.innerHTML =
+      '<div class="empty">目前還沒有交易紀錄</div>';
+
+    return;
+
+  }
+
+
+  tradeList.innerHTML =
+    trades.map(t => {
+
+      const rr =
+        calculateRR(t);
+
+      return `
+        <div class="trade">
+
+          <div class="trade-row">
+
+            <div>
+
+              <strong>
+                ${escapeHTML(t.product)}
+              </strong>
+
+              <div class="small">
+                ${t.direction}
+                ・
+                ${formatTime(t.entryTime)}
+              </div>
+
+            </div>
+
+            <strong
+              class="${
+                Number(t.profit) >= 0
+                  ? "green"
+                  : "red"
+              }"
+            >
+              ${money(t.profit)}
+            </strong>
+
+          </div>
+
+
+          <div class="detail-grid">
+
+            <div class="detail-item">
+              <span>進場價</span>
+              ${t.entryPrice || "未填寫"}
+            </div>
+
+            <div class="detail-item">
+              <span>出場價</span>
+              ${t.exitPrice || "未填寫"}
+            </div>
+
+            <div class="detail-item">
+              <span>口數</span>
+              ${t.quantity || 1}
+            </div>
+
+            <div class="detail-item">
+              <span>手續費</span>
+              ${money(-(t.fee || 0))}
+            </div>
+
+          </div>
+
+
+          ${
+            rr
+              ? `
+                <div class="rr">
+                  預設風險報酬比：約 1 : ${rr.toFixed(2)}
+                </div>
+              `
+              : `
+                <div class="rr">
+                  風險報酬比：資料不足
+                </div>
+              `
+          }
+
+
+          ${
+            t.note
+              ? `
+                <div class="small" style="margin-top:10px;">
+                  ${escapeHTML(t.note)}
+                </div>
+              `
+              : ""
+          }
+
+
+          <button
+            class="delete"
+            onclick="deleteTrade(${t.id})"
+          >
+            刪除
+          </button>
+
+        </div>
+      `;
+
+    }).join("");
+
+}
+
+
+/* =========================
+   呼叫真正 AI
+========================= */
+
+async function runAIAnalysis(id) {
+
+  const trade =
+    trades.find(
+      t => t.id === id
+    );
+
+  if (!trade) {
     return;
   }
 
-  tradeList.innerHTML = trades.map(t => {
+  const resultBox =
+    document.getElementById(
+      "ai-" + id
+    );
 
-    const rr = calculateRR(t);
+  const button =
+    document.getElementById(
+      "btn-" + id
+    );
 
-    return `
-      <div class="trade">
+  button.disabled = true;
 
-        <div class="trade-row">
-          <div>
-            <strong>${escapeHTML(t.product)}</strong>
-            <div class="small">
-              ${t.direction} ・ ${formatTime(t.entryTime)}
-            </div>
-          </div>
+  button.innerText =
+    "AI 分析中…";
 
-          <strong class="${t.profit >= 0 ? "green":"red"}">
-            ${money(t.profit)}
-          </strong>
-        </div>
-
-        <div class="detail-grid">
-
-          <div class="detail-item">
-            <span>進場價</span>
-            ${t.entryPrice || "未填寫"}
-          </div>
-
-          <div class="detail-item">
-            <span>出場價</span>
-            ${t.exitPrice || "未填寫"}
-          </div>
-
-          <div class="detail-item">
-            <span>口數</span>
-            ${t.quantity || 1}
-          </div>
-
-          <div class="detail-item">
-            <span>手續費</span>
-            ${money(-(t.fee || 0))}
-          </div>
-
-        </div>
-
-        ${
-          rr
-          ? `<div class="rr">預設風險報酬比：約 1 : ${rr.toFixed(2)}</div>`
-          : `<div class="rr">風險報酬比：資料不足</div>`
-        }
-
-        ${
-          t.note
-          ? `<div class="small" style="margin-top:10px;">${escapeHTML(t.note)}</div>`
-          : ""
-        }
-
-        <button class="delete" onclick="deleteTrade(${t.id})">
-          刪除
-        </button>
-
+  resultBox.innerHTML =
+    `
+      <div class="small">
+        正在進行客觀分析，請稍候…
       </div>
     `;
-  }).join("");
+
+
+  try {
+
+    const response =
+      await fetch(
+        AI_API,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body:
+            JSON.stringify(trade)
+        }
+      );
+
+
+    let data;
+
+    try {
+
+      data =
+        await response.json();
+
+    } catch {
+
+      throw new Error(
+        "AI 後端沒有回傳正確格式"
+      );
+
+    }
+
+
+    if (
+      !response.ok ||
+      !data.ok
+    ) {
+
+      throw new Error(
+        data.error ||
+        "AI 分析失敗"
+      );
+
+    }
+
+
+    trade.aiAnalysis =
+      data.analysis;
+
+    saveTrades();
+
+
+    resultBox.innerHTML =
+      `
+        <div class="analysis-result">
+          ${escapeHTML(data.analysis)}
+        </div>
+      `;
+
+
+    button.innerText =
+      "重新分析";
+
+    button.disabled =
+      false;
+
+
+  } catch (error) {
+
+    resultBox.innerHTML =
+      `
+        <div class="small red">
+          AI 分析失敗：
+          ${escapeHTML(error.message)}
+        </div>
+      `;
+
+    button.innerText =
+      "重新嘗試";
+
+    button.disabled =
+      false;
+
+  }
+
 }
 
-function renderAnalysis(){
-  if(!trades.length){
+
+/* =========================
+   AI 分析頁
+========================= */
+
+function renderAnalysis() {
+
+  if (!trades.length) {
+
     analysisList.innerHTML =
       '<div class="empty">新增交易後才會產生分析</div>';
+
     return;
+
   }
 
-  analysisList.innerHTML = trades.map(t => {
 
-    const entry = Number(t.entryPrice);
-    const exit = Number(t.exitPrice);
-    const rr = calculateRR(t);
+  analysisList.innerHTML =
+    trades.map(t => {
 
-    let marketText = "資料不足，無法客觀判定價格變動。";
-    let directionText = "資料不足，無法客觀判定方向結果。";
-    let riskText = "尚未提供完整停損與停利設定。";
-    let exitText = `本筆實際損益為 ${money(t.profit)}。`;
+      const savedAnalysis =
+        t.aiAnalysis
+          ? `
+            <div class="analysis-result">
+              ${escapeHTML(t.aiAnalysis)}
+            </div>
+          `
+          : `
+            <div class="small" style="margin-top:12px;">
+              尚未執行 AI 客觀分析
+            </div>
+          `;
 
-    if(entry && exit){
-      const pct = ((exit - entry) / entry * 100).toFixed(2);
 
-      marketText =
-        `進場價 ${entry}，出場價 ${exit}，價格變動 ${pct}%。`;
+      return `
+        <div class="analysis-block">
 
-      if(t.direction === "做多"){
-        directionText =
-          exit > entry
-          ? "持倉期間價格最終高於進場價，方向與做多一致。"
-          : "持倉期間價格最終低於進場價，方向與做多不一致。";
-      }else{
-        directionText =
-          exit < entry
-          ? "持倉期間價格最終低於進場價，方向與做空一致。"
-          : "持倉期間價格最終高於進場價，方向與做空不一致。";
-      }
-    }
+          <div class="trade-row">
 
-    if(rr){
-      riskText =
-        `依預設停損與停利計算，風險報酬比約為 1 : ${rr.toFixed(2)}。`;
-    }
+            <div>
 
-    return `
-      <div class="analysis-block">
+              <h3>
+                ${escapeHTML(t.product)}
+              </h3>
 
-        <div class="trade-row">
-          <h3>${escapeHTML(t.product)}</h3>
-          <span class="badge">${t.direction}</span>
+              <div class="small">
+                ${t.direction}
+                ・
+                ${formatTime(t.entryTime)}
+              </div>
+
+            </div>
+
+            <strong
+              class="${
+                Number(t.profit) >= 0
+                  ? "green"
+                  : "red"
+              }"
+            >
+              ${money(t.profit)}
+            </strong>
+
+          </div>
+
+
+          <div class="detail-grid">
+
+            <div class="detail-item">
+              <span>進場價</span>
+              ${t.entryPrice || "未填寫"}
+            </div>
+
+            <div class="detail-item">
+              <span>出場價</span>
+              ${t.exitPrice || "未填寫"}
+            </div>
+
+            <div class="detail-item">
+              <span>停損價</span>
+              ${t.stopLoss || "未填寫"}
+            </div>
+
+            <div class="detail-item">
+              <span>停利價</span>
+              ${t.takeProfit || "未填寫"}
+            </div>
+
+          </div>
+
+
+          <button
+            id="btn-${t.id}"
+            class="primary"
+            style="margin-top:14px;"
+            onclick="runAIAnalysis(${t.id})"
+          >
+            ${
+              t.aiAnalysis
+                ? "重新分析"
+                : "AI 客觀分析"
+            }
+          </button>
+
+
+          <div id="ai-${t.id}">
+            ${savedAnalysis}
+          </div>
+
         </div>
+      `;
 
-        <p><strong>市場資料：</strong><br>${marketText}</p>
+    }).join("");
 
-        <p style="margin-top:10px;">
-          <strong>方向結果：</strong><br>${directionText}
-        </p>
-
-        <p style="margin-top:10px;">
-          <strong>風險管理：</strong><br>${riskText}
-        </p>
-
-        <p style="margin-top:10px;">
-          <strong>出場結果：</strong><br>${exitText}
-        </p>
-
-        <p style="margin-top:10px;">
-          <strong>客觀限制：</strong><br>
-          現有資料無法判斷情緒、心理狀態或主觀交易動機，因此不進行推測。
-        </p>
-
-      </div>
-    `;
-  }).join("");
 }
 
-function renderProductStats(){
-  if(!trades.length){
+
+/* =========================
+   商品績效
+========================= */
+
+function renderProductStats() {
+
+  if (!trades.length) {
+
     productStats.innerHTML =
       '<div class="empty">目前沒有可統計的交易資料</div>';
+
     return;
+
   }
+
 
   const groups = {};
 
+
   trades.forEach(t => {
-    if(!groups[t.product]){
+
+    if (!groups[t.product]) {
+
       groups[t.product] = {
-        count:0,
-        wins:0,
-        pnl:0
+        count: 0,
+        wins: 0,
+        pnl: 0
       };
+
     }
+
 
     groups[t.product].count++;
-    groups[t.product].pnl += t.profit;
 
-    if(t.profit > 0){
+    groups[t.product].pnl +=
+      Number(t.profit || 0);
+
+
+    if (
+      Number(t.profit) > 0
+    ) {
+
       groups[t.product].wins++;
+
     }
+
   });
 
-  productStats.innerHTML = Object.entries(groups)
-    .map(([name,data]) => {
 
-      const rate = Math.round(data.wins / data.count * 100);
+  productStats.innerHTML =
+    Object
+      .entries(groups)
+      .map(([name, data]) => {
 
-      return `
-        <div class="product-row">
-          <div>
-            <strong>${escapeHTML(name)}</strong>
-            <div class="small">
-              ${data.count} 筆 ・ 勝率 ${rate}%
+        const rate =
+          Math.round(
+            data.wins /
+            data.count *
+            100
+          );
+
+
+        return `
+          <div class="product-row">
+
+            <div>
+
+              <strong>
+                ${escapeHTML(name)}
+              </strong>
+
+              <div class="small">
+                ${data.count} 筆
+                ・
+                勝率 ${rate}%
+              </div>
+
             </div>
+
+
+            <strong
+              class="${
+                data.pnl >= 0
+                  ? "green"
+                  : "red"
+              }"
+            >
+              ${money(data.pnl)}
+            </strong>
+
           </div>
+        `;
 
-          <strong class="${data.pnl >= 0 ? "green":"red"}">
-            ${money(data.pnl)}
-          </strong>
-        </div>
-      `;
-    }).join("");
+      }).join("");
+
 }
 
-function escapeHTML(text){
-  const div = document.createElement("div");
-  div.innerText = text;
+
+/* =========================
+   防止輸入文字破壞頁面
+========================= */
+
+function escapeHTML(text) {
+
+  const div =
+    document.createElement("div");
+
+  div.innerText =
+    String(text ?? "");
+
   return div.innerHTML;
+
 }
 
-function render(){
+
+/* =========================
+   全部重新整理
+========================= */
+
+function render() {
+
   renderHome();
+
   renderAnalysis();
+
   renderProductStats();
+
 }
+
 
 render();
+
 </script>
 
 </body>
