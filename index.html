@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
+
 <head>
+
 <meta charset="UTF-8">
 
 <meta
@@ -20,29 +22,35 @@
 
 <title>期貨交易日誌</title>
 
+
 <style>
 
 :root{
   --bg:#f4f1eb;
   --card:#ffffff;
   --text:#38424a;
-  --muted:#8d969b;
-  --blue:#72889a;
-  --green:#83988a;
-  --red:#b57f7f;
-  --border:#e6e2dc;
-  --soft:#eef0ee;
+  --muted:#90989c;
+  --blue:#7c91a3;
+  --green:#83998a;
+  --red:#b77f7f;
+  --border:#e4e0da;
+  --soft:#f1f2ef;
   --soft2:#f8f7f4;
 }
+
 
 *{
   box-sizing:border-box;
 }
 
+
+html,
 body{
   margin:0;
+  padding:0;
   background:var(--bg);
   color:var(--text);
+
   font-family:
   -apple-system,
   BlinkMacSystemFont,
@@ -51,382 +59,686 @@ body{
   sans-serif;
 }
 
-.app{
-  max-width:620px;
-  margin:auto;
-  padding:24px 16px 110px;
+
+body{
+  min-height:100vh;
 }
 
-h1{
-  margin:0 0 20px;
-  font-size:25px;
+
+.app{
+  width:100%;
+  max-width:620px;
+
+  margin:auto;
+
+  padding:
+  26px
+  16px
+  110px;
 }
+
+
+h1{
+  margin:0 0 22px;
+
+  font-size:27px;
+  font-weight:800;
+}
+
 
 h3{
   margin:0;
 }
 
+
 .sub{
-  color:var(--muted);
-  font-size:12px;
-  letter-spacing:1px;
   margin-bottom:5px;
+
+  color:var(--muted);
+
+  font-size:12px;
+  letter-spacing:2px;
 }
+
+
+
+/* 卡片 */
+
+.card{
+  width:100%;
+
+  padding:16px;
+
+  background:var(--card);
+
+  border:1px solid var(--border);
+  border-radius:18px;
+}
+
+
+
+/* 統計 */
 
 .stats{
   display:grid;
-  grid-template-columns:1fr 1fr;
+
+  grid-template-columns:
+  1fr 1fr;
+
   gap:12px;
 }
 
-.card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:16px;
-}
 
-.label{
+.stat-label{
   color:var(--muted);
   font-size:13px;
 }
 
-.value{
+
+.stat-value{
   margin-top:8px;
+
   font-size:22px;
-  font-weight:700;
+  font-weight:750;
 }
+
 
 .green{
   color:var(--green);
 }
 
+
 .red{
   color:var(--red);
 }
+
+
+
+/* 區塊 */
 
 .section{
   margin-top:28px;
 }
 
+
 .section-title{
-  font-weight:700;
   margin-bottom:12px;
+
+  font-size:17px;
+  font-weight:750;
 }
 
-.trade{
-  background:#fff;
-  border:1px solid var(--border);
-  border-radius:16px;
-  padding:14px;
-  margin-bottom:10px;
-}
 
-.trade-row{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  align-items:flex-start;
-}
 
-.small{
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.6;
-  margin-top:4px;
-}
+/* 表單 */
 
 .field{
-  margin-bottom:14px;
   width:100%;
-  min-width:0;
+  margin-bottom:16px;
 }
+
 
 label{
   display:block;
-  margin:0 0 6px 2px;
+
+  margin:0 0 7px 3px;
+
   color:var(--muted);
+
   font-size:13px;
+  font-weight:550;
 }
+
 
 input,
 select,
 textarea{
+
   display:block;
+
   width:100%;
   max-width:100%;
   min-width:0;
-  padding:13px;
+
   border:1px solid var(--border);
+
   border-radius:13px;
+
+  padding:13px;
+
   background:#fff;
+
   color:var(--text);
+
+  font-family:inherit;
   font-size:16px;
+
   outline:none;
 }
 
-input[type="date"],
-input[type="time"]{
-  width:100%;
-  max-width:100%;
-  min-width:0;
+
+select{
   height:52px;
-  padding:10px 12px;
-  background:#fff;
-  font-size:16px;
-  overflow:hidden;
 }
 
+
 textarea{
-  min-height:90px;
+  min-height:95px;
+
   resize:vertical;
 }
 
+
+
+/* 日期時間 */
+
+.time-section{
+  width:100%;
+
+  padding:14px;
+
+  margin-bottom:16px;
+
+  background:var(--soft2);
+
+  border-radius:15px;
+}
+
+
+.time-title{
+  margin-bottom:12px;
+
+  font-size:15px;
+  font-weight:750;
+}
+
+
+.time-field{
+  width:100%;
+  margin-bottom:10px;
+}
+
+
+.time-field:last-child{
+  margin-bottom:0;
+}
+
+
+input[type="date"],
+input[type="time"]{
+
+  display:block;
+
+  width:100%;
+  max-width:100%;
+  min-width:0;
+
+  height:48px;
+
+  padding:8px 12px;
+
+  box-sizing:border-box;
+
+  overflow:hidden;
+
+  font-size:16px;
+
+  background:#fff;
+
+  -webkit-appearance:none;
+  appearance:none;
+}
+
+
+
+/* 一般雙欄 */
+
 .two{
   display:grid;
-  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+
+  grid-template-columns:
+  minmax(0,1fr)
+  minmax(0,1fr);
+
   gap:10px;
 }
 
-.date-time-group{
-  width:100%;
-  margin-bottom:18px;
-}
 
-.date-time-title{
-  font-size:14px;
-  font-weight:650;
-  margin-bottom:9px;
-}
-
-.date-time-grid{
-  display:grid;
-  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
-  gap:10px;
-  width:100%;
-}
-
-.date-time-grid .field{
-  margin-bottom:0;
-  min-width:0;
-}
-
-@media(max-width:380px){
-
-  .date-time-grid{
-    grid-template-columns:1fr;
-  }
+@media(max-width:360px){
 
   .two{
     grid-template-columns:1fr;
   }
+
 }
+
+
+
+/* 點數 */
+
+.points-box{
+
+  padding:14px;
+
+  margin-bottom:16px;
+
+  background:var(--soft);
+
+  border-radius:14px;
+}
+
+
+.points-row{
+
+  display:flex;
+
+  justify-content:
+  space-between;
+
+  align-items:center;
+
+  gap:15px;
+}
+
+
+.points-title{
+  color:var(--muted);
+
+  font-size:13px;
+}
+
+
+.points-value{
+
+  font-size:19px;
+  font-weight:750;
+}
+
+
+
+/* 小提示 */
+
+.help{
+  margin-top:6px;
+
+  color:var(--muted);
+
+  font-size:11px;
+  line-height:1.6;
+}
+
+
+
+/* 按鈕 */
 
 button{
   font-family:inherit;
   cursor:pointer;
 }
 
+
 .primary{
+
   width:100%;
-  border:0;
-  border-radius:14px;
+
   padding:15px;
+
+  border:0;
+
+  border-radius:14px;
+
   background:var(--blue);
-  color:#fff;
+
+  color:white;
+
   font-size:16px;
-  font-weight:700;
+  font-weight:750;
 }
 
+
 .primary:disabled{
-  opacity:.6;
+  opacity:.55;
 }
+
+
+
+/* 頁面 */
 
 .page{
   display:none;
 }
 
+
 .page.active{
   display:block;
 }
 
-.bottom{
-  position:fixed;
-  left:0;
-  right:0;
-  bottom:0;
-  background:rgba(255,255,255,.96);
-  border-top:1px solid var(--border);
-  padding:
-  8px
-  10px
-  calc(8px + env(safe-area-inset-bottom));
-}
 
-.nav{
-  max-width:620px;
-  margin:auto;
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-}
 
-.nav button{
-  border:0;
-  background:none;
-  padding:10px 4px;
-  color:var(--muted);
-  font-size:12px;
-}
+/* 交易紀錄 */
 
-.nav button.active{
-  color:var(--blue);
-  font-weight:700;
-}
+.trade{
 
-.ai-info{
-  background:var(--soft);
-  border-radius:15px;
   padding:15px;
-  font-size:14px;
-  line-height:1.7;
-}
 
-.analysis-block{
+  margin-bottom:11px;
+
   background:#fff;
+
   border:1px solid var(--border);
-  border-radius:16px;
-  padding:14px;
-  margin-bottom:14px;
+  border-radius:17px;
 }
 
-.analysis-card{
-  background:var(--soft2);
-  border-radius:13px;
-  padding:13px;
-  margin-top:10px;
-}
 
-.analysis-card-title{
-  color:var(--muted);
-  font-size:12px;
-  margin-bottom:6px;
-}
+.trade-top{
 
-.analysis-card-text{
-  font-size:14px;
-  line-height:1.7;
-}
-
-.chip-list{
   display:flex;
-  flex-wrap:wrap;
-  gap:7px;
-  margin-top:8px;
+
+  justify-content:
+  space-between;
+
+  align-items:flex-start;
+
+  gap:12px;
 }
 
-.chip{
-  background:#edf0ef;
-  border-radius:999px;
-  padding:6px 9px;
-  color:#657269;
+
+.trade-name{
+
+  font-size:16px;
+  font-weight:750;
+}
+
+
+.small{
+
+  margin-top:5px;
+
+  color:var(--muted);
+
   font-size:12px;
+  line-height:1.6;
 }
 
-.warning-chip{
-  background:#f3ece7;
-  color:#8b6f62;
-}
 
 .detail-grid{
+
   display:grid;
-  grid-template-columns:1fr 1fr;
+
+  grid-template-columns:
+  1fr 1fr;
+
   gap:8px;
-  margin-top:12px;
+
+  margin-top:13px;
 }
+
 
 .detail-item{
+
+  padding:11px;
+
   background:#f8f8f6;
+
   border-radius:12px;
-  padding:10px;
+
+  font-size:14px;
 }
+
 
 .detail-item span{
+
   display:block;
+
+  margin-bottom:5px;
+
   color:var(--muted);
+
   font-size:11px;
-  margin-bottom:4px;
 }
+
 
 .rr{
-  margin-top:8px;
+
+  margin-top:9px;
+
   padding:10px;
+
   background:#f6f5f1;
+
   border-radius:12px;
+
   color:var(--muted);
+
   font-size:12px;
 }
 
-.calculation-box{
-  background:#f2f3f0;
-  border-radius:14px;
-  padding:14px;
-  margin-bottom:14px;
-}
-
-.calc-row{
-  display:flex;
-  justify-content:space-between;
-  gap:15px;
-  padding:6px 0;
-  font-size:13px;
-}
-
-.calc-row strong{
-  text-align:right;
-}
-
-.help{
-  color:var(--muted);
-  font-size:11px;
-  line-height:1.5;
-  margin-top:6px;
-}
 
 .delete{
-  margin-top:10px;
-  border:0;
-  background:none;
+
+  margin-top:12px;
+
   padding:0;
+
+  border:0;
+
+  background:none;
+
   color:var(--red);
+
   font-size:12px;
 }
 
-.empty{
-  text-align:center;
-  color:var(--muted);
-  padding:25px 0;
+
+
+/* AI */
+
+.ai-info{
+
+  padding:15px;
+
+  background:#edf0ef;
+
+  border-radius:16px;
+
+  font-size:14px;
+  line-height:1.8;
 }
 
-.product-row{
-  display:flex;
-  justify-content:space-between;
-  padding:12px 0;
-  border-bottom:1px solid var(--border);
+
+.analysis-block{
+
+  margin-bottom:14px;
+
+  padding:15px;
+
+  background:#fff;
+
+  border:1px solid var(--border);
+  border-radius:17px;
 }
+
+
+.analysis-card{
+
+  margin-top:10px;
+
+  padding:14px;
+
+  background:var(--soft2);
+
+  border-radius:13px;
+}
+
+
+.analysis-title{
+
+  margin-bottom:7px;
+
+  color:var(--muted);
+
+  font-size:12px;
+}
+
+
+.analysis-text{
+
+  font-size:14px;
+  line-height:1.75;
+}
+
+
+.chips{
+
+  display:flex;
+
+  flex-wrap:wrap;
+
+  gap:7px;
+}
+
+
+.chip{
+
+  padding:6px 9px;
+
+  background:#e9eeea;
+
+  border-radius:999px;
+
+  color:#647268;
+
+  font-size:12px;
+}
+
+
+.warning{
+
+  background:#f3ebe7;
+
+  color:#8c6b61;
+}
+
+
+
+/* 績效 */
+
+.product-row{
+
+  display:flex;
+
+  justify-content:
+  space-between;
+
+  gap:12px;
+
+  padding:13px 0;
+
+  border-bottom:
+  1px solid var(--border);
+}
+
 
 .product-row:last-child{
   border-bottom:0;
 }
 
+
+
+/* 空白 */
+
+.empty{
+
+  padding:30px 10px;
+
+  text-align:center;
+
+  color:var(--muted);
+
+  font-size:13px;
+}
+
+
+
+/* 隱藏 */
+
 .hidden{
   display:none;
 }
 
+
+
+/* 底部選單 */
+
+.bottom{
+
+  position:fixed;
+
+  left:0;
+  right:0;
+  bottom:0;
+
+  z-index:50;
+
+  background:
+  rgba(255,255,255,.96);
+
+  border-top:
+  1px solid var(--border);
+
+  padding:
+  8px
+  8px
+  calc(
+    8px +
+    env(safe-area-inset-bottom)
+  );
+}
+
+
+.nav{
+
+  width:100%;
+  max-width:620px;
+
+  margin:auto;
+
+  display:grid;
+
+  grid-template-columns:
+  repeat(4,1fr);
+}
+
+
+.nav button{
+
+  padding:10px 3px;
+
+  border:0;
+
+  background:none;
+
+  color:var(--muted);
+
+  font-size:12px;
+}
+
+
+.nav button.active{
+
+  color:var(--blue);
+
+  font-weight:750;
+}
+
+
 </style>
+
 </head>
 
 
 <body>
+
 
 <div class="app">
 
@@ -451,13 +763,13 @@ button{
 
     <div class="card">
 
-      <div class="label">
+      <div class="stat-label">
         總損益
       </div>
 
       <div
         id="totalProfit"
-        class="value"
+        class="stat-value"
       >
         NT$0
       </div>
@@ -467,13 +779,13 @@ button{
 
     <div class="card">
 
-      <div class="label">
+      <div class="stat-label">
         本月損益
       </div>
 
       <div
         id="monthProfit"
-        class="value"
+        class="stat-value"
       >
         NT$0
       </div>
@@ -483,13 +795,13 @@ button{
 
     <div class="card">
 
-      <div class="label">
+      <div class="stat-label">
         勝率
       </div>
 
       <div
         id="winRate"
-        class="value"
+        class="stat-value"
       >
         0%
       </div>
@@ -499,13 +811,13 @@ button{
 
     <div class="card">
 
-      <div class="label">
+      <div class="stat-label">
         交易筆數
       </div>
 
       <div
         id="tradeCount"
-        class="value"
+        class="stat-value"
       >
         0
       </div>
@@ -547,6 +859,8 @@ button{
 
   <div class="card">
 
+
+    <!-- 商品 -->
 
     <div class="field">
 
@@ -610,6 +924,9 @@ button{
     </div>
 
 
+
+    <!-- 方向 -->
+
     <div class="field">
 
       <label>
@@ -634,41 +951,38 @@ button{
 
     <!-- 進場時間 -->
 
-    <div class="date-time-group">
+    <div class="time-section">
 
-      <div class="date-time-title">
+      <div class="time-title">
         進場時間
       </div>
 
-      <div class="date-time-grid">
 
-        <div class="field">
+      <div class="time-field">
 
-          <label>
-            日期
-          </label>
+        <label>
+          日期
+        </label>
 
-          <input
-            id="entryDate"
-            type="date"
-          >
+        <input
+          id="entryDate"
+          type="date"
+        >
 
-        </div>
+      </div>
 
 
-        <div class="field">
+      <div class="time-field">
 
-          <label>
-            時間
-          </label>
+        <label>
+          時間
+        </label>
 
-          <input
-            id="entryClock"
-            type="time"
-            step="60"
-          >
-
-        </div>
+        <input
+          id="entryClock"
+          type="time"
+          step="60"
+        >
 
       </div>
 
@@ -678,41 +992,38 @@ button{
 
     <!-- 出場時間 -->
 
-    <div class="date-time-group">
+    <div class="time-section">
 
-      <div class="date-time-title">
+      <div class="time-title">
         出場時間
       </div>
 
-      <div class="date-time-grid">
 
-        <div class="field">
+      <div class="time-field">
 
-          <label>
-            日期
-          </label>
+        <label>
+          日期
+        </label>
 
-          <input
-            id="exitDate"
-            type="date"
-          >
+        <input
+          id="exitDate"
+          type="date"
+        >
 
-        </div>
+      </div>
 
 
-        <div class="field">
+      <div class="time-field">
 
-          <label>
-            時間
-          </label>
+        <label>
+          時間
+        </label>
 
-          <input
-            id="exitClock"
-            type="time"
-            step="60"
-          >
-
-        </div>
+        <input
+          id="exitClock"
+          type="time"
+          step="60"
+        >
 
       </div>
 
@@ -723,6 +1034,7 @@ button{
     <!-- 點位 -->
 
     <div class="two">
+
 
       <div class="field">
 
@@ -757,6 +1069,30 @@ button{
 
       </div>
 
+
+    </div>
+
+
+
+    <!-- 自動點數 -->
+
+    <div class="points-box">
+
+      <div class="points-row">
+
+        <span class="points-title">
+          交易點數
+        </span>
+
+        <strong
+          id="pointsPreview"
+          class="points-value"
+        >
+          —
+        </strong>
+
+      </div>
+
     </div>
 
 
@@ -764,6 +1100,7 @@ button{
     <!-- 停損停利 -->
 
     <div class="two">
+
 
       <div class="field">
 
@@ -796,13 +1133,15 @@ button{
 
       </div>
 
+
     </div>
 
 
 
-    <!-- 口數與成本 -->
+    <!-- 口數成本 -->
 
     <div class="two">
+
 
       <div class="field">
 
@@ -824,7 +1163,7 @@ button{
       <div class="field">
 
         <label>
-          手續費 / 交易成本
+          手續費 / 成本
         </label>
 
         <input
@@ -838,31 +1177,12 @@ button{
 
       </div>
 
-    </div>
-
-
-
-    <!-- 自動點數 -->
-
-    <div class="calculation-box">
-
-      <div class="calc-row">
-
-        <span>
-          交易點數
-        </span>
-
-        <strong id="pointsPreview">
-          —
-        </strong>
-
-      </div>
 
     </div>
 
 
 
-    <!-- 實際損益 -->
+    <!-- 損益 -->
 
     <div class="field">
 
@@ -879,14 +1199,14 @@ button{
       >
 
       <div class="help">
-        目前請依實際交易結果輸入；之後串接 IG Trading 後可自動取得。
+        目前依實際成交結果填寫；之後串接 IG Trading 後可自動取得。
       </div>
 
     </div>
 
 
 
-    <!-- 紀錄 -->
+    <!-- 備註 -->
 
     <div class="field">
 
@@ -896,10 +1216,11 @@ button{
 
       <textarea
         id="note"
-        placeholder="可記錄進場依據、行情狀態、交易規則等可驗證資訊"
+        placeholder="可記錄進場依據、行情、交易規則或其他可驗證資訊"
       ></textarea>
 
     </div>
+
 
 
     <button
@@ -908,6 +1229,7 @@ button{
     >
       儲存交易
     </button>
+
 
   </div>
 
@@ -939,13 +1261,13 @@ button{
 
     <br><br>
 
-    AI 只依照交易資料進行事後分析，
+    AI 只依照已記錄的交易資料進行事後分析，
     不推測情緒、心理、人格或主觀動機。
 
     <br><br>
 
-    點數與持倉時間由 App 直接計算，
-    不交由 AI 猜測。
+    交易點數與持倉時間由 App 直接計算，
+    避免 AI 算術錯誤。
 
   </div>
 
@@ -997,11 +1319,12 @@ button{
 
 
 
-<!-- 底部 -->
+<!-- 底部選單 -->
 
 <div class="bottom">
 
   <div class="nav">
+
 
     <button
       id="homeBtn"
@@ -1035,6 +1358,7 @@ button{
       績效
     </button>
 
+
   </div>
 
 </div>
@@ -1042,6 +1366,11 @@ button{
 
 
 <script>
+
+
+/* =========================
+基本設定
+========================= */
 
 const AI_API =
 "https://futures-ai-worker.s4112930.workers.dev";
@@ -1056,7 +1385,116 @@ JSON.parse(
 
 
 
-/* 商品選擇 */
+/* =========================
+DOM
+========================= */
+
+const productSelect =
+document.getElementById(
+  "productSelect"
+);
+
+
+const otherProductBox =
+document.getElementById(
+  "otherProductBox"
+);
+
+
+const otherProduct =
+document.getElementById(
+  "otherProduct"
+);
+
+
+const direction =
+document.getElementById(
+  "direction"
+);
+
+
+const entryDate =
+document.getElementById(
+  "entryDate"
+);
+
+
+const entryClock =
+document.getElementById(
+  "entryClock"
+);
+
+
+const exitDate =
+document.getElementById(
+  "exitDate"
+);
+
+
+const exitClock =
+document.getElementById(
+  "exitClock"
+);
+
+
+const entryPrice =
+document.getElementById(
+  "entryPrice"
+);
+
+
+const exitPrice =
+document.getElementById(
+  "exitPrice"
+);
+
+
+const stopLoss =
+document.getElementById(
+  "stopLoss"
+);
+
+
+const takeProfit =
+document.getElementById(
+  "takeProfit"
+);
+
+
+const quantity =
+document.getElementById(
+  "quantity"
+);
+
+
+const fee =
+document.getElementById(
+  "fee"
+);
+
+
+const profit =
+document.getElementById(
+  "profit"
+);
+
+
+const note =
+document.getElementById(
+  "note"
+);
+
+
+const pointsPreview =
+document.getElementById(
+  "pointsPreview"
+);
+
+
+
+/* =========================
+商品選擇
+========================= */
 
 productSelect.addEventListener(
   "change",
@@ -1069,13 +1507,17 @@ productSelect.addEventListener(
 
       otherProductBox
       .classList
-      .remove("hidden");
+      .remove(
+        "hidden"
+      );
 
     }else{
 
       otherProductBox
       .classList
-      .add("hidden");
+      .add(
+        "hidden"
+      );
 
       otherProduct.value =
       "";
@@ -1087,7 +1529,9 @@ productSelect.addEventListener(
 
 
 
-/* 點數自動計算 */
+/* =========================
+點數預覽
+========================= */
 
 [
   direction,
@@ -1099,19 +1543,19 @@ productSelect.addEventListener(
 
     el.addEventListener(
       "input",
-      calculatePointsPreview
+      updatePoints
     );
 
     el.addEventListener(
       "change",
-      calculatePointsPreview
+      updatePoints
     );
 
   }
 );
 
 
-function calculatePointsPreview(){
+function updatePoints(){
 
   if(
     entryPrice.value === "" ||
@@ -1121,10 +1565,53 @@ function calculatePointsPreview(){
     pointsPreview.innerText =
     "—";
 
+    pointsPreview.className =
+    "points-value";
+
     return;
 
   }
 
+
+  const points =
+  calculatePoints();
+
+
+  pointsPreview.innerText =
+  (
+    points > 0
+    ?
+    "+"
+    :
+    ""
+  ) +
+  formatNumber(points) +
+  " 點";
+
+
+  pointsPreview.className =
+  "points-value " +
+  (
+    points > 0
+    ?
+    "green"
+    :
+    points < 0
+    ?
+    "red"
+    :
+    ""
+  );
+
+}
+
+
+
+/* =========================
+點數計算
+========================= */
+
+function calculatePoints(){
 
   const entry =
   Number(
@@ -1138,36 +1625,31 @@ function calculatePointsPreview(){
   );
 
 
-  let points;
-
-
   if(
     direction.value ===
     "做多"
   ){
 
-    points =
-    exit -
-    entry;
-
-  }else{
-
-    points =
-    entry -
-    exit;
+    return (
+      exit -
+      entry
+    );
 
   }
 
 
-  pointsPreview.innerText =
-  formatNumber(points) +
-  " 點";
+  return (
+    entry -
+    exit
+  );
 
 }
 
 
 
-/* 日期＋時間 */
+/* =========================
+日期時間
+========================= */
 
 function combineDateTime(
   date,
@@ -1194,7 +1676,74 @@ function combineDateTime(
 
 
 
-/* 頁面切換 */
+/* =========================
+持倉分鐘
+========================= */
+
+function calculateHoldingMinutes(
+  start,
+  end
+){
+
+  if(
+    !start ||
+    !end
+  ){
+
+    return null;
+
+  }
+
+
+  const startDate =
+  new Date(start);
+
+
+  const endDate =
+  new Date(end);
+
+
+  if(
+    Number.isNaN(
+      startDate.getTime()
+    )
+    ||
+    Number.isNaN(
+      endDate.getTime()
+    )
+  ){
+
+    return null;
+
+  }
+
+
+  const diff =
+  endDate -
+  startDate;
+
+
+  if(
+    diff < 0
+  ){
+
+    return null;
+
+  }
+
+
+  return Math.round(
+    diff /
+    60000
+  );
+
+}
+
+
+
+/* =========================
+頁面切換
+========================= */
 
 function showPage(page){
 
@@ -1222,66 +1771,42 @@ function showPage(page){
   );
 
 
+  const pageElement =
+  document.getElementById(
+    page +
+    "Page"
+  );
+
+
+  const buttonElement =
+  document.getElementById(
+    page +
+    "Btn"
+  );
+
+
   if(
-    page ===
-    "home"
+    pageElement
   ){
 
-    homePage
+    pageElement
     .classList
-    .add("active");
-
-    homeBtn
-    .classList
-    .add("active");
+    .add(
+      "active"
+    );
 
   }
 
 
   if(
-    page ===
-    "add"
+    buttonElement
   ){
 
-    addPage
+    buttonElement
     .classList
-    .add("active");
-
-    addBtn
-    .classList
-    .add("active");
-
-  }
-
-
-  if(
-    page ===
-    "analysis"
-  ){
-
-    analysisPage
-    .classList
-    .add("active");
-
-    analysisBtn
-    .classList
-    .add("active");
-
-  }
-
-
-  if(
-    page ===
-    "stats"
-  ){
-
-    statsPage
-    .classList
-    .add("active");
-
-    statsBtn
-    .classList
-    .add("active");
+    .add(
+      "active"
+    );
 
   }
 
@@ -1289,7 +1814,9 @@ function showPage(page){
 
 
 
-/* 儲存 */
+/* =========================
+新增交易
+========================= */
 
 function saveTrade(){
 
@@ -1336,14 +1863,14 @@ function saveTrade(){
   }
 
 
-  const entryTimeValue =
+  const entryTime =
   combineDateTime(
     entryDate.value,
     entryClock.value
   );
 
 
-  const exitTimeValue =
+  const exitTime =
   combineDateTime(
     exitDate.value,
     exitClock.value
@@ -1351,11 +1878,11 @@ function saveTrade(){
 
 
   if(
-    !entryTimeValue
+    !entryTime
   ){
 
     alert(
-      "請輸入完整進場日期與時間"
+      "請填寫進場日期與時間"
     );
 
     return;
@@ -1364,11 +1891,11 @@ function saveTrade(){
 
 
   if(
-    !exitTimeValue
+    !exitTime
   ){
 
     alert(
-      "請輸入完整出場日期與時間"
+      "請填寫出場日期與時間"
     );
 
     return;
@@ -1377,8 +1904,8 @@ function saveTrade(){
 
 
   if(
-    new Date(exitTimeValue) <
-    new Date(entryTimeValue)
+    new Date(exitTime) <
+    new Date(entryTime)
   ){
 
     alert(
@@ -1429,10 +1956,10 @@ function saveTrade(){
     direction.value,
 
     entryTime:
-    entryTimeValue,
+    entryTime,
 
     exitTime:
-    exitTimeValue,
+    exitTime,
 
     entryPrice:
     entryPrice.value,
@@ -1463,8 +1990,8 @@ function saveTrade(){
 
     holdingMinutes:
     calculateHoldingMinutes(
-      entryTimeValue,
-      exitTimeValue
+      entryTime,
+      exitTime
     ),
 
     profit:
@@ -1500,85 +2027,9 @@ function saveTrade(){
 
 
 
-/* 計算點數 */
-
-function calculatePoints(){
-
-  const entry =
-  Number(
-    entryPrice.value
-  );
-
-
-  const exit =
-  Number(
-    exitPrice.value
-  );
-
-
-  if(
-    direction.value ===
-    "做多"
-  ){
-
-    return (
-      exit -
-      entry
-    );
-
-  }
-
-
-  return (
-    entry -
-    exit
-  );
-
-}
-
-
-
-/* 持倉分鐘 */
-
-function calculateHoldingMinutes(
-  start,
-  end
-){
-
-  if(
-    !start ||
-    !end
-  ){
-
-    return null;
-
-  }
-
-
-  const diff =
-  new Date(end) -
-  new Date(start);
-
-
-  if(
-    diff < 0
-  ){
-
-    return null;
-
-  }
-
-
-  return Math.round(
-    diff /
-    60000
-  );
-
-}
-
-
-
-/* 儲存 localStorage */
+/* =========================
+儲存
+========================= */
 
 function saveTrades(){
 
@@ -1593,7 +2044,9 @@ function saveTrades(){
 
 
 
-/* 清除 */
+/* =========================
+清除表單
+========================= */
 
 function clearForm(){
 
@@ -1605,7 +2058,9 @@ function clearForm(){
 
   otherProductBox
   .classList
-  .add("hidden");
+  .add(
+    "hidden"
+  );
 
   direction.value =
   "做多";
@@ -1649,11 +2104,16 @@ function clearForm(){
   pointsPreview.innerText =
   "—";
 
+  pointsPreview.className =
+  "points-value";
+
 }
 
 
 
-/* 刪除 */
+/* =========================
+刪除
+========================= */
 
 function deleteTrade(id){
 
@@ -1683,12 +2143,15 @@ function deleteTrade(id){
 
 
 
-/* 金額 */
+/* =========================
+金額格式
+========================= */
 
 function money(n){
 
   const number =
-  Number(n) || 0;
+  Number(n) ||
+  0;
 
 
   const sign =
@@ -1721,7 +2184,9 @@ function money(n){
 
 
 
-/* 數字 */
+/* =========================
+一般數字
+========================= */
 
 function formatNumber(n){
 
@@ -1738,7 +2203,9 @@ function formatNumber(n){
 
 
 
-/* 時間 */
+/* =========================
+日期顯示
+========================= */
 
 function formatTime(time){
 
@@ -1770,10 +2237,17 @@ function formatTime(time){
   .toLocaleString(
     "zh-TW",
     {
-      month:"2-digit",
-      day:"2-digit",
-      hour:"2-digit",
-      minute:"2-digit"
+      month:
+      "2-digit",
+
+      day:
+      "2-digit",
+
+      hour:
+      "2-digit",
+
+      minute:
+      "2-digit"
     }
   );
 
@@ -1781,7 +2255,9 @@ function formatTime(time){
 
 
 
-/* 持倉顯示 */
+/* =========================
+持倉顯示
+========================= */
 
 function formatHolding(t){
 
@@ -1792,7 +2268,9 @@ function formatHolding(t){
 
 
   if(
-    !Number.isFinite(minutes)
+    !Number.isFinite(
+      minutes
+    )
   ){
 
     minutes =
@@ -1806,7 +2284,9 @@ function formatHolding(t){
 
   if(
     minutes === null ||
-    !Number.isFinite(minutes)
+    !Number.isFinite(
+      minutes
+    )
   ){
 
     return "資料不足";
@@ -1861,7 +2341,9 @@ function formatHolding(t){
 
 
 
-/* 風險報酬 */
+/* =========================
+風險報酬比
+========================= */
 
 function calculateRR(t){
 
@@ -1895,6 +2377,7 @@ function calculateRR(t){
 
 
   let risk;
+
   let reward;
 
 
@@ -1943,7 +2426,9 @@ function calculateRR(t){
 
 
 
-/* 首頁 */
+/* =========================
+首頁
+========================= */
 
 function renderHome(){
 
@@ -1955,7 +2440,8 @@ function renderHome(){
     ) =>
     sum +
     Number(
-      t.profit || 0
+      t.profit ||
+      0
     ),
     0
   );
@@ -2015,7 +2501,8 @@ function renderHome(){
     ) =>
     sum +
     Number(
-      t.profit || 0
+      t.profit ||
+      0
     ),
     0
   );
@@ -2042,12 +2529,40 @@ function renderHome(){
   0;
 
 
+  const totalProfit =
+  document.getElementById(
+    "totalProfit"
+  );
+
+
+  const monthProfit =
+  document.getElementById(
+    "monthProfit"
+  );
+
+
+  const winRate =
+  document.getElementById(
+    "winRate"
+  );
+
+
+  const tradeCount =
+  document.getElementById(
+    "tradeCount"
+  );
+
+
   totalProfit.innerText =
-  money(total);
+  money(
+    total
+  );
 
 
   monthProfit.innerText =
-  money(monthTotal);
+  money(
+    monthTotal
+  );
 
 
   winRate.innerText =
@@ -2060,7 +2575,7 @@ function renderHome(){
 
 
   totalProfit.className =
-  "value " +
+  "stat-value " +
   (
     total >= 0
     ?
@@ -2071,7 +2586,7 @@ function renderHome(){
 
 
   monthProfit.className =
-  "value " +
+  "stat-value " +
   (
     monthTotal >= 0
     ?
@@ -2081,12 +2596,22 @@ function renderHome(){
   );
 
 
+  const tradeList =
+  document.getElementById(
+    "tradeList"
+  );
+
+
   if(
     !trades.length
   ){
 
     tradeList.innerHTML =
-    '<div class="empty">目前還沒有交易紀錄</div>';
+    `
+    <div class="empty">
+      目前還沒有交易紀錄
+    </div>
+    `;
 
     return;
 
@@ -2098,138 +2623,175 @@ function renderHome(){
     t => {
 
       const rr =
-      calculateRR(t);
+      calculateRR(
+        t
+      );
 
 
       return `
 
-        <div class="trade">
+      <div class="trade">
 
-          <div class="trade-row">
+        <div class="trade-top">
 
-            <div>
+          <div>
 
-              <strong>
-                ${escapeHTML(t.product)}
-              </strong>
-
-              <div class="small">
-                ${escapeHTML(t.direction)}
-                ・
-                ${formatTime(t.entryTime)}
-              </div>
-
+            <div class="trade-name">
+              ${escapeHTML(t.product)}
             </div>
 
+            <div class="small">
 
-            <strong
-              class="${
-                Number(t.profit) >= 0
-                ?
-                "green"
-                :
-                "red"
-              }"
-            >
-              ${money(t.profit)}
-            </strong>
+              ${escapeHTML(t.direction)}
 
-          </div>
+              ・
 
-
-          <div class="detail-grid">
-
-            <div class="detail-item">
-
-              <span>
-                進場價
-              </span>
-
-              ${
-                t.entryPrice ||
-                "未填寫"
-              }
-
-            </div>
-
-
-            <div class="detail-item">
-
-              <span>
-                出場價
-              </span>
-
-              ${
-                t.exitPrice ||
-                "未填寫"
-              }
-
-            </div>
-
-
-            <div class="detail-item">
-
-              <span>
-                交易點數
-              </span>
-
-              ${
-                t.points !== undefined
-                ?
-                formatNumber(
-                  t.points
-                )
-                :
-                "舊資料"
-              }
-
-            </div>
-
-
-            <div class="detail-item">
-
-              <span>
-                持倉時間
-              </span>
-
-              ${
-                formatHolding(
-                  t
-                )
-              }
+              ${formatTime(t.entryTime)}
 
             </div>
 
           </div>
 
 
-          ${
-            rr
-            ?
-            `
-            <div class="rr">
-              預設風險報酬比：
-              約 1 : ${rr.toFixed(2)}
-            </div>
-            `
-            :
-            `
-            <div class="rr">
-              風險報酬比：
-              資料不足
-            </div>
-            `
-          }
-
-
-          <button
-            class="delete"
-            onclick="deleteTrade(${t.id})"
+          <strong
+            class="${
+              Number(t.profit) >= 0
+              ?
+              "green"
+              :
+              "red"
+            }"
           >
-            刪除
-          </button>
+
+            ${money(t.profit)}
+
+          </strong>
 
         </div>
+
+
+        <div class="detail-grid">
+
+
+          <div class="detail-item">
+
+            <span>
+              進場點位
+            </span>
+
+            ${
+              t.entryPrice ||
+              "未填寫"
+            }
+
+          </div>
+
+
+          <div class="detail-item">
+
+            <span>
+              出場點位
+            </span>
+
+            ${
+              t.exitPrice ||
+              "未填寫"
+            }
+
+          </div>
+
+
+          <div class="detail-item">
+
+            <span>
+              交易點數
+            </span>
+
+            ${
+              t.points !==
+              undefined
+              ?
+              formatNumber(
+                t.points
+              ) +
+              " 點"
+              :
+              "舊資料"
+            }
+
+          </div>
+
+
+          <div class="detail-item">
+
+            <span>
+              持倉時間
+            </span>
+
+            ${
+              formatHolding(
+                t
+              )
+            }
+
+          </div>
+
+
+        </div>
+
+
+        ${
+          rr
+          ?
+          `
+          <div class="rr">
+
+            預設風險報酬比：
+
+            約 1 :
+            ${rr.toFixed(2)}
+
+          </div>
+          `
+          :
+          `
+          <div class="rr">
+
+            風險報酬比：
+            資料不足
+
+          </div>
+          `
+        }
+
+
+        ${
+          t.note
+          ?
+          `
+          <div
+            class="small"
+            style="margin-top:10px;"
+          >
+
+            ${escapeHTML(t.note)}
+
+          </div>
+          `
+          :
+          ""
+        }
+
+
+        <button
+          class="delete"
+          onclick="deleteTrade(${t.id})"
+        >
+          刪除
+        </button>
+
+
+      </div>
 
       `;
 
@@ -2241,14 +2803,17 @@ function renderHome(){
 
 
 
-/* AI */
+/* =========================
+AI呼叫
+========================= */
 
 async function runAIAnalysis(id){
 
   const trade =
   trades.find(
     t =>
-    t.id === id
+    t.id ===
+    id
   );
 
 
@@ -2284,15 +2849,21 @@ async function runAIAnalysis(id){
 
 
   resultBox.innerHTML =
-  '<div class="small">正在進行客觀分析，請稍候…</div>';
+  `
+  <div class="small">
+    正在進行客觀分析，請稍候…
+  </div>
+  `;
 
 
   try{
+
 
     const response =
     await fetch(
       AI_API,
       {
+
         method:
         "POST",
 
@@ -2305,12 +2876,14 @@ async function runAIAnalysis(id){
         JSON.stringify(
           trade
         )
+
       }
     );
 
 
     const data =
-    await response.json();
+    await response
+    .json();
 
 
     if(
@@ -2340,31 +2913,34 @@ async function runAIAnalysis(id){
     );
 
 
+    button.disabled =
+    false;
+
+
     button.innerText =
     "重新分析";
 
 
-    button.disabled =
-    false;
-
-
   }catch(error){
+
 
     resultBox.innerHTML =
     `
-      <div class="small red">
-        AI 分析失敗：
-        ${escapeHTML(error.message)}
-      </div>
+    <div class="small red">
+
+      AI 分析失敗：
+      ${escapeHTML(error.message)}
+
+    </div>
     `;
+
+
+    button.disabled =
+    false;
 
 
     button.innerText =
     "重新嘗試";
-
-
-    button.disabled =
-    false;
 
   }
 
@@ -2372,7 +2948,9 @@ async function runAIAnalysis(id){
 
 
 
-/* AI卡片 */
+/* =========================
+AI結果
+========================= */
 
 function renderAIResult(
   a,
@@ -2385,7 +2963,11 @@ function renderAIResult(
     "object"
   ){
 
-    return '<div class="small red">AI 回傳資料格式異常</div>';
+    return `
+    <div class="small red">
+      AI 回傳資料格式異常
+    </div>
+    `;
 
   }
 
@@ -2410,9 +2992,10 @@ function renderAIResult(
   [];
 
 
-  const programPriceChange =
+  const actualPoints =
   trade &&
-  trade.points !== undefined
+  trade.points !==
+  undefined
   ?
   (
     formatNumber(
@@ -2421,151 +3004,219 @@ function renderAIResult(
     " 點"
   )
   :
-  (
-    a.priceChange ||
-    "資料不足"
-  );
+  "資料不足";
 
 
   return `
 
-    <div class="analysis-card">
 
-      <div class="analysis-card-title">
-        交易摘要
-      </div>
+  <div class="analysis-card">
 
-      <div class="analysis-card-text">
-        ${escapeHTML(a.summary || "資料不足")}
-      </div>
+    <div class="analysis-title">
+      交易摘要
+    </div>
+
+    <div class="analysis-text">
+
+      ${escapeHTML(
+        a.summary ||
+        "資料不足"
+      )}
 
     </div>
 
+  </div>
 
-    <div class="analysis-card">
 
-      <div class="analysis-card-title">
-        持倉時間
-      </div>
 
-      <div class="analysis-card-text">
-        ${escapeHTML(formatHolding(trade))}
-      </div>
+  <div class="analysis-card">
+
+    <div class="analysis-title">
+      持倉時間
+    </div>
+
+    <div class="analysis-text">
+
+      ${escapeHTML(
+        formatHolding(
+          trade
+        )
+      )}
 
     </div>
 
+  </div>
 
-    <div class="analysis-card">
 
-      <div class="analysis-card-title">
-        價格變化
-      </div>
 
-      <div class="analysis-card-text">
-        ${escapeHTML(programPriceChange)}
-      </div>
+  <div class="analysis-card">
+
+    <div class="analysis-title">
+      價格變化
+    </div>
+
+    <div class="analysis-text">
+
+      ${escapeHTML(
+        actualPoints
+      )}
 
     </div>
 
+  </div>
 
-    <div class="analysis-card">
 
-      <div class="analysis-card-title">
-        進場分析
-      </div>
 
-      <div class="analysis-card-text">
-        ${escapeHTML(a.entryAnalysis || "資料不足")}
-      </div>
+  <div class="analysis-card">
+
+    <div class="analysis-title">
+      進場分析
+    </div>
+
+    <div class="analysis-text">
+
+      ${escapeHTML(
+        a.entryAnalysis ||
+        "資料不足"
+      )}
 
     </div>
 
+  </div>
 
-    <div class="analysis-card">
 
-      <div class="analysis-card-title">
-        出場分析
-      </div>
 
-      <div class="analysis-card-text">
-        ${escapeHTML(a.exitAnalysis || "資料不足")}
-      </div>
+  <div class="analysis-card">
+
+    <div class="analysis-title">
+      出場分析
+    </div>
+
+    <div class="analysis-text">
+
+      ${escapeHTML(
+        a.exitAnalysis ||
+        "資料不足"
+      )}
 
     </div>
 
+  </div>
 
-    <div class="analysis-card">
 
-      <div class="analysis-card-title">
-        風險管理
-      </div>
 
-      <div class="analysis-card-text">
-        ${escapeHTML(a.riskManagement || "資料不足")}
-      </div>
+  <div class="analysis-card">
+
+    <div class="analysis-title">
+      風險管理
+    </div>
+
+    <div class="analysis-text">
+
+      ${escapeHTML(
+        a.riskManagement ||
+        "資料不足"
+      )}
 
     </div>
 
+  </div>
 
-    <div class="analysis-card">
 
-      <div class="analysis-card-title">
-        可驗證因素
-      </div>
 
-      <div class="chip-list">
+  <div class="analysis-card">
 
-        ${
-          verified.length
-          ?
-          verified.map(
-            x =>
-            `<span class="chip">${escapeHTML(x)}</span>`
-          ).join("")
-          :
-          '<span class="chip">沒有足夠資料</span>'
-        }
-
-      </div>
-
+    <div class="analysis-title">
+      可驗證因素
     </div>
 
 
-    <div class="analysis-card">
+    <div class="chips">
 
-      <div class="analysis-card-title">
-        資料不足項目
-      </div>
+      ${
+        verified.length
+        ?
+        verified.map(
+          item =>
+          `
+          <span class="chip">
 
-      <div class="chip-list">
+            ${escapeHTML(item)}
 
-        ${
-          missing.length
-          ?
-          missing.map(
-            x =>
-            `<span class="chip warning-chip">${escapeHTML(x)}</span>`
-          ).join("")
-          :
-          '<span class="chip">無明顯缺少項目</span>'
-        }
+          </span>
+          `
+        ).join("")
+        :
+        `
+        <span class="chip">
 
-      </div>
+          沒有足夠資料
 
+        </span>
+        `
+      }
+
+    </div>
+
+  </div>
+
+
+
+  <div class="analysis-card">
+
+    <div class="analysis-title">
+      資料不足項目
     </div>
 
 
-    <div class="analysis-card">
+    <div class="chips">
 
-      <div class="analysis-card-title">
-        客觀結論
-      </div>
+      ${
+        missing.length
+        ?
+        missing.map(
+          item =>
+          `
+          <span class="chip warning">
 
-      <div class="analysis-card-text">
-        ${escapeHTML(a.objectiveConclusion || "資料不足")}
-      </div>
+            ${escapeHTML(item)}
+
+          </span>
+          `
+        ).join("")
+        :
+        `
+        <span class="chip">
+
+          無明顯缺少項目
+
+        </span>
+        `
+      }
 
     </div>
+
+  </div>
+
+
+
+  <div class="analysis-card">
+
+    <div class="analysis-title">
+      客觀結論
+    </div>
+
+    <div class="analysis-text">
+
+      ${escapeHTML(
+        a.objectiveConclusion ||
+        "資料不足"
+      )}
+
+    </div>
+
+  </div>
+
 
   `;
 
@@ -2573,16 +3224,30 @@ function renderAIResult(
 
 
 
-/* 分析頁 */
+/* =========================
+分析頁
+========================= */
 
 function renderAnalysis(){
+
+  const analysisList =
+  document.getElementById(
+    "analysisList"
+  );
+
 
   if(
     !trades.length
   ){
 
     analysisList.innerHTML =
-    '<div class="empty">新增交易後才會產生分析</div>';
+    `
+    <div class="empty">
+
+      新增交易後才會產生分析
+
+    </div>
+    `;
 
     return;
 
@@ -2592,6 +3257,7 @@ function renderAnalysis(){
   analysisList.innerHTML =
   trades.map(
     t => {
+
 
       const saved =
       t.aiAnalysis &&
@@ -2603,114 +3269,167 @@ function renderAnalysis(){
         t
       )
       :
-      '<div class="small" style="margin-top:12px;">尚未執行 AI 客觀分析</div>';
+      `
+      <div
+        class="small"
+        style="margin-top:12px;"
+      >
+
+        尚未執行 AI 客觀分析
+
+      </div>
+      `;
 
 
       return `
 
-        <div class="analysis-block">
 
-          <div class="trade-row">
+      <div class="analysis-block">
 
-            <div>
 
-              <h3>
-                ${escapeHTML(t.product)}
-              </h3>
+        <div class="trade-top">
 
-              <div class="small">
-                ${escapeHTML(t.direction)}
-                ・
-                ${formatTime(t.entryTime)}
-              </div>
+
+          <div>
+
+            <div class="trade-name">
+
+              ${escapeHTML(t.product)}
 
             </div>
 
 
-            <strong
-              class="${
-                Number(t.profit) >= 0
-                ?
-                "green"
-                :
-                "red"
-              }"
-            >
-              ${money(t.profit)}
-            </strong>
+            <div class="small">
 
-          </div>
+              ${escapeHTML(t.direction)}
 
+              ・
 
-          <div class="detail-grid">
-
-            <div class="detail-item">
-
-              <span>
-                進場價
-              </span>
-
-              ${t.entryPrice || "未填寫"}
-
-            </div>
-
-
-            <div class="detail-item">
-
-              <span>
-                出場價
-              </span>
-
-              ${t.exitPrice || "未填寫"}
-
-            </div>
-
-
-            <div class="detail-item">
-
-              <span>
-                停損價
-              </span>
-
-              ${t.stopLoss || "未填寫"}
-
-            </div>
-
-
-            <div class="detail-item">
-
-              <span>
-                停利價
-              </span>
-
-              ${t.takeProfit || "未填寫"}
+              ${formatTime(t.entryTime)}
 
             </div>
 
           </div>
 
 
-          <button
-            id="btn-${t.id}"
-            class="primary"
-            style="margin-top:14px;"
-            onclick="runAIAnalysis(${t.id})"
-          >
-            ${
-              t.aiAnalysis
+          <strong
+            class="${
+              Number(t.profit) >=
+              0
               ?
-              "重新分析"
+              "green"
               :
-              "AI 客觀分析"
-            }
-          </button>
+              "red"
+            }"
+          >
 
+            ${money(t.profit)}
 
-          <div id="ai-${t.id}">
-            ${saved}
-          </div>
+          </strong>
+
 
         </div>
+
+
+
+        <div class="detail-grid">
+
+
+          <div class="detail-item">
+
+            <span>
+              進場價
+            </span>
+
+            ${
+              t.entryPrice ||
+              "未填寫"
+            }
+
+          </div>
+
+
+          <div class="detail-item">
+
+            <span>
+              出場價
+            </span>
+
+            ${
+              t.exitPrice ||
+              "未填寫"
+            }
+
+          </div>
+
+
+          <div class="detail-item">
+
+            <span>
+              停損價
+            </span>
+
+            ${
+              t.stopLoss ||
+              "未填寫"
+            }
+
+          </div>
+
+
+          <div class="detail-item">
+
+            <span>
+              停利價
+            </span>
+
+            ${
+              t.takeProfit ||
+              "未填寫"
+            }
+
+          </div>
+
+
+        </div>
+
+
+
+        <button
+
+          id="btn-${t.id}"
+
+          class="primary"
+
+          style="margin-top:14px;"
+
+          onclick="runAIAnalysis(${t.id})"
+
+        >
+
+          ${
+            t.aiAnalysis
+            ?
+            "重新分析"
+            :
+            "AI 客觀分析"
+          }
+
+        </button>
+
+
+
+        <div
+          id="ai-${t.id}"
+        >
+
+          ${saved}
+
+        </div>
+
+
+      </div>
+
 
       `;
 
@@ -2722,16 +3441,30 @@ function renderAnalysis(){
 
 
 
-/* 績效 */
+/* =========================
+績效
+========================= */
 
 function renderProductStats(){
+
+  const productStats =
+  document.getElementById(
+    "productStats"
+  );
+
 
   if(
     !trades.length
   ){
 
     productStats.innerHTML =
-    '<div class="empty">目前沒有可統計的交易資料</div>';
+    `
+    <div class="empty">
+
+      目前沒有可統計的交易資料
+
+    </div>
+    `;
 
     return;
 
@@ -2745,6 +3478,7 @@ function renderProductStats(){
   trades.forEach(
     t => {
 
+
       if(
         !groups[
           t.product
@@ -2753,10 +3487,18 @@ function renderProductStats(){
 
         groups[
           t.product
-        ] = {
-          count:0,
-          wins:0,
-          pnl:0
+        ] =
+        {
+
+          count:
+          0,
+
+          wins:
+          0,
+
+          pnl:
+          0
+
         };
 
       }
@@ -2771,7 +3513,8 @@ function renderProductStats(){
         t.product
       ].pnl +=
       Number(
-        t.profit || 0
+        t.profit ||
+        0
       );
 
 
@@ -2798,8 +3541,12 @@ function renderProductStats(){
   )
   .map(
     (
-      [name,data]
+      [
+        name,
+        data
+      ]
     ) => {
+
 
       const rate =
       Math.round(
@@ -2811,36 +3558,49 @@ function renderProductStats(){
 
       return `
 
-        <div class="product-row">
 
-          <div>
+      <div class="product-row">
 
-            <strong>
-              ${escapeHTML(name)}
-            </strong>
 
-            <div class="small">
-              ${data.count} 筆
-              ・
-              勝率 ${rate}%
-            </div>
+        <div>
+
+          <strong>
+
+            ${escapeHTML(name)}
+
+          </strong>
+
+
+          <div class="small">
+
+            ${data.count} 筆
+
+            ・
+
+            勝率 ${rate}%
 
           </div>
 
-
-          <strong
-            class="${
-              data.pnl >= 0
-              ?
-              "green"
-              :
-              "red"
-            }"
-          >
-            ${money(data.pnl)}
-          </strong>
-
         </div>
+
+
+        <strong
+          class="${
+            data.pnl >= 0
+            ?
+            "green"
+            :
+            "red"
+          }"
+        >
+
+          ${money(data.pnl)}
+
+        </strong>
+
+
+      </div>
+
 
       `;
 
@@ -2852,7 +3612,9 @@ function renderProductStats(){
 
 
 
-/* 安全文字 */
+/* =========================
+安全文字
+========================= */
 
 function escapeHTML(text){
 
@@ -2864,7 +3626,8 @@ function escapeHTML(text){
 
   div.innerText =
   String(
-    text ?? ""
+    text ??
+    ""
   );
 
 
@@ -2874,7 +3637,9 @@ function escapeHTML(text){
 
 
 
-/* 初始化 */
+/* =========================
+初始化
+========================= */
 
 function render(){
 
@@ -2889,7 +3654,10 @@ function render(){
 
 render();
 
+
 </script>
 
+
 </body>
+
 </html>
