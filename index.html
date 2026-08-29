@@ -231,6 +231,59 @@ button{
   line-height:1.7;
 }
 
+.backup-actions{
+  display:grid;
+  gap:10px;
+}
+
+.backup-file{
+  width:100%;
+  padding:12px;
+  border:1px solid #d9dfdc;
+  border-radius:14px;
+  background:#fff;
+  color:var(--text);
+}
+
+.secondary,
+.danger{
+  width:100%;
+  padding:13px;
+  border-radius:14px;
+  font-size:15px;
+  font-weight:750;
+}
+
+.secondary{
+  border:1px solid var(--blue);
+  background:#fff;
+  color:var(--blue);
+}
+
+.danger{
+  border:1px solid #b85b5b;
+  background:#fff;
+  color:#a74444;
+}
+
+.secondary:disabled,
+.danger:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+}
+
+.backup-status{
+  min-height:20px;
+  margin-top:10px;
+  padding:10px 12px;
+  border-radius:12px;
+  background:var(--soft);
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.7;
+  white-space:pre-line;
+}
+
 .source-badge{
   display:inline-block;
   margin-top:7px;
@@ -587,6 +640,77 @@ MY TRADING JOURNAL
 <div class="card">
 <div class="stat-label">IG 可用資金</div>
 <div id="igAvailableBalance" class="stat-value">讀取中…</div>
+</div>
+
+</div>
+
+
+
+<div class="section">
+
+<div class="card">
+
+<div class="section-title">
+交易資料備份
+</div>
+
+<div class="backup-actions">
+
+<button
+  id="exportBackupBtn"
+  class="primary"
+  onclick="exportTradesBackup()"
+>
+匯出全部交易 JSON
+</button>
+
+<label for="restoreBackupFile">
+選擇 JSON 備份檔
+</label>
+
+<input
+  id="restoreBackupFile"
+  class="backup-file"
+  type="file"
+  accept="application/json,.json"
+  onchange="previewTradesRestore(event)"
+>
+
+<button
+  id="mergeRestoreBtn"
+  class="secondary"
+  type="button"
+  disabled
+  onclick="restoreTradesBackup('merge')"
+>
+合併還原（保留現有資料）
+</button>
+
+<button
+  id="replaceRestoreBtn"
+  class="danger"
+  type="button"
+  disabled
+  onclick="restoreTradesBackup('replace')"
+>
+取代全部資料
+</button>
+
+</div>
+
+<div
+  id="backupStatus"
+  class="backup-status"
+  role="status"
+  aria-live="polite"
+>
+尚未選擇備份檔。建議先匯出並妥善保存，再進行任何資料遷移。
+</div>
+
+<div class="help">
+備份檔只保存在你的裝置，不會上傳到 GitHub。合併還原會跳過既有交易；取代全部資料需連續確認兩次。
+</div>
+
 </div>
 
 </div>
@@ -3360,6 +3484,600 @@ function saveTrades(){
       trades
     )
   );
+
+}
+
+
+/* =========================
+   JSON 備份與還原
+========================= */
+
+const BACKUP_SCHEMA_VERSION = 1;
+
+const SENSITIVE_BACKUP_KEY =
+/^(api[-_]?key|token|password|secret|cookie|authorization|access[-_]?token|refresh[-_]?token)$/i;
+
+let pendingRestore = null;
+
+
+function stableStringify(value){
+
+  if(
+    value === null ||
+    typeof value !== "object"
+  ){
+    return JSON.stringify(value);
+  }
+
+  if(Array.isArray(value)){
+    return (
+      "[" +
+      value.map(stableStringify).join(",") +
+      "]"
+    );
+  }
+
+  return (
+    "{" +
+    Object.keys(value)
+    .sort()
+    .map(
+      key =>
+      JSON.stringify(key) +
+      ":" +
+      stableStringify(value[key])
+    )
+    .join(",") +
+    "}"
+  );
+
+}
+
+
+async function sha256Hex(value){
+
+  if(
+    !window.crypto ||
+    !window.crypto.subtle
+  ){
+    throw new Error(
+      "此瀏覽器不支援備份完整性檢查，請更新瀏覽器後再試。"
+    );
+  }
+
+  const bytes =
+  new TextEncoder().encode(value);
+
+  const digest =
+  await window.crypto.subtle.digest(
+    "SHA-256",
+    bytes
+  );
+
+  return Array.from(
+    new Uint8Array(digest)
+  )
+  .map(
+    byte =>
+    byte.toString(16).padStart(2,"0")
+  )
+  .join("");
+
+}
+
+
+function findSensitiveBackupKeys(value, path = "trades"){
+
+  const found = [];
+
+  if(
+    value === null ||
+    typeof value !== "object"
+  ){
+    return found;
+  }
+
+  if(Array.isArray(value)){
+
+    value.forEach(
+      (item,index) =>
+      found.push(
+        ...findSensitiveBackupKeys(
+          item,
+          path + "[" + index + "]"
+        )
+      )
+    );
+
+    return found;
+
+  }
+
+  Object.keys(value).forEach(key => {
+
+    const nextPath =
+    path + "." + key;
+
+    if(SENSITIVE_BACKUP_KEY.test(key)){
+      found.push(nextPath);
+    }
+
+    found.push(
+      ...findSensitiveBackupKeys(
+        value[key],
+        nextPath
+      )
+    );
+
+  });
+
+  return found;
+
+}
+
+
+function isTradeRecord(value){
+
+  return Boolean(
+    value &&
+    typeof value === "object" &&
+    !Array.isArray(value)
+  );
+
+}
+
+
+function getTradeRestoreKey(trade){
+
+  const identityFields = [
+    "igUniqueId",
+    "dealId",
+    "transactionId",
+    "id"
+  ];
+
+  for(const field of identityFields){
+
+    if(
+      trade[field] !== undefined &&
+      trade[field] !== null &&
+      String(trade[field]).trim() !== ""
+    ){
+      return (
+        field +
+        ":" +
+        String(trade[field])
+      );
+    }
+
+  }
+
+  return "record:" + stableStringify(trade);
+
+}
+
+
+function setBackupStatus(message, isError = false){
+
+  const box =
+  document.getElementById("backupStatus");
+
+  if(!box){
+    return;
+  }
+
+  box.textContent = message;
+  box.style.color = isError ? "#a74444" : "";
+
+}
+
+
+function setRestoreButtons(enabled){
+
+  document.getElementById("mergeRestoreBtn").disabled = !enabled;
+  document.getElementById("replaceRestoreBtn").disabled = !enabled;
+
+}
+
+
+async function createTradesBackup(){
+
+  if(!Array.isArray(trades)){
+    throw new Error("目前交易資料格式不是陣列，已停止匯出以避免產生錯誤備份。");
+  }
+
+  const snapshot =
+  JSON.parse(JSON.stringify(trades));
+
+  const sensitiveKeys =
+  findSensitiveBackupKeys(snapshot);
+
+  if(sensitiveKeys.length){
+    throw new Error(
+      "交易資料含疑似祕密欄位，已停止匯出：" +
+      sensitiveKeys.slice(0,3).join("、")
+    );
+  }
+
+  const checksum =
+  await sha256Hex(
+    stableStringify(snapshot)
+  );
+
+  return {
+    schemaVersion:BACKUP_SCHEMA_VERSION,
+    exportedAt:new Date().toISOString(),
+    sourceOrigin:location.origin,
+    storageKey:"futuresTrades",
+    recordCount:snapshot.length,
+    checksum:{
+      algorithm:"SHA-256",
+      value:checksum
+    },
+    trades:snapshot
+  };
+
+}
+
+
+async function exportTradesBackup(){
+
+  const button =
+  document.getElementById("exportBackupBtn");
+
+  button.disabled = true;
+  setBackupStatus("正在建立並檢查 JSON 備份…");
+
+  try{
+
+    const backup =
+    await createTradesBackup();
+
+    const blob =
+    new Blob(
+      [JSON.stringify(backup,null,2)],
+      {type:"application/json"}
+    );
+
+    const url =
+    URL.createObjectURL(blob);
+
+    const link =
+    document.createElement("a");
+
+    const timestamp =
+    backup.exportedAt
+    .replace(/[:.]/g,"-");
+
+    link.href = url;
+    link.download =
+    "futures-trades-backup-" +
+    timestamp +
+    ".json";
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    setTimeout(
+      () => URL.revokeObjectURL(url),
+      1000
+    );
+
+    setBackupStatus(
+      "備份已下載。\n" +
+      "交易筆數：" + backup.recordCount + "\n" +
+      "完整性：SHA-256 " + backup.checksum.value
+    );
+
+  }catch(error){
+
+    setBackupStatus(
+      "匯出失敗：" + error.message,
+      true
+    );
+
+  }finally{
+    button.disabled = false;
+  }
+
+}
+
+
+async function parseTradesBackup(text){
+
+  let backup;
+
+  try{
+    backup = JSON.parse(text);
+  }catch(error){
+    throw new Error("檔案不是有效的 JSON。");
+  }
+
+  if(
+    !backup ||
+    typeof backup !== "object" ||
+    Array.isArray(backup)
+  ){
+    throw new Error("備份最外層格式不正確。");
+  }
+
+  if(backup.schemaVersion !== BACKUP_SCHEMA_VERSION){
+    throw new Error("不支援此備份版本：" + String(backup.schemaVersion));
+  }
+
+  if(
+    backup.storageKey !== "futuresTrades" ||
+    !Array.isArray(backup.trades)
+  ){
+    throw new Error("備份不含有效的 futuresTrades 交易陣列。");
+  }
+
+  if(
+    !Number.isInteger(backup.recordCount) ||
+    backup.recordCount !== backup.trades.length
+  ){
+    throw new Error("備份筆數與內容不一致。");
+  }
+
+  if(
+    !backup.checksum ||
+    backup.checksum.algorithm !== "SHA-256" ||
+    !/^[a-f0-9]{64}$/i.test(backup.checksum.value || "")
+  ){
+    throw new Error("備份缺少有效的 SHA-256 完整性資訊。");
+  }
+
+  const actualChecksum =
+  await sha256Hex(
+    stableStringify(backup.trades)
+  );
+
+  if(
+    actualChecksum.toLowerCase() !==
+    backup.checksum.value.toLowerCase()
+  ){
+    throw new Error("備份完整性檢查失敗，檔案可能已損壞或被修改。");
+  }
+
+  const sensitiveKeys =
+  findSensitiveBackupKeys(backup.trades);
+
+  if(sensitiveKeys.length){
+    throw new Error("備份含疑似祕密欄位，已拒絕還原。");
+  }
+
+  return backup;
+
+}
+
+
+async function previewTradesRestore(event){
+
+  pendingRestore = null;
+  setRestoreButtons(false);
+
+  const file =
+  event.target.files &&
+  event.target.files[0];
+
+  if(!file){
+    setBackupStatus("尚未選擇備份檔。");
+    return;
+  }
+
+  setBackupStatus("正在驗證備份格式與完整性…");
+
+  try{
+
+    const backup =
+    await parseTradesBackup(
+      await file.text()
+    );
+
+    const validTrades =
+    backup.trades.filter(isTradeRecord);
+
+    const invalidCount =
+    backup.trades.length - validTrades.length;
+
+    if(invalidCount > 0){
+
+      setBackupStatus(
+        "備份完整性通過，但含 " +
+        invalidCount +
+        " 筆無效資料。為避免遺失內容，已停止還原。\n" +
+        "現有資料未變更。",
+        true
+      );
+
+      return;
+
+    }
+
+    const existingKeys =
+    new Set(
+      trades
+      .filter(isTradeRecord)
+      .map(getTradeRestoreKey)
+    );
+
+    const seenBackupKeys =
+    new Set();
+
+    const newTrades = [];
+    let duplicateCount = 0;
+
+    validTrades.forEach(trade => {
+
+      const key =
+      getTradeRestoreKey(trade);
+
+      if(
+        existingKeys.has(key) ||
+        seenBackupKeys.has(key)
+      ){
+        duplicateCount += 1;
+        return;
+      }
+
+      seenBackupKeys.add(key);
+      newTrades.push(trade);
+
+    });
+
+    pendingRestore = {
+      fileName:file.name,
+      validTrades,
+      newTrades,
+      invalidCount,
+      duplicateCount,
+      originalCount:trades.length
+    };
+
+    setRestoreButtons(
+      validTrades.length > 0 ||
+      backup.recordCount === 0
+    );
+
+    setBackupStatus(
+      "備份驗證通過：" + file.name + "\n" +
+      "有效交易：" + validTrades.length + "\n" +
+      "無效資料：" + invalidCount + "\n" +
+      "重複／已存在：" + duplicateCount + "\n" +
+      "合併後新增：" + newTrades.length + "\n" +
+      "取代模式將以 " + validTrades.length +
+      " 筆取代目前 " + trades.length + " 筆。"
+    );
+
+  }catch(error){
+
+    setBackupStatus(
+      "無法還原：" + error.message +
+      "\n現有資料未變更。",
+      true
+    );
+
+  }
+
+}
+
+
+function restoreTradesBackup(mode){
+
+  if(!pendingRestore){
+    setBackupStatus("請先選擇並驗證備份檔。",true);
+    return;
+  }
+
+  if(mode === "merge"){
+
+    if(
+      !confirm(
+        "確定合併還原？將新增 " +
+        pendingRestore.newTrades.length +
+        " 筆，並跳過重複資料。"
+      )
+    ){
+      return;
+    }
+
+    const before =
+    JSON.stringify(trades);
+
+    try{
+
+      trades = [
+        ...pendingRestore.newTrades,
+        ...trades
+      ];
+
+      saveTrades();
+      render();
+
+      setBackupStatus(
+        "合併還原完成。\n" +
+        "新增：" + pendingRestore.newTrades.length + " 筆\n" +
+        "目前總數：" + trades.length + " 筆"
+      );
+
+      pendingRestore = null;
+      setRestoreButtons(false);
+
+    }catch(error){
+
+      trades = JSON.parse(before);
+      saveTrades();
+
+      setBackupStatus(
+        "合併還原失敗，已回復原資料：" + error.message,
+        true
+      );
+
+    }
+
+    return;
+
+  }
+
+  if(mode !== "replace"){
+    return;
+  }
+
+  if(
+    !confirm(
+      "第一次確認：取代模式會以備份內容取代目前全部交易。是否繼續？"
+    )
+  ){
+    return;
+  }
+
+  if(
+    !confirm(
+      "第二次確認：目前 " +
+      trades.length +
+      " 筆將被取代為 " +
+      pendingRestore.validTrades.length +
+      " 筆。確定執行？"
+    )
+  ){
+    return;
+  }
+
+  const before =
+  JSON.stringify(trades);
+
+  try{
+
+    trades =
+    JSON.parse(
+      JSON.stringify(
+        pendingRestore.validTrades
+      )
+    );
+
+    saveTrades();
+    render();
+
+    setBackupStatus(
+      "取代還原完成。\n" +
+      "還原筆數：" + trades.length + " 筆"
+    );
+
+    pendingRestore = null;
+    setRestoreButtons(false);
+
+  }catch(error){
+
+    trades = JSON.parse(before);
+    saveTrades();
+
+    setBackupStatus(
+      "取代還原失敗，已回復原資料：" + error.message,
+      true
+    );
+
+  }
 
 }
 
