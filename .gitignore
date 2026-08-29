@@ -1,0 +1,9 @@
+node_modules/
+.wrangler/
+.dev.vars
+worker/.dev.vars
+*.backup.json
+futures-trades-backup-*.json
+dist/
+coverage/
+*.log
