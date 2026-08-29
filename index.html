@@ -2,6 +2,7 @@
 <html lang="zh-Hant">
 
 <head>
+
 <meta charset="UTF-8">
 
 <meta
@@ -41,7 +42,8 @@
   box-sizing:border-box;
 }
 
-html,body{
+html,
+body{
   margin:0;
   padding:0;
   background:var(--bg);
@@ -101,8 +103,13 @@ h1{
   word-break:break-word;
 }
 
-.green{color:var(--green);}
-.red{color:var(--red);}
+.green{
+  color:var(--green);
+}
+
+.red{
+  color:var(--red);
+}
 
 .section{
   margin-top:28px;
@@ -417,16 +424,6 @@ button{
   line-height:1.4;
 }
 
-.range-title{
-  padding:12px 14px;
-  margin-bottom:12px;
-  background:var(--soft);
-  border-radius:13px;
-  color:var(--text);
-  font-size:13px;
-  font-weight:650;
-}
-
 .empty{
   padding:30px 10px;
   text-align:center;
@@ -471,817 +468,814 @@ button{
 }
 
 </style>
+
 </head>
+
 
 <body>
 
 <div class="app">
 
 
-<!-- 首頁 -->
-
 <section id="homePage" class="page active">
 
-  <div class="sub">MY TRADING JOURNAL</div>
+<div class="sub">
+MY TRADING JOURNAL
+</div>
 
-  <h1>期貨交易日誌</h1>
+<h1>
+期貨交易日誌
+</h1>
 
 
-  <div class="stats">
+<div class="stats">
 
-    <div class="card">
+<div class="card">
 
-      <div class="stat-label">
-        總損益
-      </div>
+<div class="stat-label">
+總損益
+</div>
 
-      <div
-        id="totalProfit"
-        class="stat-value"
-      >
-        NT$0
-      </div>
+<div
+  id="totalProfit"
+  class="stat-value"
+>
+NT$0
+</div>
 
-    </div>
+</div>
 
 
-    <div class="card">
+<div class="card">
 
-      <div class="stat-label">
-        本月損益
-      </div>
+<div class="stat-label">
+本月損益
+</div>
 
-      <div
-        id="monthProfit"
-        class="stat-value"
-      >
-        NT$0
-      </div>
+<div
+  id="monthProfit"
+  class="stat-value"
+>
+NT$0
+</div>
 
-    </div>
+</div>
 
 
-    <div class="card">
+<div class="card">
 
-      <div class="stat-label">
-        今年損益
-      </div>
+<div class="stat-label">
+今年損益
+</div>
 
-      <div
-        id="yearProfit"
-        class="stat-value"
-      >
-        NT$0
-      </div>
+<div
+  id="yearProfit"
+  class="stat-value"
+>
+NT$0
+</div>
 
-    </div>
+</div>
 
 
-    <div class="card">
+<div class="card">
 
-      <div class="stat-label">
-        今日損益
-      </div>
+<div class="stat-label">
+今日損益
+</div>
 
-      <div
-        id="todayProfit"
-        class="stat-value"
-      >
-        NT$0
-      </div>
+<div
+  id="todayProfit"
+  class="stat-value"
+>
+NT$0
+</div>
 
-    </div>
+</div>
 
 
-    <div class="card">
+<div class="card">
 
-      <div class="stat-label">
-        勝率
-      </div>
+<div class="stat-label">
+勝率
+</div>
 
-      <div
-        id="winRate"
-        class="stat-value"
-      >
-        0%
-      </div>
+<div
+  id="winRate"
+  class="stat-value"
+>
+0%
+</div>
 
-    </div>
+</div>
 
 
-    <div class="card">
+<div class="card">
 
-      <div class="stat-label">
-        交易筆數
-      </div>
+<div class="stat-label">
+交易筆數
+</div>
 
-      <div
-        id="tradeCount"
-        class="stat-value"
-      >
-        0
-      </div>
+<div
+  id="tradeCount"
+  class="stat-value"
+>
+0
+</div>
 
-    </div>
+</div>
 
 
-    <div class="card">
+<div class="card">
 
-      <div class="stat-label">
-        平均單筆損益
-      </div>
+<div class="stat-label">
+平均單筆損益
+</div>
 
-      <div
-        id="averageProfit"
-        class="stat-value"
-      >
-        NT$0
-      </div>
+<div
+  id="averageProfit"
+  class="stat-value"
+>
+NT$0
+</div>
 
-    </div>
+</div>
 
 
-    <div class="card">
+<div class="card">
 
-      <div class="stat-label">
-        IG 帳戶餘額
-      </div>
+<div class="stat-label">
+IG 帳戶餘額
+</div>
 
-      <div
-        id="igAccountBalance"
-        class="stat-value"
-      >
-        讀取中…
-      </div>
+<div
+  id="igAccountBalance"
+  class="stat-value"
+>
+讀取中…
+</div>
 
-    </div>
+</div>
 
 
-    <div class="card">
+<div class="card">
 
-      <div class="stat-label">
-        IG 可用資金
-      </div>
+<div class="stat-label">
+IG 可用資金
+</div>
 
-      <div
-        id="igAvailableBalance"
-        class="stat-value"
-      >
-        讀取中…
-      </div>
+<div
+  id="igAvailableBalance"
+  class="stat-value"
+>
+讀取中…
+</div>
 
-    </div>
+</div>
 
-  </div>
+</div>
 
 
-  <!-- 經濟事件 -->
 
-  <div class="section">
+<div class="section">
 
-    <div class="section-title">
-      重大經濟事件
-    </div>
+<div class="section-title">
+重大經濟事件
+</div>
 
-    <div id="eventList"></div>
+<div id="eventList"></div>
 
-    <div class="help">
-      發布時間依美國官方排程換算為台灣時間。
-      目前公布值尚未自動串接官方資料來源。
-    </div>
+<div class="help">
+發布時間依美國官方排程換算為台灣時間。
+目前公布值尚未自動串接官方資料來源。
+</div>
 
-  </div>
+</div>
 
 
-  <!-- IG 同步 -->
 
-  <div class="sync-box">
+<div class="sync-box">
 
-    <div class="section-title">
-      IG 交易同步
-    </div>
+<div class="card">
 
+<div class="section-title">
+IG 交易同步
+</div>
 
-    <div class="field">
 
-      <label>
-        同步範圍
-      </label>
+<div class="field">
 
-      <select
-        id="syncRange"
-        onchange="syncRangeChanged()"
-      >
+<label>
+同步範圍
+</label>
 
-        <option value="single">
-          單月份
-        </option>
+<select
+  id="syncRange"
+  onchange="syncRangeChanged()"
+>
 
-        <option value="3months">
-          近三個月
-        </option>
+<option value="month">
+單月份
+</option>
 
-        <option value="6months">
-          近半年
-        </option>
+<option value="3months">
+近 3 個月
+</option>
 
-      </select>
+<option value="6months">
+近半年
+</option>
 
-    </div>
+</select>
 
+</div>
 
-    <div
-      id="singleMonthBox"
-      class="field"
-    >
 
-      <label>
-        選擇月份
-      </label>
+<div
+  id="syncMonthBox"
+  class="field"
+>
 
-      <select
-        id="syncMonth"
-        onchange="renderHomeTrades()"
-      ></select>
+<label>
+選擇月份
+</label>
 
-    </div>
+<select
+  id="syncMonth"
+  onchange="renderHome()"
+></select>
 
+</div>
 
-    <button
-      id="igSyncBtn"
-      class="primary"
-      onclick="syncIGSelectedRange()"
-    >
-      同步交易
-    </button>
 
+<button
+  id="igSyncBtn"
+  class="primary"
+  onclick="syncIG()"
+>
+同步單月份
+</button>
 
-    <div
-      id="igSyncStatus"
-      class="sync-status"
-    >
-      選擇要同步的交易期間。
-    </div>
 
-  </div>
+<div
+  id="igSyncStatus"
+  class="sync-status"
+>
+選擇月份後，可同步該月份的 IG 交易紀錄。
+</div>
 
+</div>
 
-  <!-- 範圍內交易 -->
+</div>
 
-  <div class="section">
 
-    <div class="section-title">
-      交易紀錄
-    </div>
 
-    <div
-      id="homeRangeTitle"
-      class="range-title"
-    >
-      單月份
-    </div>
+<div class="section">
 
-    <div id="tradeList"></div>
+<div
+  id="recentTradeTitle"
+  class="section-title"
+>
+當月交易
+</div>
 
-  </div>
+<div id="tradeList"></div>
+
+</div>
 
 </section>
 
 
-<!-- 新增交易 -->
 
 <section id="addPage" class="page">
 
-  <div class="sub">
-    NEW TRADE
-  </div>
+<div class="sub">
+NEW TRADE
+</div>
 
-  <h1>
-    新增交易
-  </h1>
+<h1>
+新增交易
+</h1>
 
 
-  <div class="card">
+<div class="card">
 
+<div class="field">
 
-    <div class="field">
+<label>
+操作商品
+</label>
 
-      <label>
-        操作商品
-      </label>
+<select id="productSelect">
 
-      <select id="productSelect">
+<option value="">
+請選擇商品
+</option>
 
-        <option value="">
-          請選擇商品
-        </option>
+<option value="NQ">
+NQ
+</option>
 
-        <option value="NQ">
-          NQ
-        </option>
+<option value="YM">
+YM
+</option>
 
-        <option value="YM">
-          YM
-        </option>
+<option value="BTC">
+BTC
+</option>
 
-        <option value="BTC">
-          BTC
-        </option>
+<option value="台指">
+台指
+</option>
 
-        <option value="台指">
-          台指
-        </option>
+<option value="黃金">
+黃金
+</option>
 
-        <option value="黃金">
-          黃金
-        </option>
+<option value="白銀">
+白銀
+</option>
 
-        <option value="白銀">
-          白銀
-        </option>
+<option value="其他">
+其他
+</option>
 
-        <option value="其他">
-          其他
-        </option>
+</select>
 
-      </select>
+</div>
 
-    </div>
 
+<div
+  id="otherProductBox"
+  class="field hidden"
+>
 
-    <div
-      id="otherProductBox"
-      class="field hidden"
-    >
+<label>
+其他商品名稱
+</label>
 
-      <label>
-        其他商品名稱
-      </label>
+<input
+  id="otherProduct"
+  placeholder="輸入商品名稱"
+>
 
-      <input
-        id="otherProduct"
-        placeholder="輸入商品名稱"
-      >
+</div>
 
-    </div>
 
+<div class="field">
 
-    <div class="field">
+<label>
+方向
+</label>
 
-      <label>
-        方向
-      </label>
+<select id="direction">
 
-      <select id="direction">
+<option value="做多">
+做多
+</option>
 
-        <option value="做多">
-          做多
-        </option>
+<option value="做空">
+做空
+</option>
 
-        <option value="做空">
-          做空
-        </option>
+</select>
 
-      </select>
+</div>
 
-    </div>
 
+<div class="field">
 
-    <div class="field">
+<label>
+進場時間
+</label>
 
-      <label>
-        進場時間
-      </label>
+<input
+  id="entryTime"
+  type="text"
+  placeholder="例如 2026/08/29 11:51"
+>
 
-      <input
-        id="entryTime"
-        type="text"
-        placeholder="例如 2026/08/29 11:51"
-      >
+</div>
 
-    </div>
 
+<div class="field">
 
-    <div class="field">
+<label>
+出場時間
+</label>
 
-      <label>
-        出場時間
-      </label>
+<input
+  id="exitTime"
+  type="text"
+  placeholder="例如 2026/08/29 12:03"
+>
 
-      <input
-        id="exitTime"
-        type="text"
-        placeholder="例如 2026/08/29 12:03"
-      >
+</div>
 
-    </div>
 
+<div class="two">
 
-    <div class="two">
+<div class="field">
 
-      <div class="field">
+<label>
+進場點位
+</label>
 
-        <label>
-          進場點位
-        </label>
+<input
+  id="entryPrice"
+  type="number"
+  step="any"
+>
 
-        <input
-          id="entryPrice"
-          type="number"
-          step="any"
-        >
+</div>
 
-      </div>
 
+<div class="field">
 
-      <div class="field">
+<label>
+出場點位
+</label>
 
-        <label>
-          出場點位
-        </label>
+<input
+  id="exitPrice"
+  type="number"
+  step="any"
+>
 
-        <input
-          id="exitPrice"
-          type="number"
-          step="any"
-        >
+</div>
 
-      </div>
+</div>
 
-    </div>
 
+<div class="points-box">
 
-    <div class="points-box">
+<div class="points-row">
 
-      <div class="points-row">
+<span class="points-title">
+交易點數
+</span>
 
-        <span class="points-title">
-          交易點數
-        </span>
+<strong
+  id="pointsPreview"
+  class="points-value"
+>
+—
+</strong>
 
-        <strong
-          id="pointsPreview"
-          class="points-value"
-        >
-          —
-        </strong>
+</div>
 
-      </div>
+</div>
 
-    </div>
 
+<div class="two">
 
-    <div class="two">
+<div class="field">
 
-      <div class="field">
+<label>
+停損價
+</label>
 
-        <label>
-          停損價
-        </label>
+<input
+  id="stopLoss"
+  type="number"
+  step="any"
+>
 
-        <input
-          id="stopLoss"
-          type="number"
-          step="any"
-        >
+</div>
 
-      </div>
 
+<div class="field">
 
-      <div class="field">
+<label>
+停利價
+</label>
 
-        <label>
-          停利價
-        </label>
+<input
+  id="takeProfit"
+  type="number"
+  step="any"
+>
 
-        <input
-          id="takeProfit"
-          type="number"
-          step="any"
-        >
+</div>
 
-      </div>
+</div>
 
-    </div>
 
+<div class="two">
 
-    <div class="two">
+<div class="field">
 
-      <div class="field">
+<label>
+口數
+</label>
 
-        <label>
-          口數
-        </label>
+<input
+  id="quantity"
+  type="number"
+  step="any"
+  value="1"
+>
 
-        <input
-          id="quantity"
-          type="number"
-          step="any"
-          value="1"
-        >
+</div>
 
-      </div>
 
+<div class="field">
 
-      <div class="field">
+<label>
+手續費 / 成本
+</label>
 
-        <label>
-          手續費 / 成本
-        </label>
+<input
+  id="fee"
+  type="number"
+  step="any"
+  value="0"
+>
 
-        <input
-          id="fee"
-          type="number"
-          step="any"
-          value="0"
-        >
+</div>
 
-      </div>
+</div>
 
-    </div>
 
+<div class="field">
 
-    <div class="field">
+<label>
+實際獲利 / 虧損金額
+</label>
 
-      <label>
-        實際獲利 / 虧損金額
-      </label>
+<input
+  id="profit"
+  type="number"
+  step="any"
+>
 
-      <input
-        id="profit"
-        type="number"
-        step="any"
-      >
+</div>
 
-    </div>
 
+<div class="field">
 
-    <div class="field">
+<label>
+每一單紀錄
+</label>
 
-      <label>
-        每一單紀錄
-      </label>
+<textarea id="note"></textarea>
 
-      <textarea id="note"></textarea>
+</div>
 
-    </div>
 
+<button
+  class="primary"
+  onclick="saveTrade()"
+>
+儲存交易
+</button>
 
-    <button
-      class="primary"
-      onclick="saveTrade()"
-    >
-      儲存交易
-    </button>
-
-  </div>
+</div>
 
 </section>
 
 
-<!-- AI 分析 -->
 
-<section
-  id="analysisPage"
-  class="page"
->
+<section id="analysisPage" class="page">
 
-  <div class="sub">
-    OBJECTIVE AI REVIEW
-  </div>
+<div class="sub">
+OBJECTIVE AI REVIEW
+</div>
 
-  <h1>
-    AI 客觀分析
-  </h1>
+<h1>
+AI 客觀分析
+</h1>
 
 
-  <div class="ai-info">
-
-    AI 只依照已記錄的交易資料進行事後分析，
-    不推測情緒或主觀動機。
-
-  </div>
+<div class="ai-info">
+AI 只依照已記錄的交易資料進行事後分析，不推測情緒或主觀動機。
+</div>
 
 
-  <div class="section">
+<div class="section">
 
-    <div class="section-title">
-      逐筆交易分析
-    </div>
+<div class="section-title">
+逐筆交易分析
+</div>
 
-    <div id="analysisList"></div>
+<div id="analysisList"></div>
 
-  </div>
+</div>
 
 </section>
 
 
-<!-- 績效 -->
 
-<section
-  id="statsPage"
-  class="page"
+<section id="statsPage" class="page">
+
+<div class="sub">
+PERFORMANCE
+</div>
+
+<h1>
+績效統計
+</h1>
+
+
+<div class="card">
+
+<div class="field">
+
+<label>
+損益期間
+</label>
+
+<select
+  id="performancePeriod"
+  onchange="performancePeriodChanged()"
 >
 
-  <div class="sub">
-    PERFORMANCE
-  </div>
+<option value="month">
+本月
+</option>
 
-  <h1>
-    績效統計
-  </h1>
+<option value="previousMonth">
+上個月
+</option>
 
+<option value="3months">
+近 3 個月
+</option>
 
-  <div class="card">
+<option value="6months">
+近 6 個月
+</option>
 
+<option value="year">
+今年
+</option>
 
-    <div class="field">
+<option value="custom">
+指定月份
+</option>
 
-      <label>
-        查看範圍
-      </label>
+</select>
 
-      <select
-        id="performancePeriod"
-        onchange="performancePeriodChanged()"
-      >
-
-        <option value="single">
-          單月份
-        </option>
-
-        <option value="3months">
-          近三個月
-        </option>
-
-        <option value="6months">
-          近半年
-        </option>
-
-      </select>
-
-    </div>
+</div>
 
 
-    <div
-      id="performanceMonthBox"
-      class="field"
-    >
+<div
+  id="customPerformanceMonthBox"
+  class="field hidden"
+>
 
-      <label>
-        選擇月份
-      </label>
+<label>
+選擇月份
+</label>
 
-      <select
-        id="performanceMonth"
-        onchange="renderStats()"
-      ></select>
+<select
+  id="performanceMonth"
+  onchange="renderStats()"
+></select>
 
-    </div>
-
-
-    <div class="performance-summary">
+</div>
 
 
-      <div class="performance-box">
+<div class="performance-summary">
 
-        <div class="performance-label">
-          期間損益
-        </div>
+<div class="performance-box">
 
-        <div
-          id="periodProfit"
-          class="performance-value"
-        >
-          NT$0
-        </div>
+<div class="performance-label">
+期間損益
+</div>
 
-      </div>
+<div
+  id="periodProfit"
+  class="performance-value"
+>
+NT$0
+</div>
 
-
-      <div class="performance-box">
-
-        <div class="performance-label">
-          交易筆數
-        </div>
-
-        <div
-          id="periodTradeCount"
-          class="performance-value"
-        >
-          0
-        </div>
-
-      </div>
+</div>
 
 
-      <div class="performance-box">
+<div class="performance-box">
 
-        <div class="performance-label">
-          勝率
-        </div>
+<div class="performance-label">
+交易筆數
+</div>
 
-        <div
-          id="periodWinRate"
-          class="performance-value"
-        >
-          0%
-        </div>
+<div
+  id="periodTradeCount"
+  class="performance-value"
+>
+0
+</div>
 
-      </div>
-
-
-      <div class="performance-box">
-
-        <div class="performance-label">
-          平均單筆
-        </div>
-
-        <div
-          id="periodAverage"
-          class="performance-value"
-        >
-          NT$0
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
+</div>
 
 
-  <div class="section">
+<div class="performance-box">
 
-    <div class="card">
+<div class="performance-label">
+勝率
+</div>
 
-      <div class="section-title">
-        商品別績效
-      </div>
+<div
+  id="periodWinRate"
+  class="performance-value"
+>
+0%
+</div>
 
-      <div id="productStats"></div>
-
-    </div>
-
-  </div>
+</div>
 
 
-  <div class="section">
+<div class="performance-box">
 
-    <div class="section-title">
-      此期間交易明細
-    </div>
+<div class="performance-label">
+平均單筆
+</div>
 
-    <div id="performanceTradeList"></div>
+<div
+  id="periodAverage"
+  class="performance-value"
+>
+NT$0
+</div>
 
-  </div>
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="section">
+
+<div class="card">
+
+<div class="section-title">
+商品別績效
+</div>
+
+<div id="productStats"></div>
+
+</div>
+
+</div>
+
+
+
+<div class="section">
+
+<div class="section-title">
+此期間交易明細
+</div>
+
+<div id="performanceTradeList"></div>
+
+</div>
 
 </section>
 
 </div>
 
 
-<!-- 底部選單 -->
 
 <div class="bottom">
 
-  <div class="nav">
+<div class="nav">
 
-    <button
-      id="homeBtn"
-      class="active"
-      onclick="showPage('home')"
-    >
-      首頁
-    </button>
+<button
+  id="homeBtn"
+  class="active"
+  onclick="showPage('home')"
+>
+首頁
+</button>
 
+<button
+  id="addBtn"
+  onclick="showPage('add')"
+>
+新增交易
+</button>
 
-    <button
-      id="addBtn"
-      onclick="showPage('add')"
-    >
-      新增交易
-    </button>
+<button
+  id="analysisBtn"
+  onclick="showPage('analysis')"
+>
+AI 分析
+</button>
 
-
-    <button
-      id="analysisBtn"
-      onclick="showPage('analysis')"
-    >
-      AI 分析
-    </button>
-
-
-    <button
-      id="statsBtn"
-      onclick="showPage('stats')"
-    >
-      績效
-    </button>
-
-  </div>
+<button
+  id="statsBtn"
+  onclick="showPage('stats')"
+>
+績效
+</button>
 
 </div>
+
+</div>
+
 
 
 <script>
@@ -1304,35 +1298,35 @@ JSON.parse(
 
 const economicEvents = [
 
-  {
-    name:"美國非農就業",
-    shortName:"非農",
-    time:"2026-09-04T20:30:00+08:00",
-    reference:"2026 年 8 月",
-    actual:null,
-    previous:null,
-    unit:"K"
-  },
+{
+  name:"美國非農就業",
+  shortName:"非農",
+  time:"2026-09-04T20:30:00+08:00",
+  reference:"2026 年 8 月",
+  actual:null,
+  previous:null,
+  unit:"K"
+},
 
-  {
-    name:"美國生產者物價指數",
-    shortName:"PPI",
-    time:"2026-09-10T20:30:00+08:00",
-    reference:"2026 年 8 月",
-    actual:null,
-    previous:null,
-    unit:"%"
-  },
+{
+  name:"美國生產者物價指數",
+  shortName:"PPI",
+  time:"2026-09-10T20:30:00+08:00",
+  reference:"2026 年 8 月",
+  actual:null,
+  previous:null,
+  unit:"%"
+},
 
-  {
-    name:"美國消費者物價指數",
-    shortName:"CPI",
-    time:"2026-09-11T20:30:00+08:00",
-    reference:"2026 年 8 月",
-    actual:null,
-    previous:null,
-    unit:"%"
-  }
+{
+  name:"美國消費者物價指數",
+  shortName:"CPI",
+  time:"2026-09-11T20:30:00+08:00",
+  reference:"2026 年 8 月",
+  actual:null,
+  previous:null,
+  unit:"%"
+}
 
 ];
 
@@ -1347,7 +1341,6 @@ function renderEconomicEvents(){
   const now =
   new Date();
 
-
   box.innerHTML =
   economicEvents
   .map(event => {
@@ -1360,31 +1353,19 @@ function renderEconomicEvents(){
     const diff =
     eventTime - now;
 
+    const status =
+    diff > 0
+    ?
+    "尚未公布"
+    :
+    "已到公布時間";
 
-    let status;
-    let countdown;
-
-
-    if(diff > 0){
-
-      status =
-      "尚未公布";
-
-      countdown =
-      formatCountdown(
-        diff
-      );
-
-    }else{
-
-      status =
-      "已到公布時間";
-
-      countdown =
-      "等待官方數值更新";
-
-    }
-
+    const countdown =
+    diff > 0
+    ?
+    formatCountdown(diff)
+    :
+    "等待官方數值更新";
 
     return `
 
@@ -1411,6 +1392,7 @@ function renderEconomicEvents(){
             <div class="small">
 
               資料月份：
+
               ${escapeHTML(event.reference)}
 
             </div>
@@ -1423,11 +1405,9 @@ function renderEconomicEvents(){
 
         </div>
 
-
         <div class="event-countdown">
           ${countdown}
         </div>
-
 
         <div class="event-result">
 
@@ -1486,13 +1466,14 @@ function formatCountdown(ms){
   const hours =
   Math.floor(
     (
-      totalMinutes % 1440
-    ) / 60
+      totalMinutes %
+      1440
+    ) /
+    60
   );
 
   const minutes =
   totalMinutes % 60;
-
 
   if(days > 0){
 
@@ -1506,7 +1487,6 @@ function formatCountdown(ms){
 
   }
 
-
   if(hours > 0){
 
     return (
@@ -1518,7 +1498,6 @@ function formatCountdown(ms){
     );
 
   }
-
 
   return (
     "距離公布還有 " +
@@ -1562,9 +1541,9 @@ document.getElementById(
   "syncMonth"
 );
 
-const singleMonthBox =
+const syncMonthBox =
 document.getElementById(
-  "singleMonthBox"
+  "syncMonthBox"
 );
 
 const productSelect =
@@ -1668,13 +1647,23 @@ function buildMonthOptions(){
       1
     );
 
+    const value =
+    d.getFullYear() +
+    "-" +
+    String(
+      d.getMonth() + 1
+    ).padStart(
+      2,
+      "0"
+    );
+
     const option =
     document.createElement(
       "option"
     );
 
     option.value =
-    monthValue(d);
+    value;
 
     option.textContent =
     d.getFullYear() +
@@ -1719,13 +1708,23 @@ function buildPerformanceMonthOptions(){
       1
     );
 
+    const value =
+    d.getFullYear() +
+    "-" +
+    String(
+      d.getMonth() + 1
+    ).padStart(
+      2,
+      "0"
+    );
+
     const option =
     document.createElement(
       "option"
     );
 
     option.value =
-    monthValue(d);
+    value;
 
     option.textContent =
     d.getFullYear() +
@@ -1744,189 +1743,74 @@ function buildPerformanceMonthOptions(){
 }
 
 
-function monthValue(d){
-
-  return (
-    d.getFullYear() +
-    "-" +
-    String(
-      d.getMonth() + 1
-    ).padStart(
-      2,
-      "0"
-    )
-  );
-
-}
-
-
 /* =========================
    同步範圍
 ========================= */
 
 function syncRangeChanged(){
 
-  if(
-    syncRange.value ===
-    "single"
-  ){
+  const range =
+  syncRange.value;
 
-    singleMonthBox
+  const button =
+  document.getElementById(
+    "igSyncBtn"
+  );
+
+  const status =
+  document.getElementById(
+    "igSyncStatus"
+  );
+
+  if(range === "month"){
+
+    syncMonthBox
     .classList
     .remove(
       "hidden"
     );
 
-  }else{
+    button.innerText =
+    "同步單月份";
 
-    singleMonthBox
+    status.innerText =
+    "選擇月份後，只同步該月份的 IG 交易紀錄。";
+
+  }
+
+  if(range === "3months"){
+
+    syncMonthBox
     .classList
     .add(
       "hidden"
     );
 
-  }
+    button.innerText =
+    "同步近 3 個月";
 
-  renderHomeTrades();
-
-}
-
-
-function getSyncDisplayTrades(){
-
-  const mode =
-  syncRange.value;
-
-  const now =
-  new Date();
-
-
-  if(
-    mode ===
-    "single"
-  ){
-
-    const [
-      year,
-      month
-    ] =
-    syncMonth.value
-    .split("-")
-    .map(Number);
-
-
-    return trades.filter(
-      t => {
-
-        const d =
-        new Date(
-          t.entryTime
-        );
-
-        return (
-          !Number.isNaN(
-            d.getTime()
-          )
-          &&
-          d.getFullYear() ===
-          year
-          &&
-          d.getMonth() ===
-          month - 1
-        );
-
-      }
-    );
+    status.innerText =
+    "將依月份分次同步本月與前 2 個月的 IG 交易紀錄。";
 
   }
 
+  if(range === "6months"){
 
-  if(
-    mode ===
-    "3months"
-  ){
-
-    const start =
-    new Date(
-      now.getFullYear(),
-      now.getMonth() - 2,
-      1,
-      0,
-      0,
-      0
+    syncMonthBox
+    .classList
+    .add(
+      "hidden"
     );
 
-    return filterTradesBetween(
-      start,
-      now
-    );
+    button.innerText =
+    "同步近半年";
+
+    status.innerText =
+    "將依月份分次同步本月與前 5 個月的 IG 交易紀錄。";
 
   }
 
-
-  if(
-    mode ===
-    "6months"
-  ){
-
-    const start =
-    new Date(
-      now.getFullYear(),
-      now.getMonth() - 5,
-      1,
-      0,
-      0,
-      0
-    );
-
-    return filterTradesBetween(
-      start,
-      now
-    );
-
-  }
-
-
-  return trades;
-
-}
-
-
-function getSyncRangeTitle(){
-
-  if(
-    syncRange.value ===
-    "single"
-  ){
-
-    const [
-      year,
-      month
-    ] =
-    syncMonth.value
-    .split("-");
-
-    return (
-      year +
-      " 年 " +
-      Number(month) +
-      " 月交易"
-    );
-
-  }
-
-
-  if(
-    syncRange.value ===
-    "3months"
-  ){
-
-    return "近三個月交易";
-
-  }
-
-
-  return "近半年交易";
+  renderHome();
 
 }
 
@@ -1947,7 +1831,6 @@ async function loadIGAccount(){
     "igAvailableBalance"
   );
 
-
   try{
 
     const response =
@@ -1958,7 +1841,6 @@ async function loadIGAccount(){
 
     const data =
     await response.json();
-
 
     if(
       !response.ok ||
@@ -1972,7 +1854,6 @@ async function loadIGAccount(){
 
     }
 
-
     const accounts =
     Array.isArray(
       data.accounts
@@ -1982,7 +1863,6 @@ async function loadIGAccount(){
     :
     [];
 
-
     if(!accounts.length){
 
       throw new Error(
@@ -1990,7 +1870,6 @@ async function loadIGAccount(){
       );
 
     }
-
 
     const account =
     accounts.find(
@@ -2000,23 +1879,19 @@ async function loadIGAccount(){
     ||
     accounts[0];
 
-
     const currency =
     account.currency ||
     "USD";
-
 
     const balance =
     Number(
       account.balance?.balance
     );
 
-
     const available =
     Number(
       account.balance?.available
     );
-
 
     balanceBox.innerText =
     Number.isFinite(
@@ -2030,7 +1905,6 @@ async function loadIGAccount(){
     :
     "資料不足";
 
-
     availableBox.innerText =
     Number.isFinite(
       available
@@ -2042,7 +1916,6 @@ async function loadIGAccount(){
     )
     :
     "資料不足";
-
 
   }catch(error){
 
@@ -2071,14 +1944,12 @@ function normalizeIGProduct(name){
   const upper =
   text.toUpperCase();
 
-
   if(
     upper.includes("US TECH 100") ||
     upper.includes("NASDAQ")
   ){
     return "NQ";
   }
-
 
   if(
     upper.includes("WALL STREET") ||
@@ -2088,14 +1959,12 @@ function normalizeIGProduct(name){
     return "YM";
   }
 
-
   if(
     upper.includes("BITCOIN") ||
     upper.includes("BTC")
   ){
     return "BTC";
   }
-
 
   if(
     upper.includes("TAIWAN INDEX") ||
@@ -2108,7 +1977,6 @@ function normalizeIGProduct(name){
     return "台指";
   }
 
-
   if(
     upper.includes("GOLD") ||
     text.includes("黃金")
@@ -2116,14 +1984,12 @@ function normalizeIGProduct(name){
     return "黃金";
   }
 
-
   if(
     upper.includes("SILVER") ||
     text.includes("白銀")
   ){
     return "白銀";
   }
-
 
   return null;
 
@@ -2387,7 +2253,9 @@ function igUtcToLocal(value){
   }
 
   let text =
-  String(value).trim();
+  String(
+    value
+  ).trim();
 
   if(
     !text.endsWith("Z") &&
@@ -2399,7 +2267,9 @@ function igUtcToLocal(value){
   }
 
   const d =
-  new Date(text);
+  new Date(
+    text
+  );
 
   return (
     Number.isNaN(
@@ -2408,7 +2278,9 @@ function igUtcToLocal(value){
     ?
     ""
     :
-    localTimeString(d)
+    localTimeString(
+      d
+    )
   );
 
 }
@@ -2420,10 +2292,14 @@ function calculateHoldingMinutes(
 ){
 
   const a =
-  new Date(start);
+  new Date(
+    start
+  );
 
   const b =
-  new Date(end);
+  new Date(
+    end
+  );
 
   if(
     Number.isNaN(
@@ -2446,7 +2322,8 @@ function calculateHoldingMinutes(
     null
     :
     Math.round(
-      diff / 60000
+      diff /
+      60000
     )
   );
 
@@ -2460,7 +2337,9 @@ function calculateHoldingMinutes(
 function showPage(page){
 
   document
-  .querySelectorAll(".page")
+  .querySelectorAll(
+    ".page"
+  )
   .forEach(
     el =>
     el.classList.remove(
@@ -2481,7 +2360,8 @@ function showPage(page){
 
   document
   .getElementById(
-    page + "Page"
+    page +
+    "Page"
   )
   ?.classList
   .add(
@@ -2490,7 +2370,8 @@ function showPage(page){
 
   document
   .getElementById(
-    page + "Btn"
+    page +
+    "Btn"
   )
   ?.classList
   .add(
@@ -2501,14 +2382,13 @@ function showPage(page){
 
 
 /* =========================
-   手動交易
+   儲存手動交易
 ========================= */
 
 function saveTrade(){
 
   let productName =
   productSelect.value;
-
 
   if(!productName){
 
@@ -2519,7 +2399,6 @@ function saveTrade(){
     return;
 
   }
-
 
   if(
     productName ===
@@ -2542,7 +2421,6 @@ function saveTrade(){
 
   }
 
-
   const entry =
   toStorageTime(
     entryTime.value
@@ -2552,7 +2430,6 @@ function saveTrade(){
   toStorageTime(
     exitTime.value
   );
-
 
   if(
     !entry ||
@@ -2567,7 +2444,6 @@ function saveTrade(){
 
   }
 
-
   if(
     entryPrice.value === "" ||
     exitPrice.value === "" ||
@@ -2581,7 +2457,6 @@ function saveTrade(){
     return;
 
   }
-
 
   trades.unshift({
 
@@ -2656,7 +2531,6 @@ function saveTrade(){
 
   });
 
-
   saveTrades();
 
   render();
@@ -2724,10 +2598,13 @@ function clearManualForm(){
 
 
 /* =========================
-   IG 同步
+   IG 同步主功能
 ========================= */
 
-async function syncIGSelectedRange(){
+async function syncIG(){
+
+  const range =
+  syncRange.value;
 
   const button =
   document.getElementById(
@@ -2739,21 +2616,15 @@ async function syncIGSelectedRange(){
     "igSyncStatus"
   );
 
-
   button.disabled =
   true;
 
   button.innerText =
   "同步中…";
 
-
   let months = [];
 
-
-  if(
-    syncRange.value ===
-    "single"
-  ){
+  if(range === "month"){
 
     const [
       year,
@@ -2768,41 +2639,25 @@ async function syncIGSelectedRange(){
       month
     });
 
-  }else{
+  }
 
-    const count =
-    syncRange.value ===
-    "3months"
-    ?
-    3
-    :
-    6;
 
-    const now =
-    new Date();
+  if(range === "3months"){
 
-    for(
-      let i = 0;
-      i < count;
-      i++
-    ){
+    months =
+    getRecentMonths(
+      3
+    );
 
-      const d =
-      new Date(
-        now.getFullYear(),
-        now.getMonth() - i,
-        1
-      );
+  }
 
-      months.push({
-        year:
-        d.getFullYear(),
 
-        month:
-        d.getMonth() + 1
-      });
+  if(range === "6months"){
 
-    }
+    months =
+    getRecentMonths(
+      6
+    );
 
   }
 
@@ -2819,36 +2674,34 @@ async function syncIGSelectedRange(){
   let warning100 =
   false;
 
+  let completed =
+  0;
 
   try{
 
     for(
-      let i = 0;
-      i < months.length;
-      i++
+      const item of months
     ){
-
-      const item =
-      months[i];
 
       status.innerText =
       "正在同步 " +
       item.year +
       " 年 " +
       item.month +
-      " 月（" +
-      (i + 1) +
+      " 月…" +
+      "（" +
+      (
+        completed + 1
+      ) +
       "/" +
       months.length +
-      "）…";
-
+      "）";
 
       const result =
-      await syncOneIGMonth(
+      await syncOneMonth(
         item.year,
         item.month
       );
-
 
       totalImported +=
       result.imported;
@@ -2859,9 +2712,9 @@ async function syncIGSelectedRange(){
       totalExcluded +=
       result.excluded;
 
-
       if(
-        result.rawCount >= 100
+        result.rawCount >=
+        100
       ){
 
         warning100 =
@@ -2869,13 +2722,9 @@ async function syncIGSelectedRange(){
 
       }
 
-
-      await sleep(
-        350
-      );
+      completed++;
 
     }
-
 
     trades.sort(
       (a,b) =>
@@ -2890,15 +2739,55 @@ async function syncIGSelectedRange(){
       )
     );
 
-
     saveTrades();
 
     render();
 
     await loadIGAccount();
 
+    let label =
+    "";
+
+    if(range === "month"){
+
+      const [
+        year,
+        month
+      ] =
+      syncMonth.value
+      .split("-")
+      .map(Number);
+
+      label =
+      year +
+      " 年 " +
+      month +
+      " 月";
+
+    }
+
+    if(
+      range ===
+      "3months"
+    ){
+
+      label =
+      "近 3 個月";
+
+    }
+
+    if(
+      range ===
+      "6months"
+    ){
+
+      label =
+      "近半年";
+
+    }
 
     status.innerText =
+    label +
     "同步完成：新增 " +
     totalImported +
     " 筆，已有 " +
@@ -2909,11 +2798,10 @@ async function syncIGSelectedRange(){
     (
       warning100
       ?
-      " 部分月份 IG 回傳達 100 筆，該月份可能仍有未匯入資料。"
+      " 部分月份 IG 回傳達 100 筆資料，該月份若實際紀錄超過 100 筆，可能尚未完整匯入。"
       :
       ""
     );
-
 
   }catch(error){
 
@@ -2923,17 +2811,81 @@ async function syncIGSelectedRange(){
 
   }
 
-
   button.disabled =
   false;
 
-  button.innerText =
-  "同步交易";
+  if(
+    range ===
+    "month"
+  ){
+
+    button.innerText =
+    "同步單月份";
+
+  }
+
+  if(
+    range ===
+    "3months"
+  ){
+
+    button.innerText =
+    "同步近 3 個月";
+
+  }
+
+  if(
+    range ===
+    "6months"
+  ){
+
+    button.innerText =
+    "同步近半年";
+
+  }
 
 }
 
 
-async function syncOneIGMonth(
+function getRecentMonths(count){
+
+  const now =
+  new Date();
+
+  const result =
+  [];
+
+  for(
+    let i = 0;
+    i < count;
+    i++
+  ){
+
+    const d =
+    new Date(
+      now.getFullYear(),
+      now.getMonth() - i,
+      1
+    );
+
+    result.push({
+
+      year:
+      d.getFullYear(),
+
+      month:
+      d.getMonth() + 1
+
+    });
+
+  }
+
+  return result;
+
+}
+
+
+async function syncOneMonth(
   year,
   month
 ){
@@ -2948,7 +2900,6 @@ async function syncOneIGMonth(
     0
   );
 
-
   const end =
   new Date(
     year,
@@ -2958,7 +2909,6 @@ async function syncOneIGMonth(
     59,
     59
   );
-
 
   const response =
   await fetch(
@@ -2987,10 +2937,8 @@ async function syncOneIGMonth(
 
   );
 
-
   const data =
   await response.json();
-
 
   if(
     !response.ok ||
@@ -3009,7 +2957,6 @@ async function syncOneIGMonth(
 
   }
 
-
   const raw =
   Array.isArray(
     data.transactions
@@ -3018,7 +2965,6 @@ async function syncOneIGMonth(
   data.transactions
   :
   [];
-
 
   let imported =
   0;
@@ -3029,7 +2975,6 @@ async function syncOneIGMonth(
   let excluded =
   0;
 
-
   raw.forEach(
     item => {
 
@@ -3038,15 +2983,15 @@ async function syncOneIGMonth(
           item
         )
       ){
-        return;
-      }
 
+        return;
+
+      }
 
       const product =
       normalizeIGProduct(
         item.instrumentName
       );
-
 
       if(
         !product ||
@@ -3061,14 +3006,12 @@ async function syncOneIGMonth(
 
       }
 
-
       const uniqueId =
       item.reference
       ||
       createIGFallbackId(
         item
       );
-
 
       if(
         trades.some(
@@ -3091,15 +3034,15 @@ async function syncOneIGMonth(
 
       }
 
-
       const converted =
       convertIGTrade(
         item,
         uniqueId
       );
 
-
-      if(converted){
+      if(
+        converted
+      ){
 
         trades.push(
           converted
@@ -3111,7 +3054,6 @@ async function syncOneIGMonth(
 
     }
   );
-
 
   return {
 
@@ -3126,21 +3068,8 @@ async function syncOneIGMonth(
 }
 
 
-function sleep(ms){
-
-  return new Promise(
-    resolve =>
-    setTimeout(
-      resolve,
-      ms
-    )
-  );
-
-}
-
-
 /* =========================
-   IG 資料轉換
+   IG 交易判定
 ========================= */
 
 function isRealTrade(item){
@@ -3150,16 +3079,16 @@ function isRealTrade(item){
     typeof item !==
     "object"
   ){
-    return false;
-  }
 
+    return false;
+
+  }
 
   const type =
   String(
     item.transactionType ||
     ""
   ).toUpperCase();
-
 
   const excluded = [
     "DIVIDEND",
@@ -3171,16 +3100,16 @@ function isRealTrade(item){
     "FEE"
   ];
 
-
   if(
     excluded.some(
       x =>
       type.includes(x)
     )
   ){
-    return false;
-  }
 
+    return false;
+
+  }
 
   const open =
   parseIGNumber(
@@ -3196,7 +3125,6 @@ function isRealTrade(item){
   parseIGNumber(
     item.size
   );
-
 
   return (
     Number.isFinite(open) &&
@@ -3253,14 +3181,14 @@ function convertIGTrade(
     item.dateUtc
   );
 
-
   if(
     !entry ||
     !exit
   ){
-    return null;
-  }
 
+    return null;
+
+  }
 
   const tradeDirection =
   size >= 0
@@ -3268,7 +3196,6 @@ function convertIGTrade(
   "做多"
   :
   "做空";
-
 
   return {
 
@@ -3368,19 +3295,22 @@ function parseIGNumber(value){
     value === null ||
     value === undefined
   ){
-    return NaN;
-  }
 
+    return NaN;
+
+  }
 
   const cleaned =
   String(value)
-  .replace(/,/g,"")
+  .replace(
+    /,/g,
+    ""
+  )
   .replace(
     /[^\d+\-.]/g,
     ""
   )
   .trim();
-
 
   return Number(
     cleaned
@@ -3411,28 +3341,30 @@ function normalizeCurrency(value){
 
   const text =
   String(
-    value || ""
+    value ||
+    ""
   )
   .trim()
   .toUpperCase();
-
 
   if(
     text === "$" ||
     text === "US$" ||
     text === "USD"
   ){
-    return "USD";
-  }
 
+    return "USD";
+
+  }
 
   if(
     text === "NT$" ||
     text === "TWD"
   ){
-    return "TWD";
-  }
 
+    return "TWD";
+
+  }
 
   return (
     text ||
@@ -3465,16 +3397,16 @@ function deleteTrade(id){
       "確定刪除這筆交易嗎？"
     )
   ){
-    return;
-  }
 
+    return;
+
+  }
 
   trades =
   trades.filter(
     t =>
     t.id !== id
   );
-
 
   saveTrades();
 
@@ -3496,7 +3428,6 @@ function money(
   Number(value) ||
   0;
 
-
   const sign =
   number > 0
   ?
@@ -3508,9 +3439,10 @@ function money(
   :
   "";
 
-
   const amount =
-  Math.abs(number)
+  Math.abs(
+    number
+  )
   .toLocaleString(
     "zh-TW",
     {
@@ -3518,30 +3450,31 @@ function money(
     }
   );
 
-
   if(
     currency ===
     "USD"
   ){
+
     return (
       sign +
       "US$" +
       amount
     );
-  }
 
+  }
 
   if(
     currency ===
     "TWD"
   ){
+
     return (
       sign +
       "NT$" +
       amount
     );
-  }
 
+  }
 
   return (
     sign +
@@ -3555,7 +3488,9 @@ function money(
 
 function formatNumber(value){
 
-  return Number(value)
+  return Number(
+    value
+  )
   .toLocaleString(
     "zh-TW",
     {
@@ -3569,20 +3504,22 @@ function formatNumber(value){
 function formatTime(value){
 
   const d =
-  new Date(value);
-
+  new Date(
+    value
+  );
 
   if(
     Number.isNaN(
       d.getTime()
     )
   ){
+
     return (
       value ||
       "未填寫"
     );
-  }
 
+  }
 
   return d.toLocaleString(
     "zh-TW",
@@ -3605,34 +3542,36 @@ function formatHolding(t){
     t.holdingMinutes
   );
 
-
   if(
     !Number.isFinite(
       minutes
     )
   ){
-    return "資料不足";
-  }
 
+    return "資料不足";
+
+  }
 
   if(
     minutes < 60
   ){
+
     return (
       minutes +
       " 分鐘"
     );
-  }
 
+  }
 
   const hours =
   Math.floor(
-    minutes / 60
+    minutes /
+    60
   );
 
   const rest =
-  minutes % 60;
-
+  minutes %
+  60;
 
   return (
     rest
@@ -3650,14 +3589,13 @@ function formatHolding(t){
 
 
 /* =========================
-   統計
+   統計工具
 ========================= */
 
 function totalsByCurrency(list){
 
   const result =
   {};
-
 
   list.forEach(
     t => {
@@ -3666,15 +3604,15 @@ function totalsByCurrency(list){
       t.currency ||
       "TWD";
 
-
       if(
         result[currency] ===
         undefined
       ){
+
         result[currency] =
         0;
-      }
 
+      }
 
       result[currency] +=
       Number(
@@ -3684,7 +3622,6 @@ function totalsByCurrency(list){
 
     }
   );
-
 
   return result;
 
@@ -3698,11 +3635,13 @@ function formatTotals(totals){
     totals
   );
 
+  if(
+    !entries.length
+  ){
 
-  if(!entries.length){
     return "NT$0";
-  }
 
+  }
 
   return entries
   .map(
@@ -3719,16 +3658,18 @@ function formatTotals(totals){
 
 function formatAverageProfit(list){
 
-  if(!list.length){
-    return "NT$0";
-  }
+  if(
+    !list.length
+  ){
 
+    return "NT$0";
+
+  }
 
   const totals =
   totalsByCurrency(
     list
   );
-
 
   const result =
   Object.entries(
@@ -3744,32 +3685,141 @@ function formatAverageProfit(list){
           t.currency ||
           "TWD"
         )
-        === currency
+        ===
+        currency
       ).length;
 
+      if(
+        !count
+      ){
 
-      if(!count){
         return null;
+
       }
 
-
       return money(
-        total / count,
+        total /
+        count,
         currency
       );
 
     }
   )
-  .filter(Boolean);
-
+  .filter(
+    Boolean
+  );
 
   return (
     result.length
     ?
-    result.join(" / ")
+    result.join(
+      " / "
+    )
     :
     "NT$0"
   );
+
+}
+
+
+/* =========================
+   首頁交易顯示範圍
+========================= */
+
+function getHomeTradeList(){
+
+  const range =
+  syncRange.value;
+
+  const now =
+  new Date();
+
+
+  if(
+    range ===
+    "month"
+  ){
+
+    const [
+      year,
+      month
+    ] =
+    syncMonth.value
+    .split("-")
+    .map(Number);
+
+    return trades.filter(
+      t => {
+
+        const d =
+        new Date(
+          t.entryTime
+        );
+
+        return (
+          !Number.isNaN(
+            d.getTime()
+          )
+          &&
+          d.getFullYear() ===
+          year
+          &&
+          d.getMonth() ===
+          month - 1
+        );
+
+      }
+    );
+
+  }
+
+
+  if(
+    range ===
+    "3months"
+  ){
+
+    const start =
+    new Date(
+      now.getFullYear(),
+      now.getMonth() - 2,
+      1,
+      0,
+      0,
+      0
+    );
+
+    return filterTradesBetween(
+      start,
+      now
+    );
+
+  }
+
+
+  if(
+    range ===
+    "6months"
+  ){
+
+    const start =
+    new Date(
+      now.getFullYear(),
+      now.getMonth() - 5,
+      1,
+      0,
+      0,
+      0
+    );
+
+    return filterTradesBetween(
+      start,
+      now
+    );
+
+  }
+
+  return trades;
 
 }
 
@@ -3955,26 +4005,20 @@ function renderHome(){
   trades.length;
 
 
-  renderHomeTrades();
-
-}
-
-
-function renderHomeTrades(){
-
   const list =
   document.getElementById(
     "tradeList"
   );
 
+
   const title =
   document.getElementById(
-    "homeRangeTitle"
+    "recentTradeTitle"
   );
 
 
-  const filtered =
-  getSyncDisplayTrades()
+  const visibleTrades =
+  getHomeTradeList()
   .sort(
     (a,b) =>
     new Date(
@@ -3987,14 +4031,56 @@ function renderHomeTrades(){
   );
 
 
-  title.innerText =
-  getSyncRangeTitle();
+  if(
+    syncRange.value ===
+    "month"
+  ){
+
+    const [
+      year,
+      month
+    ] =
+    syncMonth.value
+    .split("-")
+    .map(Number);
+
+    title.innerText =
+    year +
+    " 年 " +
+    month +
+    " 月交易";
+
+  }
 
 
-  if(!filtered.length){
+  if(
+    syncRange.value ===
+    "3months"
+  ){
+
+    title.innerText =
+    "近 3 個月交易";
+
+  }
+
+
+  if(
+    syncRange.value ===
+    "6months"
+  ){
+
+    title.innerText =
+    "近半年交易";
+
+  }
+
+
+  if(
+    !visibleTrades.length
+  ){
 
     list.innerHTML =
-    '<div class="empty">這個期間沒有交易紀錄</div>';
+    '<div class="empty">此期間沒有交易紀錄</div>';
 
     return;
 
@@ -4002,7 +4088,7 @@ function renderHomeTrades(){
 
 
   list.innerHTML =
-  filtered
+  visibleTrades
   .map(
     t =>
     renderTradeCard(
@@ -4046,25 +4132,22 @@ function renderTradeCard(
 
           </div>
 
-
           ${
-            t.source === "ig"
+            t.source ===
+            "ig"
             ?
             '<span class="source-badge">IG 自動匯入</span>'
             :
             '<span class="source-badge">手動紀錄</span>'
           }
 
-
           ${
             t.igOriginalProduct
             ?
             `
             <div class="small">
-
               原始商品：
               ${escapeHTML(t.igOriginalProduct)}
-
             </div>
             `
             :
@@ -4072,7 +4155,6 @@ function renderTradeCard(
           }
 
         </div>
-
 
         <strong
           class="${
@@ -4100,7 +4182,6 @@ function renderTradeCard(
 
 
       <div class="detail-grid">
-
 
         <div class="detail-item">
 
@@ -4203,14 +4284,17 @@ async function runAIAnalysis(id){
   const trade =
   trades.find(
     t =>
-    t.id === id
+    t.id ===
+    id
   );
 
+  if(
+    !trade
+  ){
 
-  if(!trade){
     return;
-  }
 
+  }
 
   const button =
   document.getElementById(
@@ -4218,21 +4302,17 @@ async function runAIAnalysis(id){
     id
   );
 
-
   const box =
   document.getElementById(
     "ai-" +
     id
   );
 
-
   button.disabled =
   true;
 
-
   button.innerText =
   "AI 分析中…";
-
 
   try{
 
@@ -4257,10 +4337,8 @@ async function runAIAnalysis(id){
       }
     );
 
-
     const data =
     await response.json();
-
 
     if(
       !response.ok ||
@@ -4274,19 +4352,15 @@ async function runAIAnalysis(id){
 
     }
 
-
     trade.aiAnalysis =
     data.analysis;
 
-
     saveTrades();
-
 
     box.innerHTML =
     renderAIResult(
       data.analysis
     );
-
 
   }catch(error){
 
@@ -4301,10 +4375,8 @@ async function runAIAnalysis(id){
 
   }
 
-
   button.disabled =
   false;
-
 
   button.innerText =
   "重新分析";
@@ -4319,9 +4391,10 @@ function renderAIResult(a){
     typeof a !==
     "object"
   ){
-    return "資料不足";
-  }
 
+    return "資料不足";
+
+  }
 
   const verified =
   Array.isArray(
@@ -4332,7 +4405,6 @@ function renderAIResult(a){
   :
   [];
 
-
   const missing =
   Array.isArray(
     a.missingData
@@ -4341,7 +4413,6 @@ function renderAIResult(a){
   a.missingData
   :
   [];
-
 
   return `
 
@@ -4470,10 +4541,12 @@ function renderAIResult(a){
       </div>
 
       <div class="analysis-text">
+
         ${escapeHTML(
           a.objectiveConclusion ||
           "資料不足"
         )}
+
       </div>
 
     </div>
@@ -4490,8 +4563,9 @@ function renderAnalysis(){
     "analysisList"
   );
 
-
-  if(!trades.length){
+  if(
+    !trades.length
+  ){
 
     list.innerHTML =
     '<div class="empty">目前沒有交易資料</div>';
@@ -4499,7 +4573,6 @@ function renderAnalysis(){
     return;
 
   }
-
 
   list.innerHTML =
   trades
@@ -4509,7 +4582,9 @@ function renderAnalysis(){
       <div class="analysis-block">
 
         <div class="trade-name">
+
           ${escapeHTML(t.product)}
+
         </div>
 
         <div class="small">
@@ -4532,7 +4607,6 @@ function renderAnalysis(){
 
         </div>
 
-
         <button
           id="btn-${t.id}"
           class="primary"
@@ -4549,7 +4623,6 @@ function renderAnalysis(){
           }
 
         </button>
-
 
         <div id="ai-${t.id}">
 
@@ -4580,21 +4653,19 @@ function renderAnalysis(){
 
 function performancePeriodChanged(){
 
-  const mode =
+  const period =
   document.getElementById(
     "performancePeriod"
   ).value;
 
-
   const box =
   document.getElementById(
-    "performanceMonthBox"
+    "customPerformanceMonthBox"
   );
 
-
   if(
-    mode ===
-    "single"
+    period ===
+    "custom"
   ){
 
     box.classList.remove(
@@ -4609,7 +4680,6 @@ function performancePeriodChanged(){
 
   }
 
-
   renderStats();
 
 }
@@ -4617,35 +4687,19 @@ function performancePeriodChanged(){
 
 function getPerformanceTrades(){
 
-  const mode =
+  const period =
   document.getElementById(
     "performancePeriod"
   ).value;
-
 
   const now =
   new Date();
 
 
   if(
-    mode ===
-    "single"
+    period ===
+    "month"
   ){
-
-    const value =
-    document.getElementById(
-      "performanceMonth"
-    ).value;
-
-
-    const [
-      year,
-      month
-    ] =
-    value
-    .split("-")
-    .map(Number);
-
 
     return trades.filter(
       t => {
@@ -4655,6 +4709,161 @@ function getPerformanceTrades(){
           t.entryTime
         );
 
+        return (
+          !Number.isNaN(
+            d.getTime()
+          )
+          &&
+          d.getFullYear() ===
+          now.getFullYear()
+          &&
+          d.getMonth() ===
+          now.getMonth()
+        );
+
+      }
+    );
+
+  }
+
+
+  if(
+    period ===
+    "previousMonth"
+  ){
+
+    const target =
+    new Date(
+      now.getFullYear(),
+      now.getMonth() - 1,
+      1
+    );
+
+    return trades.filter(
+      t => {
+
+        const d =
+        new Date(
+          t.entryTime
+        );
+
+        return (
+          !Number.isNaN(
+            d.getTime()
+          )
+          &&
+          d.getFullYear() ===
+          target.getFullYear()
+          &&
+          d.getMonth() ===
+          target.getMonth()
+        );
+
+      }
+    );
+
+  }
+
+
+  if(
+    period ===
+    "3months"
+  ){
+
+    const start =
+    new Date(
+      now.getFullYear(),
+      now.getMonth() - 2,
+      1,
+      0,
+      0,
+      0
+    );
+
+    return filterTradesBetween(
+      start,
+      now
+    );
+
+  }
+
+
+  if(
+    period ===
+    "6months"
+  ){
+
+    const start =
+    new Date(
+      now.getFullYear(),
+      now.getMonth() - 5,
+      1,
+      0,
+      0,
+      0
+    );
+
+    return filterTradesBetween(
+      start,
+      now
+    );
+
+  }
+
+
+  if(
+    period ===
+    "year"
+  ){
+
+    return trades.filter(
+      t => {
+
+        const d =
+        new Date(
+          t.entryTime
+        );
+
+        return (
+          !Number.isNaN(
+            d.getTime()
+          )
+          &&
+          d.getFullYear() ===
+          now.getFullYear()
+        );
+
+      }
+    );
+
+  }
+
+
+  if(
+    period ===
+    "custom"
+  ){
+
+    const value =
+    document.getElementById(
+      "performanceMonth"
+    ).value;
+
+    const [
+      year,
+      month
+    ] =
+    value
+    .split("-")
+    .map(Number);
+
+    return trades.filter(
+      t => {
+
+        const d =
+        new Date(
+          t.entryTime
+        );
 
         return (
           !Number.isNaN(
@@ -4672,55 +4881,6 @@ function getPerformanceTrades(){
     );
 
   }
-
-
-  if(
-    mode ===
-    "3months"
-  ){
-
-    const start =
-    new Date(
-      now.getFullYear(),
-      now.getMonth() - 2,
-      1,
-      0,
-      0,
-      0
-    );
-
-
-    return filterTradesBetween(
-      start,
-      now
-    );
-
-  }
-
-
-  if(
-    mode ===
-    "6months"
-  ){
-
-    const start =
-    new Date(
-      now.getFullYear(),
-      now.getMonth() - 5,
-      1,
-      0,
-      0,
-      0
-    );
-
-
-    return filterTradesBetween(
-      start,
-      now
-    );
-
-  }
-
 
   return trades;
 
@@ -4740,7 +4900,6 @@ function filterTradesBetween(
         t.entryTime
       );
 
-
       return (
         !Number.isNaN(
           d.getTime()
@@ -4758,14 +4917,13 @@ function filterTradesBetween(
 
 
 /* =========================
-   績效顯示
+   績效統計
 ========================= */
 
 function renderStats(){
 
   const list =
   getPerformanceTrades();
-
 
   const wins =
   list.filter(
@@ -4774,7 +4932,6 @@ function renderStats(){
       t.profit
     ) > 0
   ).length;
-
 
   const winRate =
   list.length
@@ -4846,24 +5003,19 @@ function renderProductStats(list){
     "productStats"
   );
 
-
   const groups =
   {};
-
 
   list.forEach(
     t => {
 
       const key =
-      t.product
-      +
-      "|"
-      +
+      t.product +
+      "|" +
       (
         t.currency ||
         "TWD"
       );
-
 
       if(
         !groups[key]
@@ -4891,16 +5043,13 @@ function renderProductStats(list){
 
       }
 
-
       groups[key].count++;
-
 
       groups[key].pnl +=
       Number(
         t.profit ||
         0
       );
-
 
       if(
         Number(
@@ -4922,7 +5071,8 @@ function renderProductStats(list){
   )
   .sort(
     (a,b) =>
-    b.pnl - a.pnl
+    b.pnl -
+    a.pnl
   );
 
 
@@ -4950,7 +5100,6 @@ function renderProductStats(list){
         100
       );
 
-
       return `
 
         <div class="product-row">
@@ -4972,7 +5121,6 @@ function renderProductStats(list){
             </div>
 
           </div>
-
 
           <strong
             class="${
@@ -5011,8 +5159,17 @@ function renderPerformanceTrades(list){
     "performanceTradeList"
   );
 
+  if(
+    !target
+  ){
 
-  if(!list.length){
+    return;
+
+  }
+
+  if(
+    !list.length
+  ){
 
     target.innerHTML =
     '<div class="empty">這個期間沒有交易紀錄</div>';
@@ -5061,13 +5218,11 @@ function escapeHTML(value){
     "div"
   );
 
-
   div.innerText =
   String(
     value ??
     ""
   );
-
 
   return div.innerHTML;
 
@@ -5075,7 +5230,7 @@ function escapeHTML(value){
 
 
 /* =========================
-   全部重新顯示
+   全部更新
 ========================= */
 
 function render(){
@@ -5099,6 +5254,8 @@ buildMonthOptions();
 
 buildPerformanceMonthOptions();
 
+syncRangeChanged();
+
 render();
 
 loadIGAccount();
@@ -5112,4 +5269,5 @@ setInterval(
 </script>
 
 </body>
+
 </html>
