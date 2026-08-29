@@ -101,13 +101,8 @@ h1{
   word-break:break-word;
 }
 
-.green{
-  color:var(--green);
-}
-
-.red{
-  color:var(--red);
-}
+.green{color:var(--green);}
+.red{color:var(--red);}
 
 .section{
   margin-top:28px;
@@ -397,6 +392,31 @@ button{
   line-height:1.6;
 }
 
+.performance-summary{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:12px;
+}
+
+.performance-box{
+  padding:13px;
+  background:var(--soft2);
+  border-radius:14px;
+}
+
+.performance-label{
+  color:var(--muted);
+  font-size:12px;
+}
+
+.performance-value{
+  margin-top:6px;
+  font-size:17px;
+  font-weight:750;
+  line-height:1.4;
+}
+
 .empty{
   padding:30px 10px;
   text-align:center;
@@ -447,15 +467,12 @@ button{
 
 <div class="app">
 
-
 <!-- 首頁 -->
 
 <section id="homePage" class="page active">
 
   <div class="sub">MY TRADING JOURNAL</div>
-
   <h1>期貨交易日誌</h1>
-
 
   <div class="stats">
 
@@ -507,8 +524,6 @@ button{
   </div>
 
 
-  <!-- 重大事件 -->
-
   <div class="section">
 
     <div class="section-title">
@@ -519,24 +534,17 @@ button{
 
     <div class="help">
       發布時間依美國官方排程換算為台灣時間。
-      目前事件公布值尚未自動串接官方資料來源。
+      目前公布值尚未自動串接官方資料來源。
     </div>
 
   </div>
 
 
-  <!-- IG 同步 -->
-
   <div class="sync-box">
 
     <div class="field">
-
-      <label>
-        選擇要同步的月份
-      </label>
-
+      <label>選擇要同步的月份</label>
       <select id="syncMonth"></select>
-
     </div>
 
     <button
@@ -547,17 +555,12 @@ button{
       同步這個月份
     </button>
 
-    <div
-      id="igSyncStatus"
-      class="sync-status"
-    >
+    <div id="igSyncStatus" class="sync-status">
       可逐月同步最近一年 IG 交易紀錄。
     </div>
 
   </div>
 
-
-  <!-- 最近交易 -->
 
   <div class="section">
 
@@ -572,167 +575,75 @@ button{
 </section>
 
 
-
 <!-- 新增交易 -->
 
 <section id="addPage" class="page">
 
-  <div class="sub">
-    NEW TRADE
-  </div>
-
-  <h1>
-    新增交易
-  </h1>
+  <div class="sub">NEW TRADE</div>
+  <h1>新增交易</h1>
 
   <div class="card">
 
     <div class="field">
-
-      <label>
-        操作商品
-      </label>
+      <label>操作商品</label>
 
       <select id="productSelect">
-
-        <option value="">
-          請選擇商品
-        </option>
-
-        <option value="NQ">
-          NQ
-        </option>
-
-        <option value="YM">
-          YM
-        </option>
-
-        <option value="BTC">
-          BTC
-        </option>
-
-        <option value="台指">
-          台指
-        </option>
-
-        <option value="黃金">
-          黃金
-        </option>
-
-        <option value="白銀">
-          白銀
-        </option>
-
-        <option value="其他">
-          其他
-        </option>
-
+        <option value="">請選擇商品</option>
+        <option value="NQ">NQ</option>
+        <option value="YM">YM</option>
+        <option value="BTC">BTC</option>
+        <option value="台指">台指</option>
+        <option value="黃金">黃金</option>
+        <option value="白銀">白銀</option>
+        <option value="其他">其他</option>
       </select>
-
     </div>
 
-
-    <div
-      id="otherProductBox"
-      class="field hidden"
-    >
-
-      <label>
-        其他商品名稱
-      </label>
-
-      <input
-        id="otherProduct"
-        placeholder="輸入商品名稱"
-      >
-
+    <div id="otherProductBox" class="field hidden">
+      <label>其他商品名稱</label>
+      <input id="otherProduct" placeholder="輸入商品名稱">
     </div>
-
 
     <div class="field">
-
-      <label>
-        方向
-      </label>
+      <label>方向</label>
 
       <select id="direction">
-
-        <option value="做多">
-          做多
-        </option>
-
-        <option value="做空">
-          做空
-        </option>
-
+        <option value="做多">做多</option>
+        <option value="做空">做空</option>
       </select>
-
     </div>
 
-
     <div class="field">
-
-      <label>
-        進場時間
-      </label>
-
+      <label>進場時間</label>
       <input
         id="entryTime"
         type="text"
         placeholder="例如 2026/08/29 11:51"
       >
-
     </div>
 
-
     <div class="field">
-
-      <label>
-        出場時間
-      </label>
-
+      <label>出場時間</label>
       <input
         id="exitTime"
         type="text"
         placeholder="例如 2026/08/29 12:03"
       >
-
     </div>
-
 
     <div class="two">
 
       <div class="field">
-
-        <label>
-          進場點位
-        </label>
-
-        <input
-          id="entryPrice"
-          type="number"
-          step="any"
-        >
-
+        <label>進場點位</label>
+        <input id="entryPrice" type="number" step="any">
       </div>
 
-
       <div class="field">
-
-        <label>
-          出場點位
-        </label>
-
-        <input
-          id="exitPrice"
-          type="number"
-          step="any"
-        >
-
+        <label>出場點位</label>
+        <input id="exitPrice" type="number" step="any">
       </div>
 
     </div>
-
 
     <div class="points-box">
 
@@ -753,102 +664,43 @@ button{
 
     </div>
 
+    <div class="two">
+
+      <div class="field">
+        <label>停損價</label>
+        <input id="stopLoss" type="number" step="any">
+      </div>
+
+      <div class="field">
+        <label>停利價</label>
+        <input id="takeProfit" type="number" step="any">
+      </div>
+
+    </div>
 
     <div class="two">
 
       <div class="field">
-
-        <label>
-          停損價
-        </label>
-
-        <input
-          id="stopLoss"
-          type="number"
-          step="any"
-        >
-
+        <label>口數</label>
+        <input id="quantity" type="number" step="any" value="1">
       </div>
 
-
       <div class="field">
-
-        <label>
-          停利價
-        </label>
-
-        <input
-          id="takeProfit"
-          type="number"
-          step="any"
-        >
-
+        <label>手續費 / 成本</label>
+        <input id="fee" type="number" step="any" value="0">
       </div>
 
     </div>
-
-
-    <div class="two">
-
-      <div class="field">
-
-        <label>
-          口數
-        </label>
-
-        <input
-          id="quantity"
-          type="number"
-          step="any"
-          value="1"
-        >
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          手續費 / 成本
-        </label>
-
-        <input
-          id="fee"
-          type="number"
-          step="any"
-          value="0"
-        >
-
-      </div>
-
-    </div>
-
 
     <div class="field">
-
-      <label>
-        實際獲利 / 虧損金額
-      </label>
-
-      <input
-        id="profit"
-        type="number"
-        step="any"
-      >
-
+      <label>實際獲利 / 虧損金額</label>
+      <input id="profit" type="number" step="any">
     </div>
 
-
     <div class="field">
-
-      <label>
-        每一單紀錄
-      </label>
-
+      <label>每一單紀錄</label>
       <textarea id="note"></textarea>
-
     </div>
-
 
     <button
       class="primary"
@@ -862,8 +714,7 @@ button{
 </section>
 
 
-
-<!-- AI 分析 -->
+<!-- AI -->
 
 <section id="analysisPage" class="page">
 
@@ -892,7 +743,6 @@ button{
 </section>
 
 
-
 <!-- 績效 -->
 
 <section id="statsPage" class="page">
@@ -905,13 +755,147 @@ button{
     績效統計
   </h1>
 
+
   <div class="card">
 
-    <div class="section-title">
-      商品別績效
+    <div class="field">
+
+      <label>
+        損益期間
+      </label>
+
+      <select
+        id="performancePeriod"
+        onchange="performancePeriodChanged()"
+      >
+
+        <option value="month">
+          本月
+        </option>
+
+        <option value="previousMonth">
+          上個月
+        </option>
+
+        <option value="3months">
+          近 3 個月
+        </option>
+
+        <option value="6months">
+          近 6 個月
+        </option>
+
+        <option value="year">
+          今年
+        </option>
+
+        <option value="custom">
+          指定月份
+        </option>
+
+      </select>
+
     </div>
 
-    <div id="productStats"></div>
+
+    <div
+      id="customPerformanceMonthBox"
+      class="field hidden"
+    >
+
+      <label>
+        選擇月份
+      </label>
+
+      <select
+        id="performanceMonth"
+        onchange="renderStats()"
+      ></select>
+
+    </div>
+
+
+    <div class="performance-summary">
+
+      <div class="performance-box">
+
+        <div class="performance-label">
+          期間損益
+        </div>
+
+        <div
+          id="periodProfit"
+          class="performance-value"
+        >
+          NT$0
+        </div>
+
+      </div>
+
+
+      <div class="performance-box">
+
+        <div class="performance-label">
+          交易筆數
+        </div>
+
+        <div
+          id="periodTradeCount"
+          class="performance-value"
+        >
+          0
+        </div>
+
+      </div>
+
+
+      <div class="performance-box">
+
+        <div class="performance-label">
+          勝率
+        </div>
+
+        <div
+          id="periodWinRate"
+          class="performance-value"
+        >
+          0%
+        </div>
+
+      </div>
+
+
+      <div class="performance-box">
+
+        <div class="performance-label">
+          平均單筆
+        </div>
+
+        <div
+          id="periodAverage"
+          class="performance-value"
+        >
+          NT$0
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="section">
+
+    <div class="card">
+
+      <div class="section-title">
+        商品別績效
+      </div>
+
+      <div id="productStats"></div>
+
+    </div>
 
   </div>
 
@@ -919,9 +903,6 @@ button{
 
 </div>
 
-
-
-<!-- 底部選單 -->
 
 <div class="bottom">
 
@@ -961,7 +942,6 @@ button{
 </div>
 
 
-
 <script>
 
 const API =
@@ -976,15 +956,13 @@ JSON.parse(
 ) || [];
 
 
-
 /* =========================
-   重大經濟事件
+   重大事件
 ========================= */
 
 const economicEvents = [
 
   {
-    id:"nfp-2026-09",
     name:"美國非農就業",
     shortName:"非農",
     time:"2026-09-04T20:30:00+08:00",
@@ -995,7 +973,6 @@ const economicEvents = [
   },
 
   {
-    id:"ppi-2026-09",
     name:"美國生產者物價指數",
     shortName:"PPI",
     time:"2026-09-10T20:30:00+08:00",
@@ -1006,7 +983,6 @@ const economicEvents = [
   },
 
   {
-    id:"cpi-2026-09",
     name:"美國消費者物價指數",
     shortName:"CPI",
     time:"2026-09-11T20:30:00+08:00",
@@ -1044,7 +1020,6 @@ function renderEconomicEvents(){
 
 
     let status;
-
     let countdown;
 
 
@@ -1081,9 +1056,13 @@ function renderEconomicEvents(){
             </div>
 
             <div class="event-time">
+
               ${escapeHTML(event.name)}
+
               ・
+
               ${formatEventTime(eventTime)}
+
             </div>
 
             <div class="small">
@@ -1099,15 +1078,14 @@ function renderEconomicEvents(){
 
         </div>
 
-
         <div class="event-countdown">
           ${countdown}
         </div>
 
-
         <div class="event-result">
 
           官方實際值：
+
           ${
             event.actual !== null
             ?
@@ -1122,6 +1100,7 @@ function renderEconomicEvents(){
           <br>
 
           前值：
+
           ${
             event.previous !== null
             ?
@@ -1144,7 +1123,6 @@ function renderEconomicEvents(){
 }
 
 
-
 function formatCountdown(ms){
 
   const totalMinutes =
@@ -1154,22 +1132,18 @@ function formatCountdown(ms){
 
   const days =
   Math.floor(
-    totalMinutes /
-    1440
+    totalMinutes / 1440
   );
 
   const hours =
   Math.floor(
     (
-      totalMinutes %
-      1440
-    ) /
-    60
+      totalMinutes % 1440
+    ) / 60
   );
 
   const minutes =
-  totalMinutes %
-  60;
+  totalMinutes % 60;
 
 
   if(days > 0){
@@ -1210,7 +1184,6 @@ function formatCountdown(ms){
 }
 
 
-
 function formatEventTime(d){
 
   return d.toLocaleString(
@@ -1227,9 +1200,8 @@ function formatEventTime(d){
 }
 
 
-
 /* =========================
-   頁面欄位
+   DOM
 ========================= */
 
 const syncMonth =
@@ -1313,7 +1285,6 @@ document.getElementById(
 );
 
 
-
 /* =========================
    月份選單
 ========================= */
@@ -1323,10 +1294,8 @@ function buildMonthOptions(){
   const now =
   new Date();
 
-
   syncMonth.innerHTML =
   "";
-
 
   for(
     let i = 0;
@@ -1341,28 +1310,23 @@ function buildMonthOptions(){
       1
     );
 
-
     const value =
     d.getFullYear() +
     "-" +
     String(
       d.getMonth() + 1
-    )
-    .padStart(
+    ).padStart(
       2,
       "0"
     );
-
 
     const option =
     document.createElement(
       "option"
     );
 
-
     option.value =
     value;
-
 
     option.textContent =
     d.getFullYear() +
@@ -1372,7 +1336,6 @@ function buildMonthOptions(){
     ) +
     " 月";
 
-
     syncMonth.appendChild(
       option
     );
@@ -1381,6 +1344,66 @@ function buildMonthOptions(){
 
 }
 
+
+function buildPerformanceMonthOptions(){
+
+  const select =
+  document.getElementById(
+    "performanceMonth"
+  );
+
+  const now =
+  new Date();
+
+  select.innerHTML =
+  "";
+
+  for(
+    let i = 0;
+    i < 24;
+    i++
+  ){
+
+    const d =
+    new Date(
+      now.getFullYear(),
+      now.getMonth() - i,
+      1
+    );
+
+    const value =
+    d.getFullYear() +
+    "-" +
+    String(
+      d.getMonth() + 1
+    ).padStart(
+      2,
+      "0"
+    );
+
+    const option =
+    document.createElement(
+      "option"
+    );
+
+    option.value =
+    value;
+
+    option.textContent =
+    d.getFullYear() +
+    " 年 " +
+    (
+      d.getMonth() + 1
+    ) +
+    " 月";
+
+    select.appendChild(
+      option
+    );
+
+  }
+
+}
 
 
 /* =========================
@@ -1407,7 +1430,6 @@ async function loadIGAccount(){
       API +
       "/ig/accounts"
     );
-
 
     const data =
     await response.json();
@@ -1436,9 +1458,7 @@ async function loadIGAccount(){
     [];
 
 
-    if(
-      !accounts.length
-    ){
+    if(!accounts.length){
 
       throw new Error(
         "沒有取得 IG 帳戶"
@@ -1512,7 +1532,6 @@ async function loadIGAccount(){
 }
 
 
-
 /* =========================
    IG 商品分類
 ========================= */
@@ -1522,124 +1541,67 @@ function normalizeIGProduct(name){
   const text =
   String(
     name || ""
-  )
-  .trim();
-
+  ).trim();
 
   const upper =
   text.toUpperCase();
 
 
   if(
-    upper.includes(
-      "US TECH 100"
-    )
-    ||
-    upper.includes(
-      "NASDAQ"
-    )
+    upper.includes("US TECH 100") ||
+    upper.includes("NASDAQ")
   ){
-
     return "NQ";
-
   }
 
 
   if(
-    upper.includes(
-      "WALL STREET"
-    )
-    ||
-    upper.includes(
-      "DOW"
-    )
-    ||
-    upper.includes(
-      "US 30"
-    )
+    upper.includes("WALL STREET") ||
+    upper.includes("DOW") ||
+    upper.includes("US 30")
   ){
-
     return "YM";
-
   }
 
 
   if(
-    upper.includes(
-      "BITCOIN"
-    )
-    ||
-    upper.includes(
-      "BTC"
-    )
+    upper.includes("BITCOIN") ||
+    upper.includes("BTC")
   ){
-
     return "BTC";
-
   }
 
 
   if(
-    upper.includes(
-      "TAIWAN INDEX"
-    )
-    ||
-    upper.includes(
-      "TAIWAN 25"
-    )
-    ||
-    upper.includes(
-      "TAIEX"
-    )
-    ||
-    text.includes(
-      "台灣指數"
-    )
-    ||
-    text.includes(
-      "台指"
-    )
+    upper.includes("TAIWAN INDEX") ||
+    upper.includes("TAIWAN 25") ||
+    upper.includes("TAIEX") ||
+    text.includes("台灣指數") ||
+    text.includes("台指")
   ){
-
     return "台指";
-
   }
 
 
   if(
-    upper.includes(
-      "GOLD"
-    )
-    ||
-    text.includes(
-      "黃金"
-    )
+    upper.includes("GOLD") ||
+    text.includes("黃金")
   ){
-
     return "黃金";
-
   }
 
 
   if(
-    upper.includes(
-      "SILVER"
-    )
-    ||
-    text.includes(
-      "白銀"
-    )
+    upper.includes("SILVER") ||
+    text.includes("白銀")
   ){
-
     return "白銀";
-
   }
 
 
   return null;
 
 }
-
 
 
 function isAllowedProduct(product){
@@ -1658,9 +1620,8 @@ function isAllowedProduct(product){
 }
 
 
-
 /* =========================
-   手動商品選擇
+   商品輸入
 ========================= */
 
 productSelect.addEventListener(
@@ -1695,7 +1656,6 @@ productSelect.addEventListener(
 );
 
 
-
 [
   direction,
   entryPrice,
@@ -1716,9 +1676,8 @@ productSelect.addEventListener(
 });
 
 
-
 /* =========================
-   點數計算
+   點數
 ========================= */
 
 function calculatePointsFromValues(
@@ -1728,7 +1687,8 @@ function calculatePointsFromValues(
 ){
 
   return (
-    tradeDirection === "做多"
+    tradeDirection ===
+    "做多"
     ?
     exit - entry
     :
@@ -1738,25 +1698,15 @@ function calculatePointsFromValues(
 }
 
 
-
 function calculatePoints(){
 
   return calculatePointsFromValues(
-
     direction.value,
-
-    Number(
-      entryPrice.value
-    ),
-
-    Number(
-      exitPrice.value
-    )
-
+    Number(entryPrice.value),
+    Number(exitPrice.value)
   );
 
 }
-
 
 
 function updatePoints(){
@@ -1773,10 +1723,8 @@ function updatePoints(){
 
   }
 
-
   const points =
   calculatePoints();
-
 
   pointsPreview.innerText =
   (
@@ -1787,14 +1735,11 @@ function updatePoints(){
     ""
   )
   +
-  formatNumber(
-    points
-  )
+  formatNumber(points)
   +
   " 點";
 
 }
-
 
 
 /* =========================
@@ -1803,14 +1748,9 @@ function updatePoints(){
 
 function parseManualTime(value){
 
-  if(
-    !value
-  ){
-
+  if(!value){
     return null;
-
   }
-
 
   const normalized =
   value
@@ -1820,47 +1760,23 @@ function parseManualTime(value){
     "/"
   );
 
-
   const match =
   normalized.match(
     /^(\d{4})\/(\d{1,2})\/(\d{1,2})\s+(\d{1,2}):(\d{2})$/
   );
 
-
-  if(
-    !match
-  ){
-
+  if(!match){
     return null;
-
   }
-
 
   const d =
   new Date(
-
-    Number(
-      match[1]
-    ),
-
-    Number(
-      match[2]
-    ) - 1,
-
-    Number(
-      match[3]
-    ),
-
-    Number(
-      match[4]
-    ),
-
-    Number(
-      match[5]
-    )
-
+    Number(match[1]),
+    Number(match[2]) - 1,
+    Number(match[3]),
+    Number(match[4]),
+    Number(match[5])
   );
-
 
   return (
     Number.isNaN(
@@ -1875,73 +1791,49 @@ function parseManualTime(value){
 }
 
 
-
 function localTimeString(d){
 
   return (
-
     d.getFullYear()
-
     +
-
     "-"
-
     +
-
     String(
       d.getMonth() + 1
-    )
-    .padStart(
+    ).padStart(
       2,
       "0"
     )
-
     +
-
     "-"
-
     +
-
     String(
       d.getDate()
-    )
-    .padStart(
+    ).padStart(
       2,
       "0"
     )
-
     +
-
     "T"
-
     +
-
     String(
       d.getHours()
-    )
-    .padStart(
+    ).padStart(
       2,
       "0"
     )
-
     +
-
     ":"
-
     +
-
     String(
       d.getMinutes()
-    )
-    .padStart(
+    ).padStart(
       2,
       "0"
     )
-
   );
 
 }
-
 
 
 function toStorageTime(value){
@@ -1951,13 +1843,10 @@ function toStorageTime(value){
     value
   );
 
-
   return (
     d
     ?
-    localTimeString(
-      d
-    )
+    localTimeString(d)
     :
     ""
   );
@@ -1965,46 +1854,26 @@ function toStorageTime(value){
 }
 
 
-
 function igUtcToLocal(value){
 
-  if(
-    !value
-  ){
-
+  if(!value){
     return "";
-
   }
 
-
   let text =
-  String(
-    value
-  )
-  .trim();
-
+  String(value).trim();
 
   if(
-    !text.endsWith(
-      "Z"
-    )
-    &&
+    !text.endsWith("Z") &&
     !/[+-]\d\d:\d\d$/.test(
       text
     )
   ){
-
-    text +=
-    "Z";
-
+    text += "Z";
   }
 
-
   const d =
-  new Date(
-    text
-  );
-
+  new Date(text);
 
   return (
     Number.isNaN(
@@ -2013,13 +1882,10 @@ function igUtcToLocal(value){
     ?
     ""
     :
-    localTimeString(
-      d
-    )
+    localTimeString(d)
   );
 
 }
-
 
 
 function calculateHoldingMinutes(
@@ -2028,15 +1894,10 @@ function calculateHoldingMinutes(
 ){
 
   const a =
-  new Date(
-    start
-  );
+  new Date(start);
 
   const b =
-  new Date(
-    end
-  );
-
+  new Date(end);
 
   if(
     Number.isNaN(
@@ -2047,15 +1908,11 @@ function calculateHoldingMinutes(
       b.getTime()
     )
   ){
-
     return null;
-
   }
-
 
   const diff =
   b - a;
-
 
   return (
     diff < 0
@@ -2063,13 +1920,11 @@ function calculateHoldingMinutes(
     null
     :
     Math.round(
-      diff /
-      60000
+      diff / 60000
     )
   );
 
 }
-
 
 
 /* =========================
@@ -2079,16 +1934,13 @@ function calculateHoldingMinutes(
 function showPage(page){
 
   document
-  .querySelectorAll(
-    ".page"
-  )
+  .querySelectorAll(".page")
   .forEach(
     el =>
     el.classList.remove(
       "active"
     )
   );
-
 
   document
   .querySelectorAll(
@@ -2101,22 +1953,18 @@ function showPage(page){
     )
   );
 
-
   document
   .getElementById(
-    page +
-    "Page"
+    page + "Page"
   )
   ?.classList
   .add(
     "active"
   );
 
-
   document
   .getElementById(
-    page +
-    "Btn"
+    page + "Btn"
   )
   ?.classList
   .add(
@@ -2126,9 +1974,8 @@ function showPage(page){
 }
 
 
-
 /* =========================
-   儲存手動交易
+   手動交易
 ========================= */
 
 function saveTrade(){
@@ -2136,10 +1983,7 @@ function saveTrade(){
   let productName =
   productSelect.value;
 
-
-  if(
-    !productName
-  ){
+  if(!productName){
 
     alert(
       "請選擇操作商品"
@@ -2159,10 +2003,7 @@ function saveTrade(){
     otherProduct.value
     .trim();
 
-
-    if(
-      !productName
-    ){
+    if(!productName){
 
       alert(
         "請輸入商品名稱"
@@ -2179,7 +2020,6 @@ function saveTrade(){
   toStorageTime(
     entryTime.value
   );
-
 
   const exit =
   toStorageTime(
@@ -2301,9 +2141,8 @@ function saveTrade(){
 }
 
 
-
 /* =========================
-   IG 月份同步
+   IG 同步
 ========================= */
 
 async function syncIGMonth(){
@@ -2313,24 +2152,18 @@ async function syncIGMonth(){
     "igSyncBtn"
   );
 
-
   const status =
   document.getElementById(
     "igSyncStatus"
   );
-
 
   const [
     year,
     month
   ] =
   syncMonth.value
-  .split(
-    "-"
-  )
-  .map(
-    Number
-  );
+  .split("-")
+  .map(Number);
 
 
   const start =
@@ -2357,7 +2190,6 @@ async function syncIGMonth(){
 
   button.disabled =
   true;
-
 
   button.innerText =
   "同步中…";
@@ -2423,10 +2255,8 @@ async function syncIGMonth(){
     let imported =
     0;
 
-
     let duplicate =
     0;
-
 
     let excluded =
     0;
@@ -2435,15 +2265,12 @@ async function syncIGMonth(){
     raw.forEach(
       item => {
 
-
         if(
           !isRealTrade(
             item
           )
         ){
-
           return;
-
         }
 
 
@@ -2504,9 +2331,7 @@ async function syncIGMonth(){
         );
 
 
-        if(
-          converted
-        ){
+        if(converted){
 
           trades.push(
             converted
@@ -2566,16 +2391,14 @@ async function syncIGMonth(){
   button.disabled =
   false;
 
-
   button.innerText =
   "同步這個月份";
 
 }
 
 
-
 /* =========================
-   判斷 IG 真實交易
+   IG 資料
 ========================= */
 
 function isRealTrade(item){
@@ -2585,9 +2408,7 @@ function isRealTrade(item){
     typeof item !==
     "object"
   ){
-
     return false;
-
   }
 
 
@@ -2595,12 +2416,10 @@ function isRealTrade(item){
   String(
     item.transactionType ||
     ""
-  )
-  .toUpperCase();
+  ).toUpperCase();
 
 
   const excluded = [
-
     "DIVIDEND",
     "WITH",
     "DEPOSIT",
@@ -2608,21 +2427,16 @@ function isRealTrade(item){
     "INTEREST",
     "CHARGE",
     "FEE"
-
   ];
 
 
   if(
     excluded.some(
       x =>
-      type.includes(
-        x
-      )
+      type.includes(x)
     )
   ){
-
     return false;
-
   }
 
 
@@ -2631,12 +2445,10 @@ function isRealTrade(item){
     item.openLevel
   );
 
-
   const close =
   parseIGNumber(
     item.closeLevel
   );
-
 
   const size =
   parseIGNumber(
@@ -2645,37 +2457,18 @@ function isRealTrade(item){
 
 
   return (
-
-    Number.isFinite(
-      open
-    )
-
-    &&
-
-    Number.isFinite(
-      close
-    )
-
-    &&
-
-    Number.isFinite(
-      size
-    )
-
-    &&
-
+    Number.isFinite(open) &&
+    Number.isFinite(close) &&
+    Number.isFinite(size) &&
     size !== 0
-
   );
 
 }
 
 
-
 function createIGFallbackId(item){
 
   return [
-
     item.instrumentName,
     item.openDateUtc,
     item.dateUtc,
@@ -2683,19 +2476,10 @@ function createIGFallbackId(item){
     item.closeLevel,
     item.size,
     item.profitAndLoss
-
-  ]
-  .join(
-    "|"
-  );
+  ].join("|");
 
 }
 
-
-
-/* =========================
-   IG → App 格式
-========================= */
 
 function convertIGTrade(
   item,
@@ -2707,24 +2491,20 @@ function convertIGTrade(
     item.openLevel
   );
 
-
   const close =
   parseIGNumber(
     item.closeLevel
   );
-
 
   const size =
   parseIGNumber(
     item.size
   );
 
-
   const entry =
   igUtcToLocal(
     item.openDateUtc
   );
-
 
   const exit =
   igUtcToLocal(
@@ -2736,9 +2516,7 @@ function convertIGTrade(
     !entry ||
     !exit
   ){
-
     return null;
-
   }
 
 
@@ -2842,31 +2620,19 @@ function convertIGTrade(
 }
 
 
-
-/* =========================
-   數字解析
-========================= */
-
 function parseIGNumber(value){
 
   if(
     value === null ||
     value === undefined
   ){
-
     return NaN;
-
   }
 
 
   const cleaned =
-  String(
-    value
-  )
-  .replace(
-    /,/g,
-    ""
-  )
+  String(value)
+  .replace(/,/g,"")
   .replace(
     /[^\d+\-.]/g,
     ""
@@ -2881,7 +2647,6 @@ function parseIGNumber(value){
 }
 
 
-
 function parseIGProfit(value){
 
   const n =
@@ -2889,11 +2654,8 @@ function parseIGProfit(value){
     value
   );
 
-
   return (
-    Number.isFinite(
-      n
-    )
+    Number.isFinite(n)
     ?
     n
     :
@@ -2903,13 +2665,11 @@ function parseIGProfit(value){
 }
 
 
-
 function normalizeCurrency(value){
 
   const text =
   String(
-    value ||
-    ""
+    value || ""
   )
   .trim()
   .toUpperCase();
@@ -2920,9 +2680,7 @@ function normalizeCurrency(value){
     text === "US$" ||
     text === "USD"
   ){
-
     return "USD";
-
   }
 
 
@@ -2930,9 +2688,7 @@ function normalizeCurrency(value){
     text === "NT$" ||
     text === "TWD"
   ){
-
     return "TWD";
-
   }
 
 
@@ -2942,7 +2698,6 @@ function normalizeCurrency(value){
   );
 
 }
-
 
 
 /* =========================
@@ -2961,7 +2716,6 @@ function saveTrades(){
 }
 
 
-
 function deleteTrade(id){
 
   if(
@@ -2969,9 +2723,7 @@ function deleteTrade(id){
       "確定刪除這筆交易嗎？"
     )
   ){
-
     return;
-
   }
 
 
@@ -2989,9 +2741,8 @@ function deleteTrade(id){
 }
 
 
-
 /* =========================
-   金額格式
+   格式
 ========================= */
 
 function money(
@@ -3000,10 +2751,7 @@ function money(
 ){
 
   const number =
-  Number(
-    value
-  )
-  ||
+  Number(value) ||
   0;
 
 
@@ -3020,9 +2768,7 @@ function money(
 
 
   const amount =
-  Math.abs(
-    number
-  )
+  Math.abs(number)
   .toLocaleString(
     "zh-TW",
     {
@@ -3035,13 +2781,11 @@ function money(
     currency ===
     "USD"
   ){
-
     return (
       sign +
       "US$" +
       amount
     );
-
   }
 
 
@@ -3049,13 +2793,11 @@ function money(
     currency ===
     "TWD"
   ){
-
     return (
       sign +
       "NT$" +
       amount
     );
-
   }
 
 
@@ -3069,12 +2811,9 @@ function money(
 }
 
 
-
 function formatNumber(value){
 
-  return Number(
-    value
-  )
+  return Number(value)
   .toLocaleString(
     "zh-TW",
     {
@@ -3085,13 +2824,10 @@ function formatNumber(value){
 }
 
 
-
 function formatTime(value){
 
   const d =
-  new Date(
-    value
-  );
+  new Date(value);
 
 
   if(
@@ -3099,12 +2835,10 @@ function formatTime(value){
       d.getTime()
     )
   ){
-
     return (
       value ||
       "未填寫"
     );
-
   }
 
 
@@ -3121,7 +2855,6 @@ function formatTime(value){
 }
 
 
-
 function formatHolding(t){
 
   const minutes =
@@ -3135,34 +2868,27 @@ function formatHolding(t){
       minutes
     )
   ){
-
     return "資料不足";
-
   }
 
 
   if(
     minutes < 60
   ){
-
     return (
       minutes +
       " 分鐘"
     );
-
   }
 
 
   const hours =
   Math.floor(
-    minutes /
-    60
+    minutes / 60
   );
 
-
   const rest =
-  minutes %
-  60;
+  minutes % 60;
 
 
   return (
@@ -3180,9 +2906,8 @@ function formatHolding(t){
 }
 
 
-
 /* =========================
-   幣別統計
+   統計工具
 ========================= */
 
 function totalsByCurrency(list){
@@ -3203,10 +2928,8 @@ function totalsByCurrency(list){
         result[currency] ===
         undefined
       ){
-
         result[currency] =
         0;
-
       }
 
 
@@ -3225,7 +2948,6 @@ function totalsByCurrency(list){
 }
 
 
-
 function formatTotals(totals){
 
   const entries =
@@ -3234,12 +2956,8 @@ function formatTotals(totals){
   );
 
 
-  if(
-    !entries.length
-  ){
-
+  if(!entries.length){
     return "NT$0";
-
   }
 
 
@@ -3251,22 +2969,15 @@ function formatTotals(totals){
       currency
     )
   )
-  .join(
-    " / "
-  );
+  .join(" / ");
 
 }
 
 
-
 function formatAverageProfit(list){
 
-  if(
-    !list.length
-  ){
-
+  if(!list.length){
     return "NT$0";
-
   }
 
 
@@ -3290,40 +3001,29 @@ function formatAverageProfit(list){
           t.currency ||
           "TWD"
         )
-        ===
-        currency
-      )
-      .length;
+        === currency
+      ).length;
 
 
-      if(
-        !count
-      ){
-
+      if(!count){
         return null;
-
       }
 
 
       return money(
-        total /
-        count,
+        total / count,
         currency
       );
 
     }
   )
-  .filter(
-    Boolean
-  );
+  .filter(Boolean);
 
 
   return (
     result.length
     ?
-    result.join(
-      " / "
-    )
+    result.join(" / ")
     :
     "NT$0"
   );
@@ -3331,39 +3031,14 @@ function formatAverageProfit(list){
 }
 
 
-
 /* =========================
-   首頁統計
+   首頁
 ========================= */
 
 function renderHome(){
 
   const now =
   new Date();
-
-
-  const todayKey =
-  now.getFullYear()
-  +
-  "-"
-  +
-  String(
-    now.getMonth() + 1
-  )
-  .padStart(
-    2,
-    "0"
-  )
-  +
-  "-"
-  +
-  String(
-    now.getDate()
-  )
-  .padStart(
-    2,
-    "0"
-  );
 
 
   const monthly =
@@ -3377,21 +3052,15 @@ function renderHome(){
 
 
       return (
-
         !Number.isNaN(
           d.getTime()
         )
-
         &&
-
         d.getFullYear() ===
         now.getFullYear()
-
         &&
-
         d.getMonth() ===
         now.getMonth()
-
       );
 
     }
@@ -3409,16 +3078,12 @@ function renderHome(){
 
 
       return (
-
         !Number.isNaN(
           d.getTime()
         )
-
         &&
-
         d.getFullYear() ===
         now.getFullYear()
-
       );
 
     }
@@ -3435,44 +3100,19 @@ function renderHome(){
       );
 
 
-      if(
-        Number.isNaN(
+      return (
+        !Number.isNaN(
           d.getTime()
         )
-      ){
-
-        return false;
-
-      }
-
-
-      const key =
-      d.getFullYear()
-      +
-      "-"
-      +
-      String(
-        d.getMonth() + 1
-      )
-      .padStart(
-        2,
-        "0"
-      )
-      +
-      "-"
-      +
-      String(
-        d.getDate()
-      )
-      .padStart(
-        2,
-        "0"
-      );
-
-
-      return (
-        key ===
-        todayKey
+        &&
+        d.getFullYear() ===
+        now.getFullYear()
+        &&
+        d.getMonth() ===
+        now.getMonth()
+        &&
+        d.getDate() ===
+        now.getDate()
       );
 
     }
@@ -3485,8 +3125,7 @@ function renderHome(){
     Number(
       t.profit
     ) > 0
-  )
-  .length;
+  ).length;
 
 
   const rate =
@@ -3499,7 +3138,6 @@ function renderHome(){
   )
   :
   0;
-
 
 
   document
@@ -3577,16 +3215,13 @@ function renderHome(){
   trades.length;
 
 
-
   const list =
   document.getElementById(
     "tradeList"
   );
 
 
-  if(
-    !trades.length
-  ){
+  if(!trades.length){
 
     list.innerHTML =
     '<div class="empty">目前還沒有交易紀錄</div>';
@@ -3760,9 +3395,8 @@ function renderHome(){
 }
 
 
-
 /* =========================
-   AI 分析
+   AI
 ========================= */
 
 async function runAIAnalysis(id){
@@ -3774,12 +3408,8 @@ async function runAIAnalysis(id){
   );
 
 
-  if(
-    !trade
-  ){
-
+  if(!trade){
     return;
-
   }
 
 
@@ -3883,7 +3513,6 @@ async function runAIAnalysis(id){
 }
 
 
-
 function renderAIResult(a){
 
   if(
@@ -3891,9 +3520,7 @@ function renderAIResult(a){
     typeof a !==
     "object"
   ){
-
     return "資料不足";
-
   }
 
 
@@ -3983,7 +3610,6 @@ function renderAIResult(a){
 }
 
 
-
 function renderAnalysis(){
 
   const list =
@@ -3992,9 +3618,7 @@ function renderAnalysis(){
   );
 
 
-  if(
-    !trades.length
-  ){
+  if(!trades.length){
 
     list.innerHTML =
     '<div class="empty">目前沒有交易資料</div>';
@@ -4067,12 +3691,364 @@ function renderAnalysis(){
 }
 
 
+/* =========================
+   績效期間
+========================= */
+
+function performancePeriodChanged(){
+
+  const period =
+  document.getElementById(
+    "performancePeriod"
+  ).value;
+
+
+  const box =
+  document.getElementById(
+    "customPerformanceMonthBox"
+  );
+
+
+  if(
+    period ===
+    "custom"
+  ){
+
+    box.classList.remove(
+      "hidden"
+    );
+
+  }else{
+
+    box.classList.add(
+      "hidden"
+    );
+
+  }
+
+
+  renderStats();
+
+}
+
+
+function getPerformanceTrades(){
+
+  const period =
+  document.getElementById(
+    "performancePeriod"
+  ).value;
+
+
+  const now =
+  new Date();
+
+
+  if(
+    period ===
+    "month"
+  ){
+
+    return trades.filter(
+      t => {
+
+        const d =
+        new Date(
+          t.entryTime
+        );
+
+
+        return (
+          !Number.isNaN(
+            d.getTime()
+          )
+          &&
+          d.getFullYear() ===
+          now.getFullYear()
+          &&
+          d.getMonth() ===
+          now.getMonth()
+        );
+
+      }
+    );
+
+  }
+
+
+  if(
+    period ===
+    "previousMonth"
+  ){
+
+    const target =
+    new Date(
+      now.getFullYear(),
+      now.getMonth() - 1,
+      1
+    );
+
+
+    return trades.filter(
+      t => {
+
+        const d =
+        new Date(
+          t.entryTime
+        );
+
+
+        return (
+          !Number.isNaN(
+            d.getTime()
+          )
+          &&
+          d.getFullYear() ===
+          target.getFullYear()
+          &&
+          d.getMonth() ===
+          target.getMonth()
+        );
+
+      }
+    );
+
+  }
+
+
+  if(
+    period ===
+    "3months"
+  ){
+
+    const start =
+    new Date(
+      now.getFullYear(),
+      now.getMonth() - 2,
+      1
+    );
+
+
+    return filterTradesBetween(
+      start,
+      now
+    );
+
+  }
+
+
+  if(
+    period ===
+    "6months"
+  ){
+
+    const start =
+    new Date(
+      now.getFullYear(),
+      now.getMonth() - 5,
+      1
+    );
+
+
+    return filterTradesBetween(
+      start,
+      now
+    );
+
+  }
+
+
+  if(
+    period ===
+    "year"
+  ){
+
+    return trades.filter(
+      t => {
+
+        const d =
+        new Date(
+          t.entryTime
+        );
+
+
+        return (
+          !Number.isNaN(
+            d.getTime()
+          )
+          &&
+          d.getFullYear() ===
+          now.getFullYear()
+        );
+
+      }
+    );
+
+  }
+
+
+  if(
+    period ===
+    "custom"
+  ){
+
+    const value =
+    document.getElementById(
+      "performanceMonth"
+    ).value;
+
+
+    const [
+      year,
+      month
+    ] =
+    value
+    .split("-")
+    .map(Number);
+
+
+    return trades.filter(
+      t => {
+
+        const d =
+        new Date(
+          t.entryTime
+        );
+
+
+        return (
+          !Number.isNaN(
+            d.getTime()
+          )
+          &&
+          d.getFullYear() ===
+          year
+          &&
+          d.getMonth() ===
+          month - 1
+        );
+
+      }
+    );
+
+  }
+
+
+  return trades;
+
+}
+
+
+function filterTradesBetween(
+  start,
+  end
+){
+
+  return trades.filter(
+    t => {
+
+      const d =
+      new Date(
+        t.entryTime
+      );
+
+
+      return (
+        !Number.isNaN(
+          d.getTime()
+        )
+        &&
+        d >= start
+        &&
+        d <= end
+      );
+
+    }
+  );
+
+}
+
 
 /* =========================
-   商品績效
+   績效顯示
 ========================= */
 
 function renderStats(){
+
+  const list =
+  getPerformanceTrades();
+
+
+  const wins =
+  list.filter(
+    t =>
+    Number(
+      t.profit
+    ) > 0
+  ).length;
+
+
+  const winRate =
+  list.length
+  ?
+  Math.round(
+    wins /
+    list.length *
+    100
+  )
+  :
+  0;
+
+
+  document
+  .getElementById(
+    "periodProfit"
+  )
+  .innerText =
+  formatTotals(
+    totalsByCurrency(
+      list
+    )
+  );
+
+
+  document
+  .getElementById(
+    "periodTradeCount"
+  )
+  .innerText =
+  list.length;
+
+
+  document
+  .getElementById(
+    "periodWinRate"
+  )
+  .innerText =
+  winRate +
+  "%";
+
+
+  document
+  .getElementById(
+    "periodAverage"
+  )
+  .innerText =
+  formatAverageProfit(
+    list
+  );
+
+
+  renderProductStats(
+    list
+  );
+
+}
+
+
+function renderProductStats(
+  list
+){
 
   const target =
   document.getElementById(
@@ -4084,7 +4060,7 @@ function renderStats(){
   {};
 
 
-  trades.forEach(
+  list.forEach(
     t => {
 
       const key =
@@ -4160,7 +4136,7 @@ function renderStats(){
   ){
 
     target.innerHTML =
-    '<div class="empty">目前沒有績效資料</div>';
+    '<div class="empty">這個期間沒有交易資料</div>';
 
     return;
 
@@ -4233,9 +4209,8 @@ function renderStats(){
 }
 
 
-
 /* =========================
-   安全文字
+   文字安全
 ========================= */
 
 function escapeHTML(value){
@@ -4258,9 +4233,8 @@ function escapeHTML(value){
 }
 
 
-
 /* =========================
-   總渲染
+   render
 ========================= */
 
 function render(){
@@ -4276,12 +4250,13 @@ function render(){
 }
 
 
-
 /* =========================
    啟動
 ========================= */
 
 buildMonthOptions();
+
+buildPerformanceMonthOptions();
 
 render();
 
@@ -4296,5 +4271,4 @@ setInterval(
 </script>
 
 </body>
-
 </html>
