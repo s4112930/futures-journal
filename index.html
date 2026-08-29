@@ -1,973 +1,188 @@
-<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="theme-color" content="#f4f1eb">
-  <title>期貨交易日誌</title>
+export default {
+  async fetch(request, env) {
+    const headers = {
+      "Access-Control-Allow-Origin": "https://s4112930.github.io",
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+      "Content-Type": "application/json; charset=UTF-8"
+    };
 
-  <style>
-    :root{
-      --bg:#f4f1eb;
-      --card:#ffffff;
-      --text:#38424a;
-      --muted:#8d969b;
-      --blue:#72889a;
-      --green:#83988a;
-      --red:#b57f7f;
-      --border:#e6e2dc;
-      --soft:#eef0ee;
-      --soft2:#f8f7f4;
+    if (request.method === "OPTIONS") {
+      return new Response(null, {
+        status: 204,
+        headers
+      });
     }
 
-    *{box-sizing:border-box}
-
-    body{
-      margin:0;
-      font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
-      background:var(--bg);
-      color:var(--text);
-    }
-
-    .app{
-      max-width:620px;
-      margin:auto;
-      padding:24px 16px 110px;
-    }
-
-    h1{margin:0 0 20px;font-size:25px}
-    h3{margin:0}
-
-    .sub{
-      color:var(--muted);
-      font-size:12px;
-      letter-spacing:1px;
-      margin-bottom:5px;
-    }
-
-    .stats{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:12px;
-    }
-
-    .card{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:18px;
-      padding:16px;
-    }
-
-    .label{
-      color:var(--muted);
-      font-size:13px;
-    }
-
-    .value{
-      margin-top:8px;
-      font-size:22px;
-      font-weight:700;
-    }
-
-    .green{color:var(--green)}
-    .red{color:var(--red)}
-
-    .section{margin-top:28px}
-
-    .section-title{
-      font-weight:700;
-      margin-bottom:12px;
-    }
-
-    .trade{
-      background:#fff;
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:14px;
-      margin-bottom:10px;
-    }
-
-    .trade-row{
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      align-items:flex-start;
-    }
-
-    .small{
-      color:var(--muted);
-      font-size:12px;
-      line-height:1.6;
-      margin-top:4px;
-    }
-
-    .field{margin-bottom:14px}
-
-    label{
-      display:block;
-      margin:0 0 6px 2px;
-      color:var(--muted);
-      font-size:13px;
-    }
-
-    input,select,textarea{
-      width:100%;
-      padding:13px;
-      border:1px solid var(--border);
-      border-radius:13px;
-      background:#fff;
-      color:var(--text);
-      font-size:16px;
-      outline:none;
-    }
-
-    textarea{
-      min-height:90px;
-      resize:vertical;
-    }
-
-    .two{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
-    }
-
-    button{
-      font-family:inherit;
-      cursor:pointer;
-    }
-
-    .primary{
-      width:100%;
-      border:0;
-      border-radius:14px;
-      padding:15px;
-      background:var(--blue);
-      color:white;
-      font-size:16px;
-      font-weight:700;
-    }
-
-    .primary:disabled{opacity:.6}
-
-    .page{display:none}
-    .page.active{display:block}
-
-    .bottom{
-      position:fixed;
-      left:0;
-      right:0;
-      bottom:0;
-      background:rgba(255,255,255,.96);
-      border-top:1px solid var(--border);
-      padding:8px 10px calc(8px + env(safe-area-inset-bottom));
-    }
-
-    .nav{
-      max-width:620px;
-      margin:auto;
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-    }
-
-    .nav button{
-      border:0;
-      background:none;
-      padding:10px 4px;
-      color:var(--muted);
-      font-size:12px;
-    }
-
-    .nav button.active{
-      color:var(--blue);
-      font-weight:700;
-    }
-
-    .ai-info{
-      background:var(--soft);
-      border-radius:15px;
-      padding:15px;
-      font-size:14px;
-      line-height:1.7;
-    }
-
-    .delete{
-      margin-top:10px;
-      border:0;
-      background:none;
-      color:var(--red);
-      padding:0;
-      font-size:12px;
-    }
-
-    .empty{
-      text-align:center;
-      color:var(--muted);
-      padding:25px 0;
-    }
-
-    .detail-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:8px;
-      margin-top:12px;
-    }
-
-    .detail-item{
-      background:#f8f8f6;
-      border-radius:12px;
-      padding:10px;
-    }
-
-    .detail-item span{
-      display:block;
-      color:var(--muted);
-      font-size:11px;
-      margin-bottom:4px;
-    }
-
-    .analysis-block{
-      background:#fff;
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:14px;
-      margin-bottom:14px;
-    }
-
-    .analysis-card{
-      background:var(--soft2);
-      border-radius:13px;
-      padding:13px;
-      margin-top:10px;
-    }
-
-    .analysis-card-title{
-      font-size:12px;
-      color:var(--muted);
-      margin-bottom:6px;
-    }
-
-    .analysis-card-text{
-      font-size:14px;
-      line-height:1.7;
-    }
-
-    .chip-list{
-      display:flex;
-      flex-wrap:wrap;
-      gap:7px;
-      margin-top:8px;
-    }
-
-    .chip{
-      background:#edf0ef;
-      border-radius:999px;
-      padding:6px 9px;
-      font-size:12px;
-      color:#657269;
-    }
-
-    .warning-chip{
-      background:#f3ece7;
-      color:#8b6f62;
-    }
-
-    .product-row{
-      display:flex;
-      justify-content:space-between;
-      padding:12px 0;
-      border-bottom:1px solid var(--border);
-    }
-
-    .product-row:last-child{border-bottom:0}
-
-    .rr{
-      margin-top:8px;
-      padding:10px;
-      background:#f6f5f1;
-      border-radius:12px;
-      color:var(--muted);
-      font-size:12px;
-    }
-  </style>
-</head>
-
-<body>
-
-<div class="app">
-
-  <section id="homePage" class="page active">
-    <div class="sub">MY TRADING JOURNAL</div>
-    <h1>期貨交易日誌</h1>
-
-    <div class="stats">
-      <div class="card">
-        <div class="label">總損益</div>
-        <div id="totalProfit" class="value">NT$0</div>
-      </div>
-
-      <div class="card">
-        <div class="label">本月損益</div>
-        <div id="monthProfit" class="value">NT$0</div>
-      </div>
-
-      <div class="card">
-        <div class="label">勝率</div>
-        <div id="winRate" class="value">0%</div>
-      </div>
-
-      <div class="card">
-        <div class="label">交易筆數</div>
-        <div id="tradeCount" class="value">0</div>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-title">最近交易</div>
-      <div id="tradeList"></div>
-    </div>
-  </section>
-
-
-  <section id="addPage" class="page">
-    <div class="sub">NEW TRADE</div>
-    <h1>新增交易</h1>
-
-    <div class="card">
-
-      <div class="field">
-        <label>操作商品名稱</label>
-        <input id="product" placeholder="例如：小台指期、黃金、NASDAQ">
-      </div>
-
-      <div class="field">
-        <label>方向</label>
-        <select id="direction">
-          <option>做多</option>
-          <option>做空</option>
-        </select>
-      </div>
-
-      <div class="two">
-        <div class="field">
-          <label>進場時間</label>
-          <input id="entryTime" type="datetime-local">
-        </div>
-
-        <div class="field">
-          <label>出場時間</label>
-          <input id="exitTime" type="datetime-local">
-        </div>
-      </div>
-
-      <div class="two">
-        <div class="field">
-          <label>進場價格</label>
-          <input id="entryPrice" type="number" step="any">
-        </div>
-
-        <div class="field">
-          <label>出場價格</label>
-          <input id="exitPrice" type="number" step="any">
-        </div>
-      </div>
-
-      <div class="two">
-        <div class="field">
-          <label>停損價</label>
-          <input id="stopLoss" type="number" step="any">
-        </div>
-
-        <div class="field">
-          <label>停利價</label>
-          <input id="takeProfit" type="number" step="any">
-        </div>
-      </div>
-
-      <div class="two">
-        <div class="field">
-          <label>口數</label>
-          <input id="quantity" type="number" min="1" value="1">
-        </div>
-
-        <div class="field">
-          <label>手續費</label>
-          <input id="fee" type="number" min="0" value="0">
-        </div>
-      </div>
-
-      <div class="field">
-        <label>獲利 / 虧損金額</label>
-        <input id="profit" type="number" placeholder="例如：2850 或 -1200">
-      </div>
-
-      <div class="field">
-        <label>每一單紀錄</label>
-        <textarea id="note" placeholder="可記錄行情、策略或進場依據"></textarea>
-      </div>
-
-      <button class="primary" onclick="saveTrade()">儲存交易</button>
-    </div>
-  </section>
-
-
-  <section id="analysisPage" class="page">
-    <div class="sub">OBJECTIVE AI REVIEW</div>
-    <h1>AI 客觀分析</h1>
-
-    <div class="ai-info">
-      <strong>分析原則</strong><br><br>
-      AI 只依照你提供的交易資料進行事後分析，
-      不推測你的情緒、心理、人格或主觀動機。<br><br>
-      資料不足時會直接標示：
-      「資料不足，無法客觀判定」。
-    </div>
-
-    <div class="section">
-      <div class="section-title">逐筆交易分析</div>
-      <div id="analysisList"></div>
-    </div>
-  </section>
-
-
-  <section id="statsPage" class="page">
-    <div class="sub">PERFORMANCE</div>
-    <h1>績效統計</h1>
-
-    <div class="card">
-      <div class="section-title">商品別績效</div>
-      <div id="productStats"></div>
-    </div>
-  </section>
-
-</div>
-
-
-<div class="bottom">
-  <div class="nav">
-    <button id="homeBtn" class="active" onclick="showPage('home')">首頁</button>
-    <button id="addBtn" onclick="showPage('add')">新增交易</button>
-    <button id="analysisBtn" onclick="showPage('analysis')">AI 分析</button>
-    <button id="statsBtn" onclick="showPage('stats')">績效</button>
-  </div>
-</div>
-
-
-<script>
-
-const AI_API = "https://futures-ai-worker.s4112930.workers.dev";
-
-let trades =
-  JSON.parse(localStorage.getItem("futuresTrades")) || [];
-
-
-function showPage(page){
-  document.querySelectorAll(".page").forEach(x => x.classList.remove("active"));
-  document.querySelectorAll(".nav button").forEach(x => x.classList.remove("active"));
-
-  if(page === "home"){
-    homePage.classList.add("active");
-    homeBtn.classList.add("active");
-  }
-
-  if(page === "add"){
-    addPage.classList.add("active");
-    addBtn.classList.add("active");
-  }
-
-  if(page === "analysis"){
-    analysisPage.classList.add("active");
-    analysisBtn.classList.add("active");
-  }
-
-  if(page === "stats"){
-    statsPage.classList.add("active");
-    statsBtn.classList.add("active");
-  }
-}
-
-
-function saveTrade(){
-  const productValue = product.value.trim();
-
-  if(!productValue){
-    alert("請輸入商品名稱");
-    return;
-  }
-
-  if(profit.value === ""){
-    alert("請輸入獲利或虧損金額");
-    return;
-  }
-
-  const trade = {
-    id:Date.now(),
-    product:productValue,
-    direction:direction.value,
-    entryTime:entryTime.value,
-    exitTime:exitTime.value,
-    entryPrice:entryPrice.value,
-    exitPrice:exitPrice.value,
-    stopLoss:stopLoss.value,
-    takeProfit:takeProfit.value,
-    quantity:Number(quantity.value || 1),
-    fee:Number(fee.value || 0),
-    profit:Number(profit.value),
-    note:note.value,
-    aiAnalysis:null
-  };
-
-  trades.unshift(trade);
-  saveTrades();
-  clearForm();
-  render();
-  showPage("home");
-}
-
-
-function saveTrades(){
-  localStorage.setItem(
-    "futuresTrades",
-    JSON.stringify(trades)
-  );
-}
-
-
-function clearForm(){
-  product.value="";
-  entryTime.value="";
-  exitTime.value="";
-  entryPrice.value="";
-  exitPrice.value="";
-  stopLoss.value="";
-  takeProfit.value="";
-  quantity.value="1";
-  fee.value="0";
-  profit.value="";
-  note.value="";
-}
-
-
-function deleteTrade(id){
-  if(!confirm("確定刪除這筆交易嗎？")) return;
-
-  trades = trades.filter(t => t.id !== id);
-  saveTrades();
-  render();
-}
-
-
-function money(n){
-  const number = Number(n) || 0;
-  const sign = number > 0 ? "+" : number < 0 ? "-" : "";
-
-  return sign + "NT$" + Math.abs(number).toLocaleString("zh-TW");
-}
-
-
-function formatTime(time){
-  if(!time) return "未填寫";
-
-  const d = new Date(time);
-
-  return d.toLocaleString("zh-TW",{
-    month:"2-digit",
-    day:"2-digit",
-    hour:"2-digit",
-    minute:"2-digit"
-  });
-}
-
-
-function calculateRR(t){
-  const entry = Number(t.entryPrice);
-  const stop = Number(t.stopLoss);
-  const target = Number(t.takeProfit);
-
-  if(!entry || !stop || !target) return null;
-
-  let risk;
-  let reward;
-
-  if(t.direction === "做多"){
-    risk = entry - stop;
-    reward = target - entry;
-  }else{
-    risk = stop - entry;
-    reward = entry - target;
-  }
-
-  if(risk <= 0 || reward <= 0) return null;
-
-  return reward / risk;
-}
-
-
-function renderHome(){
-  const total = trades.reduce((sum,t) => sum + Number(t.profit || 0),0);
-
-  const now = new Date();
-
-  const monthly = trades.filter(t => {
-    if(!t.entryTime) return false;
-
-    const d = new Date(t.entryTime);
-
-    return d.getMonth() === now.getMonth()
-      && d.getFullYear() === now.getFullYear();
-  });
-
-  const monthTotal =
-    monthly.reduce((sum,t) => sum + Number(t.profit || 0),0);
-
-  const wins =
-    trades.filter(t => Number(t.profit) > 0).length;
-
-  const rate =
-    trades.length
-      ? Math.round(wins / trades.length * 100)
-      : 0;
-
-  totalProfit.innerText = money(total);
-  monthProfit.innerText = money(monthTotal);
-  winRate.innerText = rate + "%";
-  tradeCount.innerText = trades.length;
-
-  totalProfit.className = "value " + (total >= 0 ? "green":"red");
-  monthProfit.className = "value " + (monthTotal >= 0 ? "green":"red");
-
-  if(!trades.length){
-    tradeList.innerHTML = '<div class="empty">目前還沒有交易紀錄</div>';
-    return;
-  }
-
-  tradeList.innerHTML = trades.map(t => {
-    const rr = calculateRR(t);
-
-    return `
-      <div class="trade">
-
-        <div class="trade-row">
-          <div>
-            <strong>${escapeHTML(t.product)}</strong>
-            <div class="small">
-              ${t.direction} ・ ${formatTime(t.entryTime)}
-            </div>
-          </div>
-
-          <strong class="${Number(t.profit)>=0 ? "green":"red"}">
-            ${money(t.profit)}
-          </strong>
-        </div>
-
-        <div class="detail-grid">
-
-          <div class="detail-item">
-            <span>進場價</span>
-            ${t.entryPrice || "未填寫"}
-          </div>
-
-          <div class="detail-item">
-            <span>出場價</span>
-            ${t.exitPrice || "未填寫"}
-          </div>
-
-          <div class="detail-item">
-            <span>口數</span>
-            ${t.quantity || 1}
-          </div>
-
-          <div class="detail-item">
-            <span>手續費</span>
-            ${money(-(t.fee || 0))}
-          </div>
-
-        </div>
-
-        ${
-          rr
-          ? `<div class="rr">預設風險報酬比：約 1 : ${rr.toFixed(2)}</div>`
-          : `<div class="rr">風險報酬比：資料不足</div>`
+    if (request.method !== "POST") {
+      return new Response(
+        JSON.stringify({
+          ok: false,
+          error: "Only POST requests are accepted."
+        }),
+        {
+          status: 405,
+          headers
         }
-
-        ${t.note ? `<div class="small" style="margin-top:10px;">${escapeHTML(t.note)}</div>` : ""}
-
-        <button class="delete" onclick="deleteTrade(${t.id})">
-          刪除
-        </button>
-
-      </div>
-    `;
-  }).join("");
-}
-
-
-async function runAIAnalysis(id){
-  const trade = trades.find(t => t.id === id);
-  if(!trade) return;
-
-  const resultBox = document.getElementById("ai-" + id);
-  const button = document.getElementById("btn-" + id);
-
-  button.disabled = true;
-  button.innerText = "AI 分析中…";
-
-  resultBox.innerHTML =
-    '<div class="small">正在進行客觀分析，請稍候…</div>';
-
-  try{
-    const response = await fetch(AI_API,{
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body:JSON.stringify(trade)
-    });
-
-    const data = await response.json();
-
-    if(!response.ok || !data.ok){
-      throw new Error(data.error || "AI 分析失敗");
+      );
     }
 
-    trade.aiAnalysis = data.analysis;
-    saveTrades();
+    try {
+      const trade = await request.json();
 
-    resultBox.innerHTML = renderAIResult(data.analysis);
+      if (!trade.product || !trade.direction) {
+        return new Response(
+          JSON.stringify({
+            ok: false,
+            error: "缺少商品名稱或交易方向"
+          }),
+          {
+            status: 400,
+            headers
+          }
+        );
+      }
 
-    button.innerText = "重新分析";
-    button.disabled = false;
+      const systemPrompt = `
+你是一個期貨交易客觀分析系統。
 
-  }catch(error){
-    resultBox.innerHTML =
-      `<div class="small red">AI 分析失敗：${escapeHTML(error.message)}</div>`;
+只分析已完成的交易紀錄。
 
-    button.innerText = "重新嘗試";
-    button.disabled = false;
-  }
-}
+規則：
+1. 只能使用輸入資料中的可驗證資訊。
+2. 不得自行補充市場行情、成交量、新聞或技術指標。
+3. 不得推測交易者情緒、心理、人格或主觀動機。
+4. 禁止使用「貪心、恐懼、衝動、沒耐心、心態不好、太急」。
+5. 獲利不代表進場正確。
+6. 虧損不代表進場錯誤。
+7. 資料不足時必須明確說「資料不足，無法客觀判定」。
+8. 不提供未來買進、賣出、加碼、減碼或持有建議。
+9. 使用繁體中文。
+10. 簡潔、中性、專業。
+`;
 
+      const tradeText = `
+商品：${trade.product || "未提供"}
+方向：${trade.direction || "未提供"}
+進場時間：${trade.entryTime || "未提供"}
+出場時間：${trade.exitTime || "未提供"}
+進場價：${trade.entryPrice || "未提供"}
+出場價：${trade.exitPrice || "未提供"}
+停損價：${trade.stopLoss || "未提供"}
+停利價：${trade.takeProfit || "未提供"}
+口數：${trade.quantity ?? "未提供"}
+手續費：${trade.fee ?? "未提供"}
+實際損益：${trade.profit ?? "未提供"}
+個人紀錄：${trade.note || "未提供"}
+`;
 
-function renderAIResult(a){
-  if(!a || typeof a !== "object"){
-    return '<div class="small red">AI 回傳資料格式異常</div>';
-  }
-
-  const verified = Array.isArray(a.verifiedFactors)
-    ? a.verifiedFactors
-    : [];
-
-  const missing = Array.isArray(a.missingData)
-    ? a.missingData
-    : [];
-
-  return `
-    <div class="analysis-card">
-      <div class="analysis-card-title">交易摘要</div>
-      <div class="analysis-card-text">${escapeHTML(a.summary || "資料不足")}</div>
-    </div>
-
-    <div class="analysis-card">
-      <div class="analysis-card-title">持倉時間</div>
-      <div class="analysis-card-text">${escapeHTML(a.holdingTime || "資料不足")}</div>
-    </div>
-
-    <div class="analysis-card">
-      <div class="analysis-card-title">價格變化</div>
-      <div class="analysis-card-text">${escapeHTML(a.priceChange || "資料不足")}</div>
-    </div>
-
-    <div class="analysis-card">
-      <div class="analysis-card-title">進場分析</div>
-      <div class="analysis-card-text">${escapeHTML(a.entryAnalysis || "資料不足")}</div>
-    </div>
-
-    <div class="analysis-card">
-      <div class="analysis-card-title">出場分析</div>
-      <div class="analysis-card-text">${escapeHTML(a.exitAnalysis || "資料不足")}</div>
-    </div>
-
-    <div class="analysis-card">
-      <div class="analysis-card-title">風險管理</div>
-      <div class="analysis-card-text">${escapeHTML(a.riskManagement || "資料不足")}</div>
-    </div>
-
-    <div class="analysis-card">
-      <div class="analysis-card-title">可驗證因素</div>
-
-      <div class="chip-list">
-        ${
-          verified.length
-          ? verified.map(x => `<span class="chip">${escapeHTML(x)}</span>`).join("")
-          : '<span class="chip">沒有足夠資料</span>'
-        }
-      </div>
-    </div>
-
-    <div class="analysis-card">
-      <div class="analysis-card-title">資料不足項目</div>
-
-      <div class="chip-list">
-        ${
-          missing.length
-          ? missing.map(x => `<span class="chip warning-chip">${escapeHTML(x)}</span>`).join("")
-          : '<span class="chip">無明顯缺少項目</span>'
-        }
-      </div>
-    </div>
-
-    <div class="analysis-card">
-      <div class="analysis-card-title">客觀結論</div>
-      <div class="analysis-card-text">${escapeHTML(a.objectiveConclusion || "資料不足")}</div>
-    </div>
-  `;
-}
-
-
-function renderAnalysis(){
-  if(!trades.length){
-    analysisList.innerHTML =
-      '<div class="empty">新增交易後才會產生分析</div>';
-    return;
-  }
-
-  analysisList.innerHTML = trades.map(t => {
-
-    const saved =
-      t.aiAnalysis && typeof t.aiAnalysis === "object"
-      ? renderAIResult(t.aiAnalysis)
-      : '<div class="small" style="margin-top:12px;">尚未執行 AI 客觀分析</div>';
-
-    return `
-      <div class="analysis-block">
-
-        <div class="trade-row">
-
-          <div>
-            <h3>${escapeHTML(t.product)}</h3>
-
-            <div class="small">
-              ${t.direction} ・ ${formatTime(t.entryTime)}
-            </div>
-          </div>
-
-          <strong class="${Number(t.profit)>=0 ? "green":"red"}">
-            ${money(t.profit)}
-          </strong>
-
-        </div>
-
-        <div class="detail-grid">
-
-          <div class="detail-item">
-            <span>進場價</span>
-            ${t.entryPrice || "未填寫"}
-          </div>
-
-          <div class="detail-item">
-            <span>出場價</span>
-            ${t.exitPrice || "未填寫"}
-          </div>
-
-          <div class="detail-item">
-            <span>停損價</span>
-            ${t.stopLoss || "未填寫"}
-          </div>
-
-          <div class="detail-item">
-            <span>停利價</span>
-            ${t.takeProfit || "未填寫"}
-          </div>
-
-        </div>
-
-        <button
-          id="btn-${t.id}"
-          class="primary"
-          style="margin-top:14px;"
-          onclick="runAIAnalysis(${t.id})"
-        >
-          ${t.aiAnalysis ? "重新分析" : "AI 客觀分析"}
-        </button>
-
-        <div id="ai-${t.id}">
-          ${saved}
-        </div>
-
-      </div>
-    `;
-  }).join("");
-}
-
-
-function renderProductStats(){
-  if(!trades.length){
-    productStats.innerHTML =
-      '<div class="empty">目前沒有可統計的交易資料</div>';
-    return;
-  }
-
-  const groups = {};
-
-  trades.forEach(t => {
-    if(!groups[t.product]){
-      groups[t.product] = {
-        count:0,
-        wins:0,
-        pnl:0
+      const schema = {
+        type: "object",
+        properties: {
+          summary: {
+            type: "string"
+          },
+          holdingTime: {
+            type: "string"
+          },
+          priceChange: {
+            type: "string"
+          },
+          entryAnalysis: {
+            type: "string"
+          },
+          exitAnalysis: {
+            type: "string"
+          },
+          riskManagement: {
+            type: "string"
+          },
+          verifiedFactors: {
+            type: "array",
+            items: {
+              type: "string"
+            }
+          },
+          missingData: {
+            type: "array",
+            items: {
+              type: "string"
+            }
+          },
+          objectiveConclusion: {
+            type: "string"
+          }
+        },
+        required: [
+          "summary",
+          "holdingTime",
+          "priceChange",
+          "entryAnalysis",
+          "exitAnalysis",
+          "riskManagement",
+          "verifiedFactors",
+          "missingData",
+          "objectiveConclusion"
+        ]
       };
+
+      const result = await env.AI.run(
+        "@cf/meta/llama-3.1-8b-instruct-fast",
+        {
+          messages: [
+            {
+              role: "system",
+              content: systemPrompt
+            },
+            {
+              role: "user",
+              content: tradeText
+            }
+          ],
+
+          response_format: {
+            type: "json_schema",
+            json_schema: schema
+          },
+
+          max_tokens: 900,
+          temperature: 0.1
+        }
+      );
+
+      let analysis = result.response;
+
+      if (typeof analysis === "string") {
+        try {
+          analysis = JSON.parse(analysis);
+        } catch {
+          throw new Error("AI 回傳內容不是有效 JSON");
+        }
+      }
+
+      return new Response(
+        JSON.stringify({
+          ok: true,
+          analysis
+        }),
+        {
+          status: 200,
+          headers
+        }
+      );
+
+    } catch (error) {
+      return new Response(
+        JSON.stringify({
+          ok: false,
+          error: "AI 分析失敗",
+          detail: String(error)
+        }),
+        {
+          status: 500,
+          headers
+        }
+      );
     }
-
-    groups[t.product].count++;
-    groups[t.product].pnl += Number(t.profit || 0);
-
-    if(Number(t.profit) > 0){
-      groups[t.product].wins++;
-    }
-  });
-
-  productStats.innerHTML =
-    Object.entries(groups).map(([name,data]) => {
-
-      const rate =
-        Math.round(data.wins / data.count * 100);
-
-      return `
-        <div class="product-row">
-          <div>
-            <strong>${escapeHTML(name)}</strong>
-            <div class="small">
-              ${data.count} 筆 ・ 勝率 ${rate}%
-            </div>
-          </div>
-
-          <strong class="${data.pnl>=0 ? "green":"red"}">
-            ${money(data.pnl)}
-          </strong>
-        </div>
-      `;
-    }).join("");
-}
-
-
-function escapeHTML(text){
-  const div = document.createElement("div");
-  div.innerText = String(text ?? "");
-  return div.innerHTML;
-}
-
-
-function render(){
-  renderHome();
-  renderAnalysis();
-  renderProductStats();
-}
-
-
-render();
-
-</script>
-
-</body>
-</html>
+  }
+};
