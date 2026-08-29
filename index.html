@@ -34,6 +34,7 @@
   --border:#e4e0da;
   --soft:#f1f2ef;
   --soft2:#f8f7f4;
+  --event:#eeeae2;
 }
 
 *{
@@ -336,6 +337,55 @@ button{
   border-bottom:0;
 }
 
+.event-card{
+  padding:15px;
+  margin-bottom:10px;
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:16px;
+}
+
+.event-head{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:flex-start;
+}
+
+.event-name{
+  font-size:16px;
+  font-weight:750;
+}
+
+.event-time{
+  margin-top:5px;
+  color:var(--muted);
+  font-size:12px;
+}
+
+.event-status{
+  padding:5px 8px;
+  background:var(--event);
+  border-radius:999px;
+  font-size:11px;
+  white-space:nowrap;
+}
+
+.event-countdown{
+  margin-top:12px;
+  font-size:14px;
+  font-weight:650;
+}
+
+.event-result{
+  margin-top:10px;
+  padding:11px;
+  background:var(--soft2);
+  border-radius:12px;
+  font-size:13px;
+  line-height:1.6;
+}
+
 .empty{
   padding:30px 10px;
   text-align:center;
@@ -421,6 +471,22 @@ button{
     <div class="card">
       <div class="stat-label">IG 可用資金</div>
       <div id="igAvailableBalance" class="stat-value">讀取中…</div>
+    </div>
+
+  </div>
+
+
+  <div class="section">
+
+    <div class="section-title">
+      重大經濟事件
+    </div>
+
+    <div id="eventList"></div>
+
+    <div class="help">
+      發布時間依美國 BLS 官方排程，畫面已換算為台灣時間。
+      官方實際值欄位目前採手動更新，之後可再升級為自動抓取。
     </div>
 
   </div>
@@ -635,6 +701,241 @@ JSON.parse(
 ) || [];
 
 
+/* =========================
+   重大事件
+========================= */
+
+const economicEvents = [
+  {
+    id:"nfp-2026-09",
+    name:"美國非農就業",
+    shortName:"非農",
+    time:"2026-09-04T20:30:00+08:00",
+    reference:"2026 年 8 月",
+    actual:null,
+    previous:null,
+    unit:"K"
+  },
+  {
+    id:"ppi-2026-09",
+    name:"美國生產者物價指數",
+    shortName:"PPI",
+    time:"2026-09-10T20:30:00+08:00",
+    reference:"2026 年 8 月",
+    actual:null,
+    previous:null,
+    unit:"%"
+  },
+  {
+    id:"cpi-2026-09",
+    name:"美國消費者物價指數",
+    shortName:"CPI",
+    time:"2026-09-11T20:30:00+08:00",
+    reference:"2026 年 8 月",
+    actual:null,
+    previous:null,
+    unit:"%"
+  }
+];
+
+
+function renderEconomicEvents(){
+
+  const box =
+  document.getElementById(
+    "eventList"
+  );
+
+  const now =
+  new Date();
+
+  box.innerHTML =
+  economicEvents
+  .map(event => {
+
+    const eventTime =
+    new Date(
+      event.time
+    );
+
+    const diff =
+    eventTime - now;
+
+    let status =
+    "";
+
+    let countdown =
+    "";
+
+    if(diff > 0){
+
+      status =
+      "尚未公布";
+
+      countdown =
+      formatCountdown(diff);
+
+    }else{
+
+      status =
+      "已到公布時間";
+
+      countdown =
+      "等待官方數值更新";
+
+    }
+
+    return `
+      <div class="event-card">
+
+        <div class="event-head">
+
+          <div>
+
+            <div class="event-name">
+              ${escapeHTML(event.shortName)}
+            </div>
+
+            <div class="event-time">
+              ${escapeHTML(event.name)}
+              ・
+              ${formatEventTime(eventTime)}
+            </div>
+
+            <div class="small">
+              資料月份：
+              ${escapeHTML(event.reference)}
+            </div>
+
+          </div>
+
+          <span class="event-status">
+            ${status}
+          </span>
+
+        </div>
+
+        <div class="event-countdown">
+          ${countdown}
+        </div>
+
+        <div class="event-result">
+
+          官方實際值：
+          ${
+            event.actual !== null
+            ? escapeHTML(
+                event.actual +
+                event.unit
+              )
+            : "尚未公布"
+          }
+
+          <br>
+
+          前值：
+          ${
+            event.previous !== null
+            ? escapeHTML(
+                event.previous +
+                event.unit
+              )
+            : "尚未填入"
+          }
+
+        </div>
+
+      </div>
+    `;
+
+  })
+  .join("");
+
+}
+
+
+function formatCountdown(ms){
+
+  const totalMinutes =
+  Math.floor(
+    ms / 60000
+  );
+
+  const days =
+  Math.floor(
+    totalMinutes /
+    1440
+  );
+
+  const hours =
+  Math.floor(
+    (
+      totalMinutes %
+      1440
+    ) /
+    60
+  );
+
+  const minutes =
+  totalMinutes %
+  60;
+
+  if(days > 0){
+
+    return (
+      "距離公布還有 " +
+      days +
+      " 天 " +
+      hours +
+      " 小時"
+    );
+
+  }
+
+  if(hours > 0){
+
+    return (
+      "距離公布還有 " +
+      hours +
+      " 小時 " +
+      minutes +
+      " 分鐘"
+    );
+
+  }
+
+  return (
+    "距離公布還有 " +
+    Math.max(
+      minutes,
+      0
+    ) +
+    " 分鐘"
+  );
+
+}
+
+
+function formatEventTime(d){
+
+  return d.toLocaleString(
+    "zh-TW",
+    {
+      month:"2-digit",
+      day:"2-digit",
+      hour:"2-digit",
+      minute:"2-digit",
+      hour12:false
+    }
+  );
+
+}
+
+
+/* =========================
+   原本功能
+========================= */
+
 const syncMonth =
 document.getElementById("syncMonth");
 
@@ -717,7 +1018,10 @@ function buildMonthOptions(){
     (d.getMonth() + 1) +
     " 月";
 
-    syncMonth.appendChild(option);
+    syncMonth.appendChild(
+      option
+    );
+
   }
 
 }
@@ -898,14 +1202,20 @@ productSelect.addEventListener(
     if(
       productSelect.value === "其他"
     ){
+
       otherProductBox
       .classList
       .remove("hidden");
+
     }else{
+
       otherProductBox
       .classList
       .add("hidden");
-      otherProduct.value = "";
+
+      otherProduct.value =
+      "";
+
     }
 
   }
@@ -961,8 +1271,10 @@ function updatePoints(){
     entryPrice.value === "" ||
     exitPrice.value === ""
   ){
+
     pointsPreview.innerText =
     "—";
+
     return;
   }
 
@@ -1212,7 +1524,9 @@ function saveTrade(){
   });
 
   saveTrades();
+
   render();
+
   showPage("home");
 
 }
@@ -1354,8 +1668,13 @@ async function syncIGMonth(){
       );
 
       if(converted){
-        trades.push(converted);
+
+        trades.push(
+          converted
+        );
+
         imported++;
+
       }
 
     });
@@ -1531,42 +1850,72 @@ function convertIGTrade(
         Math.random() *
         1000000
       ),
+
     source:"ig",
-    igUniqueId:uniqueId,
-    igReference:item.reference || "",
-    igOriginalProduct:item.instrumentName || "",
-    product:normalizeIGProduct(
-      item.instrumentName
-    ),
-    currency:normalizeCurrency(
-      item.currency
-    ),
-    direction:tradeDirection,
-    entryTime:entry,
-    exitTime:exit,
-    entryPrice:open,
-    exitPrice:close,
+
+    igUniqueId:
+      uniqueId,
+
+    igReference:
+      item.reference || "",
+
+    igOriginalProduct:
+      item.instrumentName || "",
+
+    product:
+      normalizeIGProduct(
+        item.instrumentName
+      ),
+
+    currency:
+      normalizeCurrency(
+        item.currency
+      ),
+
+    direction:
+      tradeDirection,
+
+    entryTime:
+      entry,
+
+    exitTime:
+      exit,
+
+    entryPrice:
+      open,
+
+    exitPrice:
+      close,
+
     stopLoss:"",
     takeProfit:"",
-    quantity:Math.abs(size),
+
+    quantity:
+      Math.abs(size),
+
     fee:0,
+
     points:
       calculatePointsFromValues(
         tradeDirection,
         open,
         close
       ),
+
     holdingMinutes:
       calculateHoldingMinutes(
         entry,
         exit
       ),
+
     profit:
       parseIGProfit(
         item.profitAndLoss
       ),
+
     note:
       "由 IG Trading 自動匯入",
+
     aiAnalysis:null
   };
 
@@ -1659,6 +2008,7 @@ function deleteTrade(id){
   );
 
   saveTrades();
+
   render();
 
 }
@@ -1919,8 +2269,10 @@ function renderHome(){
   );
 
   if(!trades.length){
+
     list.innerHTML =
     '<div class="empty">目前還沒有交易紀錄</div>';
+
     return;
   }
 
@@ -1931,6 +2283,7 @@ function renderHome(){
       <div class="trade-top">
 
         <div>
+
           <div class="trade-name">
             ${escapeHTML(t.product)}
           </div>
@@ -1948,6 +2301,7 @@ function renderHome(){
             :
             ""
           }
+
         </div>
 
         <strong
@@ -2156,8 +2510,10 @@ function renderAnalysis(){
   );
 
   if(!trades.length){
+
     list.innerHTML =
     '<div class="empty">目前沒有交易資料</div>';
+
     return;
   }
 
@@ -2319,6 +2675,7 @@ function render(){
   renderHome();
   renderAnalysis();
   renderStats();
+  renderEconomicEvents();
 
 }
 
@@ -2328,6 +2685,11 @@ buildMonthOptions();
 render();
 
 loadIGAccount();
+
+setInterval(
+  renderEconomicEvents,
+  60000
+);
 
 </script>
 
