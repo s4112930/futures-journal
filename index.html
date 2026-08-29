@@ -281,15 +281,6 @@ button{
   font-size:11px;
 }
 
-.rr{
-  margin-top:9px;
-  padding:10px;
-  background:#f6f5f1;
-  border-radius:12px;
-  color:var(--muted);
-  font-size:12px;
-}
-
 .delete{
   margin-top:12px;
   padding:0;
@@ -331,25 +322,6 @@ button{
 .analysis-text{
   font-size:14px;
   line-height:1.75;
-}
-
-.chips{
-  display:flex;
-  flex-wrap:wrap;
-  gap:7px;
-}
-
-.chip{
-  padding:6px 9px;
-  background:#e9eeea;
-  border-radius:999px;
-  color:#647268;
-  font-size:12px;
-}
-
-.warning{
-  background:#f3ebe7;
-  color:#8c6b61;
 }
 
 .product-row{
@@ -441,7 +413,18 @@ button{
       <div id="tradeCount" class="stat-value">0</div>
     </div>
 
+    <div class="card">
+      <div class="stat-label">IG 帳戶餘額</div>
+      <div id="igAccountBalance" class="stat-value">讀取中…</div>
+    </div>
+
+    <div class="card">
+      <div class="stat-label">IG 可用資金</div>
+      <div id="igAvailableBalance" class="stat-value">讀取中…</div>
+    </div>
+
   </div>
+
 
   <div class="sync-box">
 
@@ -459,10 +442,11 @@ button{
     </button>
 
     <div id="igSyncStatus" class="sync-status">
-      建議依月份逐月同步最近一年，避免 IG API 請求過多。
+      建議依月份逐月同步最近一年。
     </div>
 
   </div>
+
 
   <div class="section">
     <div class="section-title">最近交易</div>
@@ -569,9 +553,6 @@ button{
     <div class="field">
       <label>實際獲利 / 虧損金額</label>
       <input id="profit" type="number" step="any">
-      <div class="help">
-        手動新增預設使用新台幣；IG 匯入保留原始幣別。
-      </div>
     </div>
 
     <div class="field">
@@ -594,7 +575,7 @@ button{
   <h1>AI 客觀分析</h1>
 
   <div class="ai-info">
-    AI 只依照已記錄的交易資料進行事後分析，不推測情緒、心理或主觀動機。
+    AI 只依照已記錄的交易資料進行事後分析，不推測情緒或主觀動機。
   </div>
 
   <div class="section">
@@ -654,6 +635,9 @@ JSON.parse(
 ) || [];
 
 
+const syncMonth =
+document.getElementById("syncMonth");
+
 const productSelect =
 document.getElementById("productSelect");
 
@@ -699,9 +683,6 @@ document.getElementById("note");
 const pointsPreview =
 document.getElementById("pointsPreview");
 
-const syncMonth =
-document.getElementById("syncMonth");
-
 
 function buildMonthOptions(){
 
@@ -736,9 +717,103 @@ function buildMonthOptions(){
     (d.getMonth() + 1) +
     " 月";
 
-    syncMonth.appendChild(
-      option
+    syncMonth.appendChild(option);
+  }
+
+}
+
+
+async function loadIGAccount(){
+
+  const balanceBox =
+  document.getElementById(
+    "igAccountBalance"
+  );
+
+  const availableBox =
+  document.getElementById(
+    "igAvailableBalance"
+  );
+
+  try{
+
+    const response =
+    await fetch(
+      API +
+      "/ig/accounts"
     );
+
+    const data =
+    await response.json();
+
+    if(
+      !response.ok ||
+      !data.ok
+    ){
+      throw new Error(
+        data.error ||
+        "帳戶資料讀取失敗"
+      );
+    }
+
+    const accounts =
+    Array.isArray(
+      data.accounts
+    )
+    ? data.accounts
+    : [];
+
+    if(!accounts.length){
+      throw new Error(
+        "沒有取得 IG 帳戶"
+      );
+    }
+
+    const account =
+    accounts.find(
+      a =>
+      a.preferred === true
+    )
+    ||
+    accounts[0];
+
+    const currency =
+    account.currency ||
+    "USD";
+
+    const balance =
+    Number(
+      account.balance?.balance
+    );
+
+    const available =
+    Number(
+      account.balance?.available
+    );
+
+    balanceBox.innerText =
+    Number.isFinite(balance)
+    ? money(
+        balance,
+        currency
+      )
+    : "資料不足";
+
+    availableBox.innerText =
+    Number.isFinite(available)
+    ? money(
+        available,
+        currency
+      )
+    : "資料不足";
+
+  }catch(error){
+
+    balanceBox.innerText =
+    "讀取失敗";
+
+    availableBox.innerText =
+    "讀取失敗";
 
   }
 
@@ -816,67 +891,12 @@ function isAllowedProduct(product){
 }
 
 
-function migrateOldTrades(){
-
-  let changed =
-  false;
-
-  trades =
-  trades.filter(t => {
-
-    if(
-      t.source !== "ig"
-    ){
-      return true;
-    }
-
-    const original =
-    t.igOriginalProduct ||
-    t.product ||
-    "";
-
-    const normalized =
-    normalizeIGProduct(
-      original
-    );
-
-    if(
-      !isAllowedProduct(
-        normalized
-      )
-    ){
-      changed = true;
-      return false;
-    }
-
-    if(
-      t.product !== normalized
-    ){
-      t.product =
-      normalized;
-
-      changed =
-      true;
-    }
-
-    return true;
-
-  });
-
-  if(changed){
-    saveTrades();
-  }
-
-}
-
-
 productSelect.addEventListener(
   "change",
   function(){
 
     if(
-      productSelect.value ===
-      "其他"
+      productSelect.value === "其他"
     ){
       otherProductBox
       .classList
@@ -885,9 +905,7 @@ productSelect.addEventListener(
       otherProductBox
       .classList
       .add("hidden");
-
-      otherProduct.value =
-      "";
+      otherProduct.value = "";
     }
 
   }
@@ -919,14 +937,9 @@ function calculatePointsFromValues(
   exit
 ){
 
-  if(
-    tradeDirection ===
-    "做多"
-  ){
-    return exit - entry;
-  }
-
-  return entry - exit;
+  return tradeDirection === "做多"
+  ? exit - entry
+  : entry - exit;
 
 }
 
@@ -950,7 +963,6 @@ function updatePoints(){
   ){
     pointsPreview.innerText =
     "—";
-
     return;
   }
 
@@ -1142,15 +1154,8 @@ function saveTrade(){
   if(
     productName === "其他"
   ){
-
     productName =
     otherProduct.value.trim();
-
-    if(!productName){
-      alert("請輸入其他商品名稱");
-      return;
-    }
-
   }
 
   const entry =
@@ -1171,101 +1176,43 @@ function saveTrade(){
   }
 
   if(
-    new Date(exit) <
-    new Date(entry)
-  ){
-    alert(
-      "出場時間不能早於進場時間"
-    );
-    return;
-  }
-
-  if(
     entryPrice.value === "" ||
-    exitPrice.value === ""
-  ){
-    alert(
-      "請輸入進場與出場點位"
-    );
-    return;
-  }
-
-  if(
+    exitPrice.value === "" ||
     profit.value === ""
   ){
     alert(
-      "請輸入實際獲利或虧損金額"
+      "請完整輸入進出場點位與損益"
     );
     return;
   }
 
   trades.unshift({
-    id:
-    Date.now(),
-
-    source:
-    "manual",
-
-    currency:
-    "TWD",
-
-    product:
-    productName,
-
-    direction:
-    direction.value,
-
-    entryTime:
-    entry,
-
-    exitTime:
-    exit,
-
-    entryPrice:
-    Number(entryPrice.value),
-
-    exitPrice:
-    Number(exitPrice.value),
-
-    stopLoss:
-    stopLoss.value,
-
-    takeProfit:
-    takeProfit.value,
-
-    quantity:
-    Number(
-      quantity.value || 1
-    ),
-
-    fee:
-    Number(
-      fee.value || 0
-    ),
-
-    points:
-    calculatePoints(),
-
+    id:Date.now(),
+    source:"manual",
+    currency:"TWD",
+    product:productName,
+    direction:direction.value,
+    entryTime:entry,
+    exitTime:exit,
+    entryPrice:Number(entryPrice.value),
+    exitPrice:Number(exitPrice.value),
+    stopLoss:stopLoss.value,
+    takeProfit:takeProfit.value,
+    quantity:Number(quantity.value || 1),
+    fee:Number(fee.value || 0),
+    points:calculatePoints(),
     holdingMinutes:
-    calculateHoldingMinutes(
-      entry,
-      exit
-    ),
-
-    profit:
-    Number(profit.value),
-
-    note:
-    note.value,
-
-    aiAnalysis:
-    null
+      calculateHoldingMinutes(
+        entry,
+        exit
+      ),
+    profit:Number(profit.value),
+    note:note.value,
+    aiAnalysis:null
   });
 
   saveTrades();
-
   render();
-
   showPage("home");
 
 }
@@ -1283,18 +1230,11 @@ async function syncIGMonth(){
     "igSyncStatus"
   );
 
-  const selected =
-  syncMonth.value;
-
-  if(!selected){
-    return;
-  }
-
   const [
     year,
     month
   ] =
-  selected
+  syncMonth.value
   .split("-")
   .map(Number);
 
@@ -1323,13 +1263,6 @@ async function syncIGMonth(){
 
   button.innerText =
   "同步中…";
-
-  status.innerText =
-  "正在同步 " +
-  year +
-  " 年 " +
-  month +
-  " 月交易紀錄…";
 
   try{
 
@@ -1360,7 +1293,7 @@ async function syncIGMonth(){
     ){
       throw new Error(
         data.error ||
-        "IG 交易紀錄讀取失敗"
+        "同步失敗"
       );
     }
 
@@ -1371,24 +1304,15 @@ async function syncIGMonth(){
     ? data.transactions
     : [];
 
-    let imported =
-    0;
-
-    let duplicate =
-    0;
-
-    let excluded =
-    0;
-
-    let ignored =
-    0;
+    let imported = 0;
+    let duplicate = 0;
+    let excluded = 0;
 
     raw.forEach(item => {
 
       if(
         !isRealTrade(item)
       ){
-        ignored++;
         return;
       }
 
@@ -1398,9 +1322,7 @@ async function syncIGMonth(){
       );
 
       if(
-        !isAllowedProduct(
-          product
-        )
+        !isAllowedProduct(product)
       ){
         excluded++;
         return;
@@ -1431,16 +1353,10 @@ async function syncIGMonth(){
         uniqueId
       );
 
-      if(!converted){
-        ignored++;
-        return;
+      if(converted){
+        trades.push(converted);
+        imported++;
       }
-
-      trades.push(
-        converted
-      );
-
-      imported++;
 
     });
 
@@ -1460,6 +1376,8 @@ async function syncIGMonth(){
     saveTrades();
 
     render();
+
+    await loadIGAccount();
 
     status.innerText =
     year +
@@ -1608,84 +1526,48 @@ function convertIGTrade(
 
   return {
     id:
-    Date.now() +
-    Math.floor(
-      Math.random() *
-      1000000
-    ),
-
-    source:
-    "ig",
-
-    igUniqueId:
-    uniqueId,
-
-    igReference:
-    item.reference || "",
-
-    igOriginalProduct:
-    item.instrumentName || "",
-
-    product:
-    normalizeIGProduct(
+      Date.now() +
+      Math.floor(
+        Math.random() *
+        1000000
+      ),
+    source:"ig",
+    igUniqueId:uniqueId,
+    igReference:item.reference || "",
+    igOriginalProduct:item.instrumentName || "",
+    product:normalizeIGProduct(
       item.instrumentName
     ),
-
-    currency:
-    normalizeCurrency(
+    currency:normalizeCurrency(
       item.currency
     ),
-
-    direction:
-    tradeDirection,
-
-    entryTime:
-    entry,
-
-    exitTime:
-    exit,
-
-    entryPrice:
-    open,
-
-    exitPrice:
-    close,
-
-    stopLoss:
-    "",
-
-    takeProfit:
-    "",
-
-    quantity:
-    Math.abs(size),
-
-    fee:
-    0,
-
+    direction:tradeDirection,
+    entryTime:entry,
+    exitTime:exit,
+    entryPrice:open,
+    exitPrice:close,
+    stopLoss:"",
+    takeProfit:"",
+    quantity:Math.abs(size),
+    fee:0,
     points:
-    calculatePointsFromValues(
-      tradeDirection,
-      open,
-      close
-    ),
-
+      calculatePointsFromValues(
+        tradeDirection,
+        open,
+        close
+      ),
     holdingMinutes:
-    calculateHoldingMinutes(
-      entry,
-      exit
-    ),
-
+      calculateHoldingMinutes(
+        entry,
+        exit
+      ),
     profit:
-    parseIGProfit(
-      item.profitAndLoss
-    ),
-
+      parseIGProfit(
+        item.profitAndLoss
+      ),
     note:
-    "由 IG Trading 自動匯入",
-
-    aiAnalysis:
-    null
+      "由 IG Trading 自動匯入",
+    aiAnalysis:null
   };
 
 }
@@ -1777,7 +1659,6 @@ function deleteTrade(id){
   );
 
   saveTrades();
-
   render();
 
 }
@@ -2038,10 +1919,8 @@ function renderHome(){
   );
 
   if(!trades.length){
-
     list.innerHTML =
     '<div class="empty">目前還沒有交易紀錄</div>';
-
     return;
   }
 
@@ -2171,9 +2050,9 @@ async function runAIAnalysis(id){
           "application/json"
         },
         body:
-        JSON.stringify(
-          trade
-        )
+          JSON.stringify(
+            trade
+          )
       }
     );
 
@@ -2197,8 +2076,7 @@ async function runAIAnalysis(id){
 
     box.innerHTML =
     renderAIResult(
-      data.analysis,
-      trade
+      data.analysis
     );
 
   }catch(error){
@@ -2221,10 +2099,7 @@ async function runAIAnalysis(id){
 }
 
 
-function renderAIResult(
-  a,
-  trade
-){
+function renderAIResult(a){
 
   if(
     !a ||
@@ -2281,10 +2156,8 @@ function renderAnalysis(){
   );
 
   if(!trades.length){
-
     list.innerHTML =
     '<div class="empty">目前沒有交易資料</div>';
-
     return;
   }
 
@@ -2319,8 +2192,7 @@ function renderAnalysis(){
         ${
           t.aiAnalysis
           ? renderAIResult(
-              t.aiAnalysis,
-              t
+              t.aiAnalysis
             )
           : ""
         }
@@ -2352,7 +2224,6 @@ function renderStats(){
     );
 
     if(!groups[key]){
-
       groups[key] = {
         product:t.product,
         currency:
@@ -2361,7 +2232,6 @@ function renderStats(){
         wins:0,
         pnl:0
       };
-
     }
 
     groups[key].count++;
@@ -2372,9 +2242,7 @@ function renderStats(){
     );
 
     if(
-      Number(
-        t.profit
-      ) > 0
+      Number(t.profit) > 0
     ){
       groups[key].wins++;
     }
@@ -2457,9 +2325,9 @@ function render(){
 
 buildMonthOptions();
 
-migrateOldTrades();
-
 render();
+
+loadIGAccount();
 
 </script>
 
