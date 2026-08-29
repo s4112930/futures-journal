@@ -1,0 +1,15 @@
+{
+  "name": "futures-journal",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node tests/backup-restore.test.cjs && node --test tests/worker.test.mjs",
+    "check": "node --check worker/index.js",
+    "build:worker": "wrangler deploy --dry-run --config worker/wrangler.jsonc",
+    "smoke:live": "node scripts/smoke-live.mjs"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}
