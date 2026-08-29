@@ -1,1 +1,529 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#f4f1eb">
+  <title>期貨交易日誌</title>
 
+  <style>
+    :root{
+      --bg:#f4f1eb;
+      --card:#ffffff;
+      --text:#38424a;
+      --muted:#8d969b;
+      --blue:#72889a;
+      --green:#83988a;
+      --red:#b57f7f;
+      --border:#e6e2dc;
+    }
+
+    *{
+      box-sizing:border-box;
+    }
+
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+      background:var(--bg);
+      color:var(--text);
+    }
+
+    .app{
+      max-width:600px;
+      margin:auto;
+      padding:24px 16px 100px;
+    }
+
+    h1{
+      margin:0 0 20px;
+      font-size:25px;
+    }
+
+    .stats{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:16px;
+    }
+
+    .label{
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    .value{
+      margin-top:8px;
+      font-size:22px;
+      font-weight:700;
+    }
+
+    .green{color:var(--green);}
+    .red{color:var(--red);}
+
+    .section{
+      margin-top:28px;
+    }
+
+    .section-title{
+      font-weight:700;
+      margin-bottom:12px;
+    }
+
+    .trade{
+      background:white;
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:14px;
+      margin-bottom:10px;
+    }
+
+    .trade-row{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    .small{
+      color:var(--muted);
+      font-size:12px;
+      margin-top:4px;
+    }
+
+    input,select,textarea{
+      width:100%;
+      padding:13px;
+      border:1px solid var(--border);
+      border-radius:13px;
+      background:white;
+      font-size:16px;
+      color:var(--text);
+    }
+
+    textarea{
+      min-height:90px;
+    }
+
+    label{
+      display:block;
+      margin-bottom:6px;
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    .field{
+      margin-bottom:14px;
+    }
+
+    .two{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+
+    button{
+      font-family:inherit;
+    }
+
+    .primary{
+      width:100%;
+      border:0;
+      border-radius:14px;
+      padding:15px;
+      background:var(--blue);
+      color:white;
+      font-size:16px;
+      font-weight:700;
+    }
+
+    .page{
+      display:none;
+    }
+
+    .page.active{
+      display:block;
+    }
+
+    .bottom{
+      position:fixed;
+      left:0;
+      right:0;
+      bottom:0;
+      background:rgba(255,255,255,.96);
+      border-top:1px solid var(--border);
+      padding:8px 10px calc(8px + env(safe-area-inset-bottom));
+    }
+
+    .nav{
+      max-width:600px;
+      margin:auto;
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+    }
+
+    .nav button{
+      border:0;
+      background:none;
+      padding:10px 4px;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    .nav button.active{
+      color:var(--blue);
+      font-weight:700;
+    }
+
+    .ai{
+      background:#edf0ef;
+      border-radius:15px;
+      padding:15px;
+      font-size:14px;
+      line-height:1.7;
+    }
+
+    .delete{
+      margin-top:10px;
+      border:0;
+      background:none;
+      color:var(--red);
+      padding:0;
+      font-size:12px;
+    }
+
+    .empty{
+      text-align:center;
+      color:var(--muted);
+      padding:25px 0;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <section id="homePage" class="page active">
+    <h1>期貨交易日誌</h1>
+
+    <div class="stats">
+      <div class="card">
+        <div class="label">總損益</div>
+        <div id="totalProfit" class="value">NT$0</div>
+      </div>
+
+      <div class="card">
+        <div class="label">本月損益</div>
+        <div id="monthProfit" class="value">NT$0</div>
+      </div>
+
+      <div class="card">
+        <div class="label">勝率</div>
+        <div id="winRate" class="value">0%</div>
+      </div>
+
+      <div class="card">
+        <div class="label">交易筆數</div>
+        <div id="tradeCount" class="value">0</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">最近交易</div>
+      <div id="tradeList"></div>
+    </div>
+  </section>
+
+
+  <section id="addPage" class="page">
+    <h1>新增交易</h1>
+
+    <div class="card">
+      <div class="field">
+        <label>操作商品名稱</label>
+        <input id="product" placeholder="例如：小台指期、黃金、NASDAQ">
+      </div>
+
+      <div class="field">
+        <label>方向</label>
+        <select id="direction">
+          <option>做多</option>
+          <option>做空</option>
+        </select>
+      </div>
+
+      <div class="two">
+        <div class="field">
+          <label>進場時間</label>
+          <input id="entryTime" type="datetime-local">
+        </div>
+
+        <div class="field">
+          <label>出場時間</label>
+          <input id="exitTime" type="datetime-local">
+        </div>
+      </div>
+
+      <div class="two">
+        <div class="field">
+          <label>進場價格</label>
+          <input id="entryPrice" type="number" step="any">
+        </div>
+
+        <div class="field">
+          <label>出場價格</label>
+          <input id="exitPrice" type="number" step="any">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>獲利 / 虧損金額</label>
+        <input id="profit" type="number" placeholder="例如：2850 或 -1200">
+      </div>
+
+      <div class="field">
+        <label>每一單紀錄</label>
+        <textarea id="note" placeholder="可記錄當時行情或策略"></textarea>
+      </div>
+
+      <button class="primary" onclick="saveTrade()">儲存交易</button>
+    </div>
+  </section>
+
+
+  <section id="analysisPage" class="page">
+    <h1>交易分析</h1>
+
+    <div class="ai">
+      <strong>AI 客觀分析原則</strong><br><br>
+      只依照可驗證的交易資料進行分析，不推測你的情緒、個性或主觀動機。<br><br>
+      若資料不足，顯示：
+      「資料不足，無法客觀判定」。
+    </div>
+
+    <div class="section">
+      <div class="section-title">目前紀錄分析</div>
+      <div id="analysisList"></div>
+    </div>
+  </section>
+
+</div>
+
+
+<div class="bottom">
+  <div class="nav">
+    <button id="homeBtn" class="active" onclick="showPage('home')">首頁</button>
+    <button id="addBtn" onclick="showPage('add')">＋ 新增交易</button>
+    <button id="analysisBtn" onclick="showPage('analysis')">分析</button>
+  </div>
+</div>
+
+
+<script>
+let trades = JSON.parse(localStorage.getItem("futuresTrades")) || [];
+
+function showPage(page){
+  document.querySelectorAll(".page").forEach(x => x.classList.remove("active"));
+  document.querySelectorAll(".nav button").forEach(x => x.classList.remove("active"));
+
+  if(page === "home"){
+    homePage.classList.add("active");
+    homeBtn.classList.add("active");
+  }
+
+  if(page === "add"){
+    addPage.classList.add("active");
+    addBtn.classList.add("active");
+  }
+
+  if(page === "analysis"){
+    analysisPage.classList.add("active");
+    analysisBtn.classList.add("active");
+  }
+}
+
+function saveTrade(){
+  const productValue = product.value.trim();
+
+  if(!productValue){
+    alert("請輸入商品名稱");
+    return;
+  }
+
+  if(profit.value === ""){
+    alert("請輸入獲利或虧損金額");
+    return;
+  }
+
+  const trade = {
+    id:Date.now(),
+    product:productValue,
+    direction:direction.value,
+    entryTime:entryTime.value,
+    exitTime:exitTime.value,
+    entryPrice:entryPrice.value,
+    exitPrice:exitPrice.value,
+    profit:Number(profit.value),
+    note:note.value
+  };
+
+  trades.unshift(trade);
+  localStorage.setItem("futuresTrades", JSON.stringify(trades));
+
+  clearForm();
+  render();
+  showPage("home");
+}
+
+function clearForm(){
+  product.value="";
+  entryTime.value="";
+  exitTime.value="";
+  entryPrice.value="";
+  exitPrice.value="";
+  profit.value="";
+  note.value="";
+}
+
+function deleteTrade(id){
+  if(!confirm("確定刪除這筆交易嗎？")) return;
+
+  trades = trades.filter(t => t.id !== id);
+  localStorage.setItem("futuresTrades", JSON.stringify(trades));
+  render();
+}
+
+function money(n){
+  const sign = n > 0 ? "+" : n < 0 ? "-" : "";
+  return sign + "NT$" + Math.abs(n).toLocaleString();
+}
+
+function formatTime(time){
+  if(!time) return "未填寫";
+
+  const d = new Date(time);
+
+  return d.toLocaleString("zh-TW",{
+    month:"2-digit",
+    day:"2-digit",
+    hour:"2-digit",
+    minute:"2-digit"
+  });
+}
+
+function renderHome(){
+  const total = trades.reduce((sum,t) => sum + t.profit,0);
+
+  const now = new Date();
+
+  const monthly = trades.filter(t => {
+    if(!t.entryTime) return false;
+
+    const d = new Date(t.entryTime);
+
+    return d.getMonth() === now.getMonth()
+      && d.getFullYear() === now.getFullYear();
+  });
+
+  const monthTotal = monthly.reduce((sum,t) => sum + t.profit,0);
+
+  const wins = trades.filter(t => t.profit > 0).length;
+  const rate = trades.length ? Math.round(wins / trades.length * 100) : 0;
+
+  totalProfit.innerText = money(total);
+  monthProfit.innerText = money(monthTotal);
+  winRate.innerText = rate + "%";
+  tradeCount.innerText = trades.length;
+
+  totalProfit.className = "value " + (total >= 0 ? "green":"red");
+  monthProfit.className = "value " + (monthTotal >= 0 ? "green":"red");
+
+  if(!trades.length){
+    tradeList.innerHTML = '<div class="empty">目前還沒有交易紀錄</div>';
+    return;
+  }
+
+  tradeList.innerHTML = trades.map(t => `
+    <div class="trade">
+      <div class="trade-row">
+        <div>
+          <strong>${escapeHTML(t.product)}</strong>
+          <div class="small">${t.direction} ・ ${formatTime(t.entryTime)}</div>
+        </div>
+
+        <strong class="${t.profit >= 0 ? "green":"red"}">
+          ${money(t.profit)}
+        </strong>
+      </div>
+
+      ${t.note ? `<div class="small" style="margin-top:10px;">${escapeHTML(t.note)}</div>` : ""}
+
+      <button class="delete" onclick="deleteTrade(${t.id})">刪除</button>
+    </div>
+  `).join("");
+}
+
+function renderAnalysis(){
+  if(!trades.length){
+    analysisList.innerHTML = '<div class="empty">新增交易後才會產生分析</div>';
+    return;
+  }
+
+  analysisList.innerHTML = trades.map(t => {
+    let result = "資料不足，無法客觀判定";
+
+    if(t.entryPrice && t.exitPrice){
+      const entry = Number(t.entryPrice);
+      const exit = Number(t.exitPrice);
+
+      if(entry !== 0){
+        const change = ((exit - entry) / entry * 100).toFixed(2);
+
+        result =
+          `進場價 ${entry}，出場價 ${exit}，價格變動 ${change}%。` +
+          ` 本筆實際損益為 ${money(t.profit)}。`;
+      }
+    }
+
+    return `
+      <div class="trade">
+        <div class="trade-row">
+          <strong>${escapeHTML(t.product)}</strong>
+          <span class="small">${t.direction}</span>
+        </div>
+
+        <div class="small" style="margin-top:10px;line-height:1.7;">
+          ${result}
+        </div>
+
+        <div class="small" style="margin-top:8px;">
+          風險管理：尚未提供停損、停利與風險報酬設定，因此不進行主觀判定。
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function escapeHTML(text){
+  const div = document.createElement("div");
+  div.innerText = text;
+  return div.innerHTML;
+}
+
+function render(){
+  renderHome();
+  renderAnalysis();
+}
+
+render();
+</script>
+
+</body>
+</html>
