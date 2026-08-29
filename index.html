@@ -22,7 +22,6 @@
 
 <title>期貨交易日誌</title>
 
-
 <style>
 
 :root{
@@ -38,11 +37,9 @@
   --soft2:#f8f7f4;
 }
 
-
 *{
   box-sizing:border-box;
 }
-
 
 html,
 body{
@@ -50,687 +47,363 @@ body{
   padding:0;
   background:var(--bg);
   color:var(--text);
-
-  font-family:
-  -apple-system,
-  BlinkMacSystemFont,
-  "PingFang TC",
-  "Noto Sans TC",
-  sans-serif;
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
 }
-
-
-body{
-  min-height:100vh;
-}
-
 
 .app{
   width:100%;
   max-width:620px;
-
   margin:auto;
-
-  padding:
-  26px
-  16px
-  110px;
+  padding:26px 16px 110px;
 }
-
 
 h1{
   margin:0 0 22px;
-
   font-size:27px;
   font-weight:800;
 }
 
-
-h3{
-  margin:0;
-}
-
-
 .sub{
   margin-bottom:5px;
-
   color:var(--muted);
-
   font-size:12px;
   letter-spacing:2px;
 }
 
-
-
-/* 卡片 */
-
 .card{
   width:100%;
-
   padding:16px;
-
   background:var(--card);
-
   border:1px solid var(--border);
   border-radius:18px;
 }
 
-
-
-/* 統計 */
-
 .stats{
   display:grid;
-
-  grid-template-columns:
-  1fr 1fr;
-
+  grid-template-columns:1fr 1fr;
   gap:12px;
 }
-
 
 .stat-label{
   color:var(--muted);
   font-size:13px;
 }
 
-
 .stat-value{
   margin-top:8px;
-
   font-size:22px;
   font-weight:750;
 }
-
 
 .green{
   color:var(--green);
 }
 
-
 .red{
   color:var(--red);
 }
-
-
-
-/* 區塊 */
 
 .section{
   margin-top:28px;
 }
 
-
 .section-title{
   margin-bottom:12px;
-
   font-size:17px;
   font-weight:750;
 }
-
-
-
-/* 表單 */
 
 .field{
   width:100%;
   margin-bottom:16px;
 }
 
-
 label{
   display:block;
-
   margin:0 0 7px 3px;
-
   color:var(--muted);
-
   font-size:13px;
   font-weight:550;
 }
 
-
 input,
 select,
 textarea{
-
   display:block;
-
   width:100%;
   max-width:100%;
   min-width:0;
-
-  border:1px solid var(--border);
-
-  border-radius:13px;
-
   padding:13px;
-
+  border:1px solid var(--border);
+  border-radius:13px;
   background:#fff;
-
   color:var(--text);
-
   font-family:inherit;
   font-size:16px;
-
   outline:none;
 }
-
 
 select{
   height:52px;
 }
 
-
 textarea{
   min-height:95px;
-
   resize:vertical;
 }
 
-
-
-/* 日期時間 */
-
-.time-section{
-  width:100%;
-
-  padding:14px;
-
-  margin-bottom:16px;
-
-  background:var(--soft2);
-
-  border-radius:15px;
+.time-box{
+  margin-bottom:14px;
 }
 
-
-.time-title{
-  margin-bottom:12px;
-
-  font-size:15px;
-  font-weight:750;
+.time-input{
+  height:52px;
 }
-
-
-.time-field{
-  width:100%;
-  margin-bottom:10px;
-}
-
-
-.time-field:last-child{
-  margin-bottom:0;
-}
-
-
-input[type="date"],
-input[type="time"]{
-
-  display:block;
-
-  width:100%;
-  max-width:100%;
-  min-width:0;
-
-  height:48px;
-
-  padding:8px 12px;
-
-  box-sizing:border-box;
-
-  overflow:hidden;
-
-  font-size:16px;
-
-  background:#fff;
-
-  -webkit-appearance:none;
-  appearance:none;
-}
-
-
-
-/* 一般雙欄 */
 
 .two{
   display:grid;
-
-  grid-template-columns:
-  minmax(0,1fr)
-  minmax(0,1fr);
-
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
   gap:10px;
 }
 
-
 @media(max-width:360px){
-
   .two{
     grid-template-columns:1fr;
   }
-
 }
 
-
-
-/* 點數 */
-
 .points-box{
-
   padding:14px;
-
   margin-bottom:16px;
-
   background:var(--soft);
-
   border-radius:14px;
 }
 
-
 .points-row{
-
   display:flex;
-
-  justify-content:
-  space-between;
-
+  justify-content:space-between;
   align-items:center;
-
   gap:15px;
 }
 
-
 .points-title{
   color:var(--muted);
-
   font-size:13px;
 }
 
-
 .points-value{
-
   font-size:19px;
   font-weight:750;
 }
 
-
-
-/* 小提示 */
-
 .help{
   margin-top:6px;
-
   color:var(--muted);
-
   font-size:11px;
   line-height:1.6;
 }
-
-
-
-/* 按鈕 */
 
 button{
   font-family:inherit;
   cursor:pointer;
 }
 
-
 .primary{
-
   width:100%;
-
   padding:15px;
-
   border:0;
-
   border-radius:14px;
-
   background:var(--blue);
-
   color:white;
-
   font-size:16px;
   font-weight:750;
 }
-
 
 .primary:disabled{
   opacity:.55;
 }
 
-
-
-/* 頁面 */
-
 .page{
   display:none;
 }
-
 
 .page.active{
   display:block;
 }
 
-
-
-/* 交易紀錄 */
-
 .trade{
-
   padding:15px;
-
   margin-bottom:11px;
-
   background:#fff;
-
   border:1px solid var(--border);
   border-radius:17px;
 }
 
-
 .trade-top{
-
   display:flex;
-
-  justify-content:
-  space-between;
-
+  justify-content:space-between;
   align-items:flex-start;
-
   gap:12px;
 }
 
-
 .trade-name{
-
   font-size:16px;
   font-weight:750;
 }
 
-
 .small{
-
   margin-top:5px;
-
   color:var(--muted);
-
   font-size:12px;
   line-height:1.6;
 }
 
-
 .detail-grid{
-
   display:grid;
-
-  grid-template-columns:
-  1fr 1fr;
-
+  grid-template-columns:1fr 1fr;
   gap:8px;
-
   margin-top:13px;
 }
 
-
 .detail-item{
-
   padding:11px;
-
   background:#f8f8f6;
-
   border-radius:12px;
-
   font-size:14px;
 }
 
-
 .detail-item span{
-
   display:block;
-
   margin-bottom:5px;
-
   color:var(--muted);
-
   font-size:11px;
 }
 
-
 .rr{
-
   margin-top:9px;
-
   padding:10px;
-
   background:#f6f5f1;
-
   border-radius:12px;
-
   color:var(--muted);
-
   font-size:12px;
 }
-
 
 .delete{
-
   margin-top:12px;
-
   padding:0;
-
   border:0;
-
   background:none;
-
   color:var(--red);
-
   font-size:12px;
 }
 
-
-
-/* AI */
-
 .ai-info{
-
   padding:15px;
-
   background:#edf0ef;
-
   border-radius:16px;
-
   font-size:14px;
   line-height:1.8;
 }
 
-
 .analysis-block{
-
   margin-bottom:14px;
-
   padding:15px;
-
   background:#fff;
-
   border:1px solid var(--border);
   border-radius:17px;
 }
 
-
 .analysis-card{
-
   margin-top:10px;
-
   padding:14px;
-
   background:var(--soft2);
-
   border-radius:13px;
 }
 
-
 .analysis-title{
-
   margin-bottom:7px;
-
   color:var(--muted);
-
   font-size:12px;
 }
 
-
 .analysis-text{
-
   font-size:14px;
   line-height:1.75;
 }
 
-
 .chips{
-
   display:flex;
-
   flex-wrap:wrap;
-
   gap:7px;
 }
 
-
 .chip{
-
   padding:6px 9px;
-
   background:#e9eeea;
-
   border-radius:999px;
-
   color:#647268;
-
   font-size:12px;
 }
 
-
 .warning{
-
   background:#f3ebe7;
-
   color:#8c6b61;
 }
 
-
-
-/* 績效 */
-
 .product-row{
-
   display:flex;
-
-  justify-content:
-  space-between;
-
+  justify-content:space-between;
   gap:12px;
-
   padding:13px 0;
-
-  border-bottom:
-  1px solid var(--border);
+  border-bottom:1px solid var(--border);
 }
-
 
 .product-row:last-child{
   border-bottom:0;
 }
 
-
-
-/* 空白 */
-
 .empty{
-
   padding:30px 10px;
-
   text-align:center;
-
   color:var(--muted);
-
   font-size:13px;
 }
-
-
-
-/* 隱藏 */
 
 .hidden{
   display:none;
 }
 
-
-
-/* 底部選單 */
-
 .bottom{
-
   position:fixed;
-
   left:0;
   right:0;
   bottom:0;
-
   z-index:50;
-
-  background:
-  rgba(255,255,255,.96);
-
-  border-top:
-  1px solid var(--border);
-
-  padding:
-  8px
-  8px
-  calc(
-    8px +
-    env(safe-area-inset-bottom)
-  );
+  background:rgba(255,255,255,.96);
+  border-top:1px solid var(--border);
+  padding:8px 8px calc(8px + env(safe-area-inset-bottom));
 }
-
 
 .nav{
-
   width:100%;
   max-width:620px;
-
   margin:auto;
-
   display:grid;
-
-  grid-template-columns:
-  repeat(4,1fr);
+  grid-template-columns:repeat(4,1fr);
 }
 
-
 .nav button{
-
   padding:10px 3px;
-
   border:0;
-
   background:none;
-
   color:var(--muted);
-
   font-size:12px;
 }
 
-
 .nav button.active{
-
   color:var(--blue);
-
   font-weight:750;
 }
-
 
 </style>
 
@@ -739,16 +412,10 @@ button{
 
 <body>
 
-
 <div class="app">
 
 
-<!-- 首頁 -->
-
-<section
-  id="homePage"
-  class="page active"
->
+<section id="homePage" class="page active">
 
   <div class="sub">
     MY TRADING JOURNAL
@@ -758,74 +425,29 @@ button{
     期貨交易日誌
   </h1>
 
-
   <div class="stats">
 
     <div class="card">
-
-      <div class="stat-label">
-        總損益
-      </div>
-
-      <div
-        id="totalProfit"
-        class="stat-value"
-      >
-        NT$0
-      </div>
-
+      <div class="stat-label">總損益</div>
+      <div id="totalProfit" class="stat-value">NT$0</div>
     </div>
 
-
     <div class="card">
-
-      <div class="stat-label">
-        本月損益
-      </div>
-
-      <div
-        id="monthProfit"
-        class="stat-value"
-      >
-        NT$0
-      </div>
-
+      <div class="stat-label">本月損益</div>
+      <div id="monthProfit" class="stat-value">NT$0</div>
     </div>
 
-
     <div class="card">
-
-      <div class="stat-label">
-        勝率
-      </div>
-
-      <div
-        id="winRate"
-        class="stat-value"
-      >
-        0%
-      </div>
-
+      <div class="stat-label">勝率</div>
+      <div id="winRate" class="stat-value">0%</div>
     </div>
 
-
     <div class="card">
-
-      <div class="stat-label">
-        交易筆數
-      </div>
-
-      <div
-        id="tradeCount"
-        class="stat-value"
-      >
-        0
-      </div>
-
+      <div class="stat-label">交易筆數</div>
+      <div id="tradeCount" class="stat-value">0</div>
     </div>
 
   </div>
-
 
   <div class="section">
 
@@ -841,12 +463,7 @@ button{
 
 
 
-<!-- 新增交易 -->
-
-<section
-  id="addPage"
-  class="page"
->
+<section id="addPage" class="page">
 
   <div class="sub">
     NEW TRADE
@@ -856,11 +473,8 @@ button{
     新增交易
   </h1>
 
-
   <div class="card">
 
-
-    <!-- 商品 -->
 
     <div class="field">
 
@@ -874,43 +488,20 @@ button{
           請選擇商品
         </option>
 
-        <option value="NQ">
-          NQ
-        </option>
-
-        <option value="YM">
-          YM
-        </option>
-
-        <option value="BTC">
-          BTC
-        </option>
-
-        <option value="台指">
-          台指
-        </option>
-
-        <option value="黃金">
-          黃金
-        </option>
-
-        <option value="白銀">
-          白銀
-        </option>
-
-        <option value="其他">
-          其他
-        </option>
+        <option value="NQ">NQ</option>
+        <option value="YM">YM</option>
+        <option value="BTC">BTC</option>
+        <option value="台指">台指</option>
+        <option value="黃金">黃金</option>
+        <option value="白銀">白銀</option>
+        <option value="其他">其他</option>
 
       </select>
 
     </div>
 
 
-    <div
-      id="otherProductBox"
-      class="field hidden"
-    >
+    <div id="otherProductBox" class="field hidden">
 
       <label>
         其他商品名稱
@@ -923,9 +514,6 @@ button{
 
     </div>
 
-
-
-    <!-- 方向 -->
 
     <div class="field">
 
@@ -948,93 +536,41 @@ button{
     </div>
 
 
+    <div class="time-box">
 
-    <!-- 進場時間 -->
-
-    <div class="time-section">
-
-      <div class="time-title">
+      <label>
         進場時間
-      </div>
+      </label>
 
-
-      <div class="time-field">
-
-        <label>
-          日期
-        </label>
-
-        <input
-          id="entryDate"
-          type="date"
-        >
-
-      </div>
-
-
-      <div class="time-field">
-
-        <label>
-          時間
-        </label>
-
-        <input
-          id="entryClock"
-          type="time"
-          step="60"
-        >
-
-      </div>
+      <input
+        id="entryTime"
+        class="time-input"
+        type="text"
+        inputmode="text"
+        placeholder="例如 2026/08/29 11:51"
+      >
 
     </div>
 
 
+    <div class="time-box">
 
-    <!-- 出場時間 -->
-
-    <div class="time-section">
-
-      <div class="time-title">
+      <label>
         出場時間
-      </div>
+      </label>
 
-
-      <div class="time-field">
-
-        <label>
-          日期
-        </label>
-
-        <input
-          id="exitDate"
-          type="date"
-        >
-
-      </div>
-
-
-      <div class="time-field">
-
-        <label>
-          時間
-        </label>
-
-        <input
-          id="exitClock"
-          type="time"
-          step="60"
-        >
-
-      </div>
+      <input
+        id="exitTime"
+        class="time-input"
+        type="text"
+        inputmode="text"
+        placeholder="例如 2026/08/29 12:03"
+      >
 
     </div>
 
-
-
-    <!-- 點位 -->
 
     <div class="two">
-
 
       <div class="field">
 
@@ -1069,12 +605,8 @@ button{
 
       </div>
 
-
     </div>
 
-
-
-    <!-- 自動點數 -->
 
     <div class="points-box">
 
@@ -1096,11 +628,7 @@ button{
     </div>
 
 
-
-    <!-- 停損停利 -->
-
     <div class="two">
-
 
       <div class="field">
 
@@ -1133,15 +661,10 @@ button{
 
       </div>
 
-
     </div>
 
 
-
-    <!-- 口數成本 -->
-
     <div class="two">
-
 
       <div class="field">
 
@@ -1177,12 +700,8 @@ button{
 
       </div>
 
-
     </div>
 
-
-
-    <!-- 損益 -->
 
     <div class="field">
 
@@ -1205,9 +724,6 @@ button{
     </div>
 
 
-
-    <!-- 備註 -->
-
     <div class="field">
 
       <label>
@@ -1222,7 +738,6 @@ button{
     </div>
 
 
-
     <button
       class="primary"
       onclick="saveTrade()"
@@ -1230,19 +745,13 @@ button{
       儲存交易
     </button>
 
-
   </div>
 
 </section>
 
 
 
-<!-- AI -->
-
-<section
-  id="analysisPage"
-  class="page"
->
+<section id="analysisPage" class="page">
 
   <div class="sub">
     OBJECTIVE AI REVIEW
@@ -1251,7 +760,6 @@ button{
   <h1>
     AI 客觀分析
   </h1>
-
 
   <div class="ai-info">
 
@@ -1271,7 +779,6 @@ button{
 
   </div>
 
-
   <div class="section">
 
     <div class="section-title">
@@ -1286,12 +793,7 @@ button{
 
 
 
-<!-- 績效 -->
-
-<section
-  id="statsPage"
-  class="page"
->
+<section id="statsPage" class="page">
 
   <div class="sub">
     PERFORMANCE
@@ -1300,7 +802,6 @@ button{
   <h1>
     績效統計
   </h1>
-
 
   <div class="card">
 
@@ -1314,17 +815,13 @@ button{
 
 </section>
 
-
 </div>
 
 
 
-<!-- 底部選單 -->
-
 <div class="bottom">
 
   <div class="nav">
-
 
     <button
       id="homeBtn"
@@ -1334,14 +831,12 @@ button{
       首頁
     </button>
 
-
     <button
       id="addBtn"
       onclick="showPage('add')"
     >
       新增交易
     </button>
-
 
     <button
       id="analysisBtn"
@@ -1350,14 +845,12 @@ button{
       AI 分析
     </button>
 
-
     <button
       id="statsBtn"
       onclick="showPage('stats')"
     >
       績效
     </button>
-
 
   </div>
 
@@ -1366,11 +859,6 @@ button{
 
 
 <script>
-
-
-/* =========================
-基本設定
-========================= */
 
 const AI_API =
 "https://futures-ai-worker.s4112930.workers.dev";
@@ -1384,106 +872,75 @@ JSON.parse(
 ) || [];
 
 
-
-/* =========================
-DOM
-========================= */
-
 const productSelect =
 document.getElementById(
   "productSelect"
 );
-
 
 const otherProductBox =
 document.getElementById(
   "otherProductBox"
 );
 
-
 const otherProduct =
 document.getElementById(
   "otherProduct"
 );
-
 
 const direction =
 document.getElementById(
   "direction"
 );
 
-
-const entryDate =
+const entryTime =
 document.getElementById(
-  "entryDate"
+  "entryTime"
 );
 
-
-const entryClock =
+const exitTime =
 document.getElementById(
-  "entryClock"
+  "exitTime"
 );
-
-
-const exitDate =
-document.getElementById(
-  "exitDate"
-);
-
-
-const exitClock =
-document.getElementById(
-  "exitClock"
-);
-
 
 const entryPrice =
 document.getElementById(
   "entryPrice"
 );
 
-
 const exitPrice =
 document.getElementById(
   "exitPrice"
 );
-
 
 const stopLoss =
 document.getElementById(
   "stopLoss"
 );
 
-
 const takeProfit =
 document.getElementById(
   "takeProfit"
 );
-
 
 const quantity =
 document.getElementById(
   "quantity"
 );
 
-
 const fee =
 document.getElementById(
   "fee"
 );
-
 
 const profit =
 document.getElementById(
   "profit"
 );
 
-
 const note =
 document.getElementById(
   "note"
 );
-
 
 const pointsPreview =
 document.getElementById(
@@ -1491,10 +948,6 @@ document.getElementById(
 );
 
 
-
-/* =========================
-商品選擇
-========================= */
 
 productSelect.addEventListener(
   "change",
@@ -1529,15 +982,37 @@ productSelect.addEventListener(
 
 
 
-/* =========================
-點數預覽
-========================= */
+[
+  entryTime,
+  exitTime
+].forEach(
+  el => {
+
+    el.addEventListener(
+      "focus",
+      function(){
+
+        if(
+          !el.value
+        ){
+
+          el.value =
+          getCurrentTimeText();
+
+        }
+
+      }
+    );
+
+  }
+);
+
+
 
 [
   direction,
   entryPrice,
   exitPrice
-
 ].forEach(
   el => {
 
@@ -1553,6 +1028,7 @@ productSelect.addEventListener(
 
   }
 );
+
 
 
 function updatePoints(){
@@ -1607,17 +1083,12 @@ function updatePoints(){
 
 
 
-/* =========================
-點數計算
-========================= */
-
 function calculatePoints(){
 
   const entry =
   Number(
     entryPrice.value
   );
-
 
   const exit =
   Number(
@@ -1647,47 +1118,74 @@ function calculatePoints(){
 
 
 
-/* =========================
-日期時間
-========================= */
+function getCurrentTimeText(){
 
-function combineDateTime(
-  date,
-  clock
-){
+  const d =
+  new Date();
 
-  if(
-    !date ||
-    !clock
-  ){
 
-    return "";
+  const year =
+  d.getFullYear();
 
-  }
+
+  const month =
+  String(
+    d.getMonth() + 1
+  ).padStart(
+    2,
+    "0"
+  );
+
+
+  const day =
+  String(
+    d.getDate()
+  ).padStart(
+    2,
+    "0"
+  );
+
+
+  const hour =
+  String(
+    d.getHours()
+  ).padStart(
+    2,
+    "0"
+  );
+
+
+  const minute =
+  String(
+    d.getMinutes()
+  ).padStart(
+    2,
+    "0"
+  );
 
 
   return (
-    date +
-    "T" +
-    clock
+    year +
+    "/" +
+    month +
+    "/" +
+    day +
+    " " +
+    hour +
+    ":" +
+    minute
   );
 
 }
 
 
 
-/* =========================
-持倉分鐘
-========================= */
-
-function calculateHoldingMinutes(
-  start,
-  end
+function parseTimeText(
+  value
 ){
 
   if(
-    !start ||
-    !end
+    !value
   ){
 
     return null;
@@ -1695,12 +1193,177 @@ function calculateHoldingMinutes(
   }
 
 
+  const normalized =
+  value
+  .trim()
+  .replace(
+    /-/g,
+    "/"
+  );
+
+
+  const match =
+  normalized.match(
+    /^(\d{4})\/(\d{1,2})\/(\d{1,2})\s+(\d{1,2}):(\d{2})$/
+  );
+
+
+  if(
+    !match
+  ){
+
+    return null;
+
+  }
+
+
+  const year =
+  Number(
+    match[1]
+  );
+
+
+  const month =
+  Number(
+    match[2]
+  );
+
+
+  const day =
+  Number(
+    match[3]
+  );
+
+
+  const hour =
+  Number(
+    match[4]
+  );
+
+
+  const minute =
+  Number(
+    match[5]
+  );
+
+
+  const d =
+  new Date(
+    year,
+    month - 1,
+    day,
+    hour,
+    minute
+  );
+
+
+  if(
+    Number.isNaN(
+      d.getTime()
+    )
+  ){
+
+    return null;
+
+  }
+
+
+  return d;
+
+}
+
+
+
+function toStorageTime(
+  value
+){
+
+  const d =
+  parseTimeText(
+    value
+  );
+
+
+  if(
+    !d
+  ){
+
+    return "";
+
+  }
+
+
+  const year =
+  d.getFullYear();
+
+
+  const month =
+  String(
+    d.getMonth() + 1
+  ).padStart(
+    2,
+    "0"
+  );
+
+
+  const day =
+  String(
+    d.getDate()
+  ).padStart(
+    2,
+    "0"
+  );
+
+
+  const hour =
+  String(
+    d.getHours()
+  ).padStart(
+    2,
+    "0"
+  );
+
+
+  const minute =
+  String(
+    d.getMinutes()
+  ).padStart(
+    2,
+    "0"
+  );
+
+
+  return (
+    year +
+    "-" +
+    month +
+    "-" +
+    day +
+    "T" +
+    hour +
+    ":" +
+    minute
+  );
+
+}
+
+
+
+function calculateHoldingMinutes(
+  start,
+  end
+){
+
   const startDate =
-  new Date(start);
+  new Date(
+    start
+  );
 
 
   const endDate =
-  new Date(end);
+  new Date(
+    end
+  );
 
 
   if(
@@ -1740,10 +1403,6 @@ function calculateHoldingMinutes(
 }
 
 
-
-/* =========================
-頁面切換
-========================= */
 
 function showPage(page){
 
@@ -1814,10 +1473,6 @@ function showPage(page){
 
 
 
-/* =========================
-新增交易
-========================= */
-
 function saveTrade(){
 
   let productName =
@@ -1863,26 +1518,24 @@ function saveTrade(){
   }
 
 
-  const entryTime =
-  combineDateTime(
-    entryDate.value,
-    entryClock.value
+  const entryStorage =
+  toStorageTime(
+    entryTime.value
   );
 
 
-  const exitTime =
-  combineDateTime(
-    exitDate.value,
-    exitClock.value
+  const exitStorage =
+  toStorageTime(
+    exitTime.value
   );
 
 
   if(
-    !entryTime
+    !entryStorage
   ){
 
     alert(
-      "請填寫進場日期與時間"
+      "進場時間格式請輸入：2026/08/29 11:51"
     );
 
     return;
@@ -1891,11 +1544,11 @@ function saveTrade(){
 
 
   if(
-    !exitTime
+    !exitStorage
   ){
 
     alert(
-      "請填寫出場日期與時間"
+      "出場時間格式請輸入：2026/08/29 12:03"
     );
 
     return;
@@ -1904,8 +1557,12 @@ function saveTrade(){
 
 
   if(
-    new Date(exitTime) <
-    new Date(entryTime)
+    new Date(
+      exitStorage
+    ) <
+    new Date(
+      entryStorage
+    )
   ){
 
     alert(
@@ -1944,7 +1601,8 @@ function saveTrade(){
   }
 
 
-  const trade = {
+  const trade =
+  {
 
     id:
     Date.now(),
@@ -1956,10 +1614,10 @@ function saveTrade(){
     direction.value,
 
     entryTime:
-    entryTime,
+    entryStorage,
 
     exitTime:
-    exitTime,
+    exitStorage,
 
     entryPrice:
     entryPrice.value,
@@ -1990,8 +1648,8 @@ function saveTrade(){
 
     holdingMinutes:
     calculateHoldingMinutes(
-      entryTime,
-      exitTime
+      entryStorage,
+      exitStorage
     ),
 
     profit:
@@ -2027,10 +1685,6 @@ function saveTrade(){
 
 
 
-/* =========================
-儲存
-========================= */
-
 function saveTrades(){
 
   localStorage.setItem(
@@ -2043,10 +1697,6 @@ function saveTrades(){
 }
 
 
-
-/* =========================
-清除表單
-========================= */
 
 function clearForm(){
 
@@ -2065,16 +1715,10 @@ function clearForm(){
   direction.value =
   "做多";
 
-  entryDate.value =
+  entryTime.value =
   "";
 
-  entryClock.value =
-  "";
-
-  exitDate.value =
-  "";
-
-  exitClock.value =
+  exitTime.value =
   "";
 
   entryPrice.value =
@@ -2111,10 +1755,6 @@ function clearForm(){
 
 
 
-/* =========================
-刪除
-========================= */
-
 function deleteTrade(id){
 
   if(
@@ -2142,10 +1782,6 @@ function deleteTrade(id){
 }
 
 
-
-/* =========================
-金額格式
-========================= */
 
 function money(n){
 
@@ -2184,10 +1820,6 @@ function money(n){
 
 
 
-/* =========================
-一般數字
-========================= */
-
 function formatNumber(n){
 
   return Number(n)
@@ -2203,10 +1835,6 @@ function formatNumber(n){
 
 
 
-/* =========================
-日期顯示
-========================= */
-
 function formatTime(time){
 
   if(
@@ -2219,7 +1847,9 @@ function formatTime(time){
 
 
   const d =
-  new Date(time);
+  new Date(
+    time
+  );
 
 
   if(
@@ -2254,10 +1884,6 @@ function formatTime(time){
 }
 
 
-
-/* =========================
-持倉顯示
-========================= */
 
 function formatHolding(t){
 
@@ -2341,10 +1967,6 @@ function formatHolding(t){
 
 
 
-/* =========================
-風險報酬比
-========================= */
-
 function calculateRR(t){
 
   const entry =
@@ -2425,10 +2047,6 @@ function calculateRR(t){
 }
 
 
-
-/* =========================
-首頁
-========================= */
 
 function renderHome(){
 
@@ -2672,7 +2290,6 @@ function renderHome(){
 
         <div class="detail-grid">
 
-
           <div class="detail-item">
 
             <span>
@@ -2736,7 +2353,6 @@ function renderHome(){
 
           </div>
 
-
         </div>
 
 
@@ -2790,7 +2406,6 @@ function renderHome(){
           刪除
         </button>
 
-
       </div>
 
       `;
@@ -2802,10 +2417,6 @@ function renderHome(){
 }
 
 
-
-/* =========================
-AI呼叫
-========================= */
 
 async function runAIAnalysis(id){
 
@@ -2858,12 +2469,10 @@ async function runAIAnalysis(id){
 
   try{
 
-
     const response =
     await fetch(
       AI_API,
       {
-
         method:
         "POST",
 
@@ -2876,7 +2485,6 @@ async function runAIAnalysis(id){
         JSON.stringify(
           trade
         )
-
       }
     );
 
@@ -2923,7 +2531,6 @@ async function runAIAnalysis(id){
 
   }catch(error){
 
-
     resultBox.innerHTML =
     `
     <div class="small red">
@@ -2947,10 +2554,6 @@ async function runAIAnalysis(id){
 }
 
 
-
-/* =========================
-AI結果
-========================= */
 
 function renderAIResult(
   a,
@@ -3009,7 +2612,6 @@ function renderAIResult(
 
   return `
 
-
   <div class="analysis-card">
 
     <div class="analysis-title">
@@ -3017,16 +2619,10 @@ function renderAIResult(
     </div>
 
     <div class="analysis-text">
-
-      ${escapeHTML(
-        a.summary ||
-        "資料不足"
-      )}
-
+      ${escapeHTML(a.summary || "資料不足")}
     </div>
 
   </div>
-
 
 
   <div class="analysis-card">
@@ -3036,17 +2632,10 @@ function renderAIResult(
     </div>
 
     <div class="analysis-text">
-
-      ${escapeHTML(
-        formatHolding(
-          trade
-        )
-      )}
-
+      ${escapeHTML(formatHolding(trade))}
     </div>
 
   </div>
-
 
 
   <div class="analysis-card">
@@ -3056,15 +2645,10 @@ function renderAIResult(
     </div>
 
     <div class="analysis-text">
-
-      ${escapeHTML(
-        actualPoints
-      )}
-
+      ${escapeHTML(actualPoints)}
     </div>
 
   </div>
-
 
 
   <div class="analysis-card">
@@ -3074,16 +2658,10 @@ function renderAIResult(
     </div>
 
     <div class="analysis-text">
-
-      ${escapeHTML(
-        a.entryAnalysis ||
-        "資料不足"
-      )}
-
+      ${escapeHTML(a.entryAnalysis || "資料不足")}
     </div>
 
   </div>
-
 
 
   <div class="analysis-card">
@@ -3093,16 +2671,10 @@ function renderAIResult(
     </div>
 
     <div class="analysis-text">
-
-      ${escapeHTML(
-        a.exitAnalysis ||
-        "資料不足"
-      )}
-
+      ${escapeHTML(a.exitAnalysis || "資料不足")}
     </div>
 
   </div>
-
 
 
   <div class="analysis-card">
@@ -3112,16 +2684,10 @@ function renderAIResult(
     </div>
 
     <div class="analysis-text">
-
-      ${escapeHTML(
-        a.riskManagement ||
-        "資料不足"
-      )}
-
+      ${escapeHTML(a.riskManagement || "資料不足")}
     </div>
 
   </div>
-
 
 
   <div class="analysis-card">
@@ -3129,7 +2695,6 @@ function renderAIResult(
     <div class="analysis-title">
       可驗證因素
     </div>
-
 
     <div class="chips">
 
@@ -3140,18 +2705,14 @@ function renderAIResult(
           item =>
           `
           <span class="chip">
-
             ${escapeHTML(item)}
-
           </span>
           `
         ).join("")
         :
         `
         <span class="chip">
-
           沒有足夠資料
-
         </span>
         `
       }
@@ -3161,13 +2722,11 @@ function renderAIResult(
   </div>
 
 
-
   <div class="analysis-card">
 
     <div class="analysis-title">
       資料不足項目
     </div>
-
 
     <div class="chips">
 
@@ -3178,18 +2737,14 @@ function renderAIResult(
           item =>
           `
           <span class="chip warning">
-
             ${escapeHTML(item)}
-
           </span>
           `
         ).join("")
         :
         `
         <span class="chip">
-
           無明顯缺少項目
-
         </span>
         `
       }
@@ -3199,7 +2754,6 @@ function renderAIResult(
   </div>
 
 
-
   <div class="analysis-card">
 
     <div class="analysis-title">
@@ -3207,26 +2761,16 @@ function renderAIResult(
     </div>
 
     <div class="analysis-text">
-
-      ${escapeHTML(
-        a.objectiveConclusion ||
-        "資料不足"
-      )}
-
+      ${escapeHTML(a.objectiveConclusion || "資料不足")}
     </div>
 
   </div>
-
 
   `;
 
 }
 
 
-
-/* =========================
-分析頁
-========================= */
 
 function renderAnalysis(){
 
@@ -3243,9 +2787,7 @@ function renderAnalysis(){
     analysisList.innerHTML =
     `
     <div class="empty">
-
       新增交易後才會產生分析
-
     </div>
     `;
 
@@ -3257,7 +2799,6 @@ function renderAnalysis(){
   analysisList.innerHTML =
   trades.map(
     t => {
-
 
       const saved =
       t.aiAnalysis &&
@@ -3274,30 +2815,22 @@ function renderAnalysis(){
         class="small"
         style="margin-top:12px;"
       >
-
         尚未執行 AI 客觀分析
-
       </div>
       `;
 
 
       return `
 
-
       <div class="analysis-block">
 
-
         <div class="trade-top">
-
 
           <div>
 
             <div class="trade-name">
-
               ${escapeHTML(t.product)}
-
             </div>
-
 
             <div class="small">
 
@@ -3327,13 +2860,10 @@ function renderAnalysis(){
 
           </strong>
 
-
         </div>
 
 
-
         <div class="detail-grid">
-
 
           <div class="detail-item">
 
@@ -3341,10 +2871,7 @@ function renderAnalysis(){
               進場價
             </span>
 
-            ${
-              t.entryPrice ||
-              "未填寫"
-            }
+            ${t.entryPrice || "未填寫"}
 
           </div>
 
@@ -3355,10 +2882,7 @@ function renderAnalysis(){
               出場價
             </span>
 
-            ${
-              t.exitPrice ||
-              "未填寫"
-            }
+            ${t.exitPrice || "未填寫"}
 
           </div>
 
@@ -3369,10 +2893,7 @@ function renderAnalysis(){
               停損價
             </span>
 
-            ${
-              t.stopLoss ||
-              "未填寫"
-            }
+            ${t.stopLoss || "未填寫"}
 
           </div>
 
@@ -3383,28 +2904,18 @@ function renderAnalysis(){
               停利價
             </span>
 
-            ${
-              t.takeProfit ||
-              "未填寫"
-            }
+            ${t.takeProfit || "未填寫"}
 
           </div>
-
 
         </div>
 
 
-
         <button
-
           id="btn-${t.id}"
-
           class="primary"
-
           style="margin-top:14px;"
-
           onclick="runAIAnalysis(${t.id})"
-
         >
 
           ${
@@ -3418,18 +2929,13 @@ function renderAnalysis(){
         </button>
 
 
-
         <div
           id="ai-${t.id}"
         >
-
           ${saved}
-
         </div>
 
-
       </div>
-
 
       `;
 
@@ -3440,10 +2946,6 @@ function renderAnalysis(){
 }
 
 
-
-/* =========================
-績效
-========================= */
 
 function renderProductStats(){
 
@@ -3460,9 +2962,7 @@ function renderProductStats(){
     productStats.innerHTML =
     `
     <div class="empty">
-
       目前沒有可統計的交易資料
-
     </div>
     `;
 
@@ -3478,7 +2978,6 @@ function renderProductStats(){
   trades.forEach(
     t => {
 
-
       if(
         !groups[
           t.product
@@ -3489,16 +2988,9 @@ function renderProductStats(){
           t.product
         ] =
         {
-
-          count:
-          0,
-
-          wins:
-          0,
-
-          pnl:
-          0
-
+          count:0,
+          wins:0,
+          pnl:0
         };
 
       }
@@ -3547,7 +3039,6 @@ function renderProductStats(){
       ]
     ) => {
 
-
       const rate =
       Math.round(
         data.wins /
@@ -3558,18 +3049,13 @@ function renderProductStats(){
 
       return `
 
-
       <div class="product-row">
-
 
         <div>
 
           <strong>
-
             ${escapeHTML(name)}
-
           </strong>
-
 
           <div class="small">
 
@@ -3598,9 +3084,7 @@ function renderProductStats(){
 
         </strong>
 
-
       </div>
-
 
       `;
 
@@ -3611,10 +3095,6 @@ function renderProductStats(){
 }
 
 
-
-/* =========================
-安全文字
-========================= */
 
 function escapeHTML(text){
 
@@ -3637,10 +3117,6 @@ function escapeHTML(text){
 
 
 
-/* =========================
-初始化
-========================= */
-
 function render(){
 
   renderHome();
@@ -3654,9 +3130,7 @@ function render(){
 
 render();
 
-
 </script>
-
 
 </body>
 
