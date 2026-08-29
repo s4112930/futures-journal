@@ -43,7 +43,6 @@ body{
   margin:0;
   background:var(--bg);
   color:var(--text);
-
   font-family:
   -apple-system,
   BlinkMacSystemFont,
@@ -73,11 +72,6 @@ h3{
   letter-spacing:1px;
   margin-bottom:5px;
 }
-
-
-/* =========================
-統計
-========================= */
 
 .stats{
   display:grid;
@@ -111,11 +105,6 @@ h3{
   color:var(--red);
 }
 
-
-/* =========================
-區塊
-========================= */
-
 .section{
   margin-top:28px;
 }
@@ -147,11 +136,6 @@ h3{
   margin-top:4px;
 }
 
-
-/* =========================
-表單
-========================= */
-
 .field{
   margin-bottom:14px;
   width:100%;
@@ -172,22 +156,14 @@ textarea{
   width:100%;
   max-width:100%;
   min-width:0;
-
   padding:13px;
-
   border:1px solid var(--border);
   border-radius:13px;
-
   background:#fff;
   color:var(--text);
-
   font-size:16px;
-
   outline:none;
 }
-
-
-/* iPhone 日期與時間輸入 */
 
 input[type="date"],
 input[type="time"]{
@@ -195,18 +171,22 @@ input[type="time"]{
   max-width:100%;
   min-width:0;
   height:52px;
-
   padding:10px 12px;
-
   background:#fff;
-
   font-size:16px;
-
   overflow:hidden;
 }
 
+textarea{
+  min-height:90px;
+  resize:vertical;
+}
 
-/* 日期時間區塊 */
+.two{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:10px;
+}
 
 .date-time-group{
   width:100%;
@@ -231,33 +211,16 @@ input[type="time"]{
   min-width:0;
 }
 
-
-/* 小手機也維持不超出 */
-
 @media(max-width:380px){
 
   .date-time-grid{
     grid-template-columns:1fr;
   }
 
+  .two{
+    grid-template-columns:1fr;
+  }
 }
-
-
-textarea{
-  min-height:90px;
-  resize:vertical;
-}
-
-.two{
-  display:grid;
-  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
-  gap:10px;
-}
-
-
-/* =========================
-按鈕
-========================= */
 
 button{
   font-family:inherit;
@@ -268,12 +231,9 @@ button{
   width:100%;
   border:0;
   border-radius:14px;
-
   padding:15px;
-
   background:var(--blue);
   color:#fff;
-
   font-size:16px;
   font-weight:700;
 }
@@ -281,11 +241,6 @@ button{
 .primary:disabled{
   opacity:.6;
 }
-
-
-/* =========================
-頁面
-========================= */
 
 .page{
   display:none;
@@ -295,21 +250,13 @@ button{
   display:block;
 }
 
-
-/* =========================
-底部導覽
-========================= */
-
 .bottom{
   position:fixed;
   left:0;
   right:0;
   bottom:0;
-
   background:rgba(255,255,255,.96);
-
   border-top:1px solid var(--border);
-
   padding:
   8px
   10px
@@ -319,7 +266,6 @@ button{
 .nav{
   max-width:620px;
   margin:auto;
-
   display:grid;
   grid-template-columns:repeat(4,1fr);
 }
@@ -327,11 +273,8 @@ button{
 .nav button{
   border:0;
   background:none;
-
   padding:10px 4px;
-
   color:var(--muted);
-
   font-size:12px;
 }
 
@@ -340,46 +283,32 @@ button{
   font-weight:700;
 }
 
-
-/* =========================
-AI
-========================= */
-
 .ai-info{
   background:var(--soft);
-
   border-radius:15px;
-
   padding:15px;
-
   font-size:14px;
   line-height:1.7;
 }
 
 .analysis-block{
   background:#fff;
-
   border:1px solid var(--border);
   border-radius:16px;
-
   padding:14px;
   margin-bottom:14px;
 }
 
 .analysis-card{
   background:var(--soft2);
-
   border-radius:13px;
-
   padding:13px;
   margin-top:10px;
 }
 
 .analysis-card-title{
   color:var(--muted);
-
   font-size:12px;
-
   margin-bottom:6px;
 }
 
@@ -391,21 +320,15 @@ AI
 .chip-list{
   display:flex;
   flex-wrap:wrap;
-
   gap:7px;
-
   margin-top:8px;
 }
 
 .chip{
   background:#edf0ef;
-
   border-radius:999px;
-
   padding:6px 9px;
-
   color:#657269;
-
   font-size:12px;
 }
 
@@ -414,75 +337,47 @@ AI
   color:#8b6f62;
 }
 
-
-/* =========================
-交易資料
-========================= */
-
 .detail-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
-
   gap:8px;
-
   margin-top:12px;
 }
 
 .detail-item{
   background:#f8f8f6;
-
   border-radius:12px;
-
   padding:10px;
 }
 
 .detail-item span{
   display:block;
-
   color:var(--muted);
-
   font-size:11px;
-
   margin-bottom:4px;
 }
 
 .rr{
   margin-top:8px;
-
   padding:10px;
-
   background:#f6f5f1;
-
   border-radius:12px;
-
   color:var(--muted);
-
   font-size:12px;
 }
 
-
-/* =========================
-損益計算
-========================= */
-
 .calculation-box{
   background:#f2f3f0;
-
   border-radius:14px;
-
   padding:14px;
-
   margin-bottom:14px;
 }
 
 .calc-row{
   display:flex;
   justify-content:space-between;
-
   gap:15px;
-
   padding:6px 0;
-
   font-size:13px;
 }
 
@@ -490,60 +385,32 @@ AI
   text-align:right;
 }
 
-.profit-display{
-  margin-top:8px;
-
-  padding:14px;
-
-  border-radius:13px;
-
-  background:#f7f7f5;
-
-  font-size:21px;
-  font-weight:700;
-}
-
 .help{
   color:var(--muted);
-
   font-size:11px;
   line-height:1.5;
-
   margin-top:6px;
 }
 
-
-/* =========================
-其他
-========================= */
-
 .delete{
   margin-top:10px;
-
   border:0;
   background:none;
-
   padding:0;
-
   color:var(--red);
-
   font-size:12px;
 }
 
 .empty{
   text-align:center;
-
   color:var(--muted);
-
   padding:25px 0;
 }
 
 .product-row{
   display:flex;
   justify-content:space-between;
-
   padding:12px 0;
-
   border-bottom:1px solid var(--border);
 }
 
@@ -564,9 +431,7 @@ AI
 <div class="app">
 
 
-<!-- =========================
-首頁
-========================= -->
+<!-- 首頁 -->
 
 <section
   id="homePage"
@@ -664,9 +529,7 @@ AI
 
 
 
-<!-- =========================
-新增交易
-========================= -->
+<!-- 新增交易 -->
 
 <section
   id="addPage"
@@ -684,8 +547,6 @@ AI
 
   <div class="card">
 
-
-    <!-- 商品 -->
 
     <div class="field">
 
@@ -749,9 +610,6 @@ AI
     </div>
 
 
-
-    <!-- 方向 -->
-
     <div class="field">
 
       <label>
@@ -774,7 +632,7 @@ AI
 
 
 
-    <!-- 進場 -->
+    <!-- 進場時間 -->
 
     <div class="date-time-group">
 
@@ -783,7 +641,6 @@ AI
       </div>
 
       <div class="date-time-grid">
-
 
         <div class="field">
 
@@ -813,14 +670,13 @@ AI
 
         </div>
 
-
       </div>
 
     </div>
 
 
 
-    <!-- 出場 -->
+    <!-- 出場時間 -->
 
     <div class="date-time-group">
 
@@ -829,7 +685,6 @@ AI
       </div>
 
       <div class="date-time-grid">
-
 
         <div class="field">
 
@@ -859,17 +714,15 @@ AI
 
         </div>
 
-
       </div>
 
     </div>
 
 
 
-    <!-- 進出場點位 -->
+    <!-- 點位 -->
 
     <div class="two">
-
 
       <div class="field">
 
@@ -904,7 +757,6 @@ AI
 
       </div>
 
-
     </div>
 
 
@@ -912,7 +764,6 @@ AI
     <!-- 停損停利 -->
 
     <div class="two">
-
 
       <div class="field">
 
@@ -945,15 +796,13 @@ AI
 
       </div>
 
-
     </div>
 
 
 
-    <!-- 口數每點價值 -->
+    <!-- 口數與成本 -->
 
     <div class="two">
-
 
       <div class="field">
 
@@ -975,57 +824,27 @@ AI
       <div class="field">
 
         <label>
-          每點價值
+          手續費 / 交易成本
         </label>
 
         <input
-          id="pointValue"
+          id="fee"
           type="number"
           min="0"
           step="any"
           inputmode="decimal"
-          placeholder="例如 50"
+          value="0"
         >
 
       </div>
 
-
-    </div>
-
-
-    <div class="help">
-      每點價值請依你實際交易的 IG 商品或合約設定。
-    </div>
-
-    <br>
-
-
-
-    <!-- 成本 -->
-
-    <div class="field">
-
-      <label>
-        手續費 / 交易成本
-      </label>
-
-      <input
-        id="fee"
-        type="number"
-        min="0"
-        step="any"
-        inputmode="decimal"
-        value="0"
-      >
-
     </div>
 
 
 
-    <!-- 自動損益 -->
+    <!-- 自動點數 -->
 
     <div class="calculation-box">
-
 
       <div class="calc-row">
 
@@ -1039,55 +858,29 @@ AI
 
       </div>
 
-
-      <div class="calc-row">
-
-        <span>
-          未扣成本損益
-        </span>
-
-        <strong id="grossPreview">
-          —
-        </strong>
-
-      </div>
+    </div>
 
 
-      <div class="calc-row">
 
-        <span>
-          手續費 / 成本
-        </span>
+    <!-- 實際損益 -->
 
-        <strong id="feePreview">
-          NT$0
-        </strong>
+    <div class="field">
 
-      </div>
-
-
-      <div
-        class="label"
-        style="margin-top:10px;"
-      >
-        自動計算淨損益
-      </div>
-
-
-      <div
-        id="profitPreview"
-        class="profit-display"
-      >
-        NT$0
-      </div>
-
+      <label>
+        實際獲利 / 虧損金額
+      </label>
 
       <input
         id="profit"
-        type="hidden"
-        value=""
+        type="number"
+        step="any"
+        inputmode="decimal"
+        placeholder="獲利輸入 200，虧損輸入 -200"
       >
 
+      <div class="help">
+        目前請依實際交易結果輸入；之後串接 IG Trading 後可自動取得。
+      </div>
 
     </div>
 
@@ -1109,7 +902,6 @@ AI
     </div>
 
 
-
     <button
       class="primary"
       onclick="saveTrade()"
@@ -1117,16 +909,13 @@ AI
       儲存交易
     </button>
 
-
   </div>
 
 </section>
 
 
 
-<!-- =========================
-AI分析
-========================= -->
+<!-- AI -->
 
 <section
   id="analysisPage"
@@ -1155,8 +944,8 @@ AI分析
 
     <br><br>
 
-    點數、持倉時間與損益等數據，
-    優先由程式直接計算。
+    點數與持倉時間由 App 直接計算，
+    不交由 AI 猜測。
 
   </div>
 
@@ -1175,9 +964,7 @@ AI分析
 
 
 
-<!-- =========================
-績效
-========================= -->
+<!-- 績效 -->
 
 <section
   id="statsPage"
@@ -1210,14 +997,11 @@ AI分析
 
 
 
-<!-- =========================
-底部選單
-========================= -->
+<!-- 底部 -->
 
 <div class="bottom">
 
   <div class="nav">
-
 
     <button
       id="homeBtn"
@@ -1251,7 +1035,6 @@ AI分析
       績效
     </button>
 
-
   </div>
 
 </div>
@@ -1259,10 +1042,6 @@ AI分析
 
 
 <script>
-
-/* =========================
-設定
-========================= */
 
 const AI_API =
 "https://futures-ai-worker.s4112930.workers.dev";
@@ -1277,9 +1056,7 @@ JSON.parse(
 
 
 
-/* =========================
-商品
-========================= */
+/* 商品選擇 */
 
 productSelect.addEventListener(
   "change",
@@ -1292,17 +1069,13 @@ productSelect.addEventListener(
 
       otherProductBox
       .classList
-      .remove(
-        "hidden"
-      );
+      .remove("hidden");
 
     }else{
 
       otherProductBox
       .classList
-      .add(
-        "hidden"
-      );
+      .add("hidden");
 
       otherProduct.value =
       "";
@@ -1314,37 +1087,44 @@ productSelect.addEventListener(
 
 
 
-/* =========================
-損益自動計算
-========================= */
+/* 點數自動計算 */
 
 [
   direction,
   entryPrice,
-  exitPrice,
-  quantity,
-  pointValue,
-  fee
+  exitPrice
 
 ].forEach(
   el => {
 
     el.addEventListener(
       "input",
-      calculateProfitPreview
+      calculatePointsPreview
     );
 
     el.addEventListener(
       "change",
-      calculateProfitPreview
+      calculatePointsPreview
     );
 
   }
 );
 
 
+function calculatePointsPreview(){
 
-function calculateProfitPreview(){
+  if(
+    entryPrice.value === "" ||
+    exitPrice.value === ""
+  ){
+
+    pointsPreview.innerText =
+    "—";
+
+    return;
+
+  }
+
 
   const entry =
   Number(
@@ -1358,56 +1138,6 @@ function calculateProfitPreview(){
   );
 
 
-  const qty =
-  Number(
-    quantity.value || 1
-  );
-
-
-  const valuePerPoint =
-  Number(
-    pointValue.value
-  );
-
-
-  const costs =
-  Number(
-    fee.value || 0
-  );
-
-
-  feePreview.innerText =
-  money(
-    -costs
-  );
-
-
-  if(
-    entryPrice.value === "" ||
-    exitPrice.value === "" ||
-    pointValue.value === ""
-  ){
-
-    pointsPreview.innerText =
-    "—";
-
-    grossPreview.innerText =
-    "—";
-
-    profitPreview.innerText =
-    "請輸入進出場點位與每點價值";
-
-    profitPreview.className =
-    "profit-display";
-
-    profit.value =
-    "";
-
-    return;
-
-  }
-
-
   let points;
 
 
@@ -1417,65 +1147,27 @@ function calculateProfitPreview(){
   ){
 
     points =
-    exit - entry;
+    exit -
+    entry;
 
   }else{
 
     points =
-    entry - exit;
+    entry -
+    exit;
 
   }
-
-
-  const gross =
-  points *
-  valuePerPoint *
-  qty;
-
-
-  const net =
-  gross -
-  costs;
 
 
   pointsPreview.innerText =
   formatNumber(points) +
   " 點";
 
-
-  grossPreview.innerText =
-  money(gross);
-
-
-  profitPreview.innerText =
-  money(net);
-
-
-  profitPreview.className =
-  "profit-display " +
-  (
-    net > 0
-    ?
-    "green"
-    :
-    net < 0
-    ?
-    "red"
-    :
-    ""
-  );
-
-
-  profit.value =
-  String(net);
-
 }
 
 
 
-/* =========================
-日期＋時間合併
-========================= */
+/* 日期＋時間 */
 
 function combineDateTime(
   date,
@@ -1502,9 +1194,7 @@ function combineDateTime(
 
 
 
-/* =========================
-頁面切換
-========================= */
+/* 頁面切換 */
 
 function showPage(page){
 
@@ -1539,15 +1229,11 @@ function showPage(page){
 
     homePage
     .classList
-    .add(
-      "active"
-    );
+    .add("active");
 
     homeBtn
     .classList
-    .add(
-      "active"
-    );
+    .add("active");
 
   }
 
@@ -1559,15 +1245,11 @@ function showPage(page){
 
     addPage
     .classList
-    .add(
-      "active"
-    );
+    .add("active");
 
     addBtn
     .classList
-    .add(
-      "active"
-    );
+    .add("active");
 
   }
 
@@ -1579,15 +1261,11 @@ function showPage(page){
 
     analysisPage
     .classList
-    .add(
-      "active"
-    );
+    .add("active");
 
     analysisBtn
     .classList
-    .add(
-      "active"
-    );
+    .add("active");
 
   }
 
@@ -1599,15 +1277,11 @@ function showPage(page){
 
     statsPage
     .classList
-    .add(
-      "active"
-    );
+    .add("active");
 
     statsBtn
     .classList
-    .add(
-      "active"
-    );
+    .add("active");
 
   }
 
@@ -1615,9 +1289,7 @@ function showPage(page){
 
 
 
-/* =========================
-儲存交易
-========================= */
+/* 儲存 */
 
 function saveTrade(){
 
@@ -1733,27 +1405,11 @@ function saveTrade(){
 
 
   if(
-    pointValue.value === ""
-  ){
-
-    alert(
-      "請輸入每點價值"
-    );
-
-    return;
-
-  }
-
-
-  calculateProfitPreview();
-
-
-  if(
     profit.value === ""
   ){
 
     alert(
-      "目前無法計算損益"
+      "請輸入實際獲利或虧損金額"
     );
 
     return;
@@ -1794,11 +1450,6 @@ function saveTrade(){
     Number(
       quantity.value ||
       1
-    ),
-
-    pointValue:
-    Number(
-      pointValue.value
     ),
 
     fee:
@@ -1849,9 +1500,7 @@ function saveTrade(){
 
 
 
-/* =========================
-計算點數
-========================= */
+/* 計算點數 */
 
 function calculatePoints(){
 
@@ -1889,9 +1538,7 @@ function calculatePoints(){
 
 
 
-/* =========================
-持倉分鐘
-========================= */
+/* 持倉分鐘 */
 
 function calculateHoldingMinutes(
   start,
@@ -1931,9 +1578,7 @@ function calculateHoldingMinutes(
 
 
 
-/* =========================
-儲存
-========================= */
+/* 儲存 localStorage */
 
 function saveTrades(){
 
@@ -1948,9 +1593,7 @@ function saveTrades(){
 
 
 
-/* =========================
-清除表單
-========================= */
+/* 清除 */
 
 function clearForm(){
 
@@ -1962,9 +1605,7 @@ function clearForm(){
 
   otherProductBox
   .classList
-  .add(
-    "hidden"
-  );
+  .add("hidden");
 
   direction.value =
   "做多";
@@ -1996,9 +1637,6 @@ function clearForm(){
   quantity.value =
   "1";
 
-  pointValue.value =
-  "";
-
   fee.value =
   "0";
 
@@ -2011,25 +1649,11 @@ function clearForm(){
   pointsPreview.innerText =
   "—";
 
-  grossPreview.innerText =
-  "—";
-
-  feePreview.innerText =
-  "NT$0";
-
-  profitPreview.innerText =
-  "NT$0";
-
-  profitPreview.className =
-  "profit-display";
-
 }
 
 
 
-/* =========================
-刪除
-========================= */
+/* 刪除 */
 
 function deleteTrade(id){
 
@@ -2059,9 +1683,7 @@ function deleteTrade(id){
 
 
 
-/* =========================
-金額
-========================= */
+/* 金額 */
 
 function money(n){
 
@@ -2099,9 +1721,7 @@ function money(n){
 
 
 
-/* =========================
-數字
-========================= */
+/* 數字 */
 
 function formatNumber(n){
 
@@ -2118,9 +1738,7 @@ function formatNumber(n){
 
 
 
-/* =========================
-時間
-========================= */
+/* 時間 */
 
 function formatTime(time){
 
@@ -2163,9 +1781,7 @@ function formatTime(time){
 
 
 
-/* =========================
-持倉顯示
-========================= */
+/* 持倉顯示 */
 
 function formatHolding(t){
 
@@ -2245,9 +1861,7 @@ function formatHolding(t){
 
 
 
-/* =========================
-風險報酬
-========================= */
+/* 風險報酬 */
 
 function calculateRR(t){
 
@@ -2281,7 +1895,6 @@ function calculateRR(t){
 
 
   let risk;
-
   let reward;
 
 
@@ -2330,9 +1943,7 @@ function calculateRR(t){
 
 
 
-/* =========================
-首頁
-========================= */
+/* 首頁 */
 
 function renderHome(){
 
@@ -2630,9 +2241,7 @@ function renderHome(){
 
 
 
-/* =========================
-AI
-========================= */
+/* AI */
 
 async function runAIAnalysis(id){
 
@@ -2763,9 +2372,7 @@ async function runAIAnalysis(id){
 
 
 
-/* =========================
-AI卡片
-========================= */
+/* AI卡片 */
 
 function renderAIResult(
   a,
@@ -2822,7 +2429,6 @@ function renderAIResult(
 
   return `
 
-
     <div class="analysis-card">
 
       <div class="analysis-card-title">
@@ -2834,7 +2440,6 @@ function renderAIResult(
       </div>
 
     </div>
-
 
 
     <div class="analysis-card">
@@ -2850,7 +2455,6 @@ function renderAIResult(
     </div>
 
 
-
     <div class="analysis-card">
 
       <div class="analysis-card-title">
@@ -2862,7 +2466,6 @@ function renderAIResult(
       </div>
 
     </div>
-
 
 
     <div class="analysis-card">
@@ -2878,7 +2481,6 @@ function renderAIResult(
     </div>
 
 
-
     <div class="analysis-card">
 
       <div class="analysis-card-title">
@@ -2892,7 +2494,6 @@ function renderAIResult(
     </div>
 
 
-
     <div class="analysis-card">
 
       <div class="analysis-card-title">
@@ -2904,7 +2505,6 @@ function renderAIResult(
       </div>
 
     </div>
-
 
 
     <div class="analysis-card">
@@ -2931,7 +2531,6 @@ function renderAIResult(
     </div>
 
 
-
     <div class="analysis-card">
 
       <div class="analysis-card-title">
@@ -2956,7 +2555,6 @@ function renderAIResult(
     </div>
 
 
-
     <div class="analysis-card">
 
       <div class="analysis-card-title">
@@ -2969,16 +2567,13 @@ function renderAIResult(
 
     </div>
 
-
   `;
 
 }
 
 
 
-/* =========================
-分析頁
-========================= */
+/* 分析頁 */
 
 function renderAnalysis(){
 
@@ -3013,9 +2608,7 @@ function renderAnalysis(){
 
       return `
 
-
         <div class="analysis-block">
-
 
           <div class="trade-row">
 
@@ -3049,9 +2642,7 @@ function renderAnalysis(){
           </div>
 
 
-
           <div class="detail-grid">
-
 
             <div class="detail-item">
 
@@ -3096,9 +2687,7 @@ function renderAnalysis(){
 
             </div>
 
-
           </div>
-
 
 
           <button
@@ -3117,14 +2706,11 @@ function renderAnalysis(){
           </button>
 
 
-
           <div id="ai-${t.id}">
             ${saved}
           </div>
 
-
         </div>
-
 
       `;
 
@@ -3136,9 +2722,7 @@ function renderAnalysis(){
 
 
 
-/* =========================
-績效
-========================= */
+/* 績效 */
 
 function renderProductStats(){
 
@@ -3170,11 +2754,9 @@ function renderProductStats(){
         groups[
           t.product
         ] = {
-
           count:0,
           wins:0,
           pnl:0
-
         };
 
       }
@@ -3229,7 +2811,6 @@ function renderProductStats(){
 
       return `
 
-
         <div class="product-row">
 
           <div>
@@ -3261,7 +2842,6 @@ function renderProductStats(){
 
         </div>
 
-
       `;
 
     }
@@ -3272,9 +2852,7 @@ function renderProductStats(){
 
 
 
-/* =========================
-安全文字
-========================= */
+/* 安全文字 */
 
 function escapeHTML(text){
 
@@ -3296,9 +2874,7 @@ function escapeHTML(text){
 
 
 
-/* =========================
-初始化
-========================= */
+/* 初始化 */
 
 function render(){
 
