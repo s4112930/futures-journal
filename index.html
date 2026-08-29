@@ -46,7 +46,12 @@ html,body{
   padding:0;
   background:var(--bg);
   color:var(--text);
-  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "PingFang TC",
+    "Noto Sans TC",
+    sans-serif;
 }
 
 .app{
@@ -93,10 +98,16 @@ h1{
   font-size:20px;
   font-weight:750;
   line-height:1.4;
+  word-break:break-word;
 }
 
-.green{color:var(--green);}
-.red{color:var(--red);}
+.green{
+  color:var(--green);
+}
+
+.red{
+  color:var(--red);
+}
 
 .section{
   margin-top:28px;
@@ -206,7 +217,7 @@ button{
 }
 
 .sync-box{
-  margin-top:18px;
+  margin-top:22px;
 }
 
 .sync-status{
@@ -436,10 +447,15 @@ button{
 
 <div class="app">
 
+
+<!-- 首頁 -->
+
 <section id="homePage" class="page active">
 
   <div class="sub">MY TRADING JOURNAL</div>
+
   <h1>期貨交易日誌</h1>
+
 
   <div class="stats">
 
@@ -454,6 +470,16 @@ button{
     </div>
 
     <div class="card">
+      <div class="stat-label">今年損益</div>
+      <div id="yearProfit" class="stat-value">NT$0</div>
+    </div>
+
+    <div class="card">
+      <div class="stat-label">今日損益</div>
+      <div id="todayProfit" class="stat-value">NT$0</div>
+    </div>
+
+    <div class="card">
       <div class="stat-label">勝率</div>
       <div id="winRate" class="stat-value">0%</div>
     </div>
@@ -461,6 +487,11 @@ button{
     <div class="card">
       <div class="stat-label">交易筆數</div>
       <div id="tradeCount" class="stat-value">0</div>
+    </div>
+
+    <div class="card">
+      <div class="stat-label">平均單筆損益</div>
+      <div id="averageProfit" class="stat-value">NT$0</div>
     </div>
 
     <div class="card">
@@ -476,6 +507,8 @@ button{
   </div>
 
 
+  <!-- 重大事件 -->
+
   <div class="section">
 
     <div class="section-title">
@@ -485,18 +518,25 @@ button{
     <div id="eventList"></div>
 
     <div class="help">
-      發布時間依美國 BLS 官方排程，畫面已換算為台灣時間。
-      官方實際值欄位目前採手動更新，之後可再升級為自動抓取。
+      發布時間依美國官方排程換算為台灣時間。
+      目前事件公布值尚未自動串接官方資料來源。
     </div>
 
   </div>
 
 
+  <!-- IG 同步 -->
+
   <div class="sync-box">
 
     <div class="field">
-      <label>選擇要同步的月份</label>
+
+      <label>
+        選擇要同步的月份
+      </label>
+
       <select id="syncMonth"></select>
+
     </div>
 
     <button
@@ -507,126 +547,313 @@ button{
       同步這個月份
     </button>
 
-    <div id="igSyncStatus" class="sync-status">
-      建議依月份逐月同步最近一年。
+    <div
+      id="igSyncStatus"
+      class="sync-status"
+    >
+      可逐月同步最近一年 IG 交易紀錄。
     </div>
 
   </div>
 
 
+  <!-- 最近交易 -->
+
   <div class="section">
-    <div class="section-title">最近交易</div>
+
+    <div class="section-title">
+      最近交易
+    </div>
+
     <div id="tradeList"></div>
+
   </div>
 
 </section>
 
 
+
+<!-- 新增交易 -->
+
 <section id="addPage" class="page">
 
-  <div class="sub">NEW TRADE</div>
-  <h1>新增交易</h1>
+  <div class="sub">
+    NEW TRADE
+  </div>
+
+  <h1>
+    新增交易
+  </h1>
 
   <div class="card">
 
     <div class="field">
-      <label>操作商品</label>
+
+      <label>
+        操作商品
+      </label>
 
       <select id="productSelect">
-        <option value="">請選擇商品</option>
-        <option value="NQ">NQ</option>
-        <option value="YM">YM</option>
-        <option value="BTC">BTC</option>
-        <option value="台指">台指</option>
-        <option value="黃金">黃金</option>
-        <option value="白銀">白銀</option>
-        <option value="其他">其他</option>
+
+        <option value="">
+          請選擇商品
+        </option>
+
+        <option value="NQ">
+          NQ
+        </option>
+
+        <option value="YM">
+          YM
+        </option>
+
+        <option value="BTC">
+          BTC
+        </option>
+
+        <option value="台指">
+          台指
+        </option>
+
+        <option value="黃金">
+          黃金
+        </option>
+
+        <option value="白銀">
+          白銀
+        </option>
+
+        <option value="其他">
+          其他
+        </option>
+
       </select>
+
     </div>
 
-    <div id="otherProductBox" class="field hidden">
-      <label>其他商品名稱</label>
-      <input id="otherProduct" placeholder="輸入商品名稱">
+
+    <div
+      id="otherProductBox"
+      class="field hidden"
+    >
+
+      <label>
+        其他商品名稱
+      </label>
+
+      <input
+        id="otherProduct"
+        placeholder="輸入商品名稱"
+      >
+
     </div>
+
 
     <div class="field">
-      <label>方向</label>
+
+      <label>
+        方向
+      </label>
+
       <select id="direction">
-        <option value="做多">做多</option>
-        <option value="做空">做空</option>
+
+        <option value="做多">
+          做多
+        </option>
+
+        <option value="做空">
+          做空
+        </option>
+
       </select>
+
     </div>
 
-    <div class="field">
-      <label>進場時間</label>
-      <input id="entryTime" type="text" placeholder="例如 2026/08/29 11:51">
-    </div>
 
     <div class="field">
-      <label>出場時間</label>
-      <input id="exitTime" type="text" placeholder="例如 2026/08/29 12:03">
+
+      <label>
+        進場時間
+      </label>
+
+      <input
+        id="entryTime"
+        type="text"
+        placeholder="例如 2026/08/29 11:51"
+      >
+
     </div>
+
+
+    <div class="field">
+
+      <label>
+        出場時間
+      </label>
+
+      <input
+        id="exitTime"
+        type="text"
+        placeholder="例如 2026/08/29 12:03"
+      >
+
+    </div>
+
 
     <div class="two">
 
       <div class="field">
-        <label>進場點位</label>
-        <input id="entryPrice" type="number" step="any">
+
+        <label>
+          進場點位
+        </label>
+
+        <input
+          id="entryPrice"
+          type="number"
+          step="any"
+        >
+
       </div>
 
+
       <div class="field">
-        <label>出場點位</label>
-        <input id="exitPrice" type="number" step="any">
+
+        <label>
+          出場點位
+        </label>
+
+        <input
+          id="exitPrice"
+          type="number"
+          step="any"
+        >
+
       </div>
 
     </div>
+
 
     <div class="points-box">
+
       <div class="points-row">
-        <span class="points-title">交易點數</span>
-        <strong id="pointsPreview" class="points-value">—</strong>
+
+        <span class="points-title">
+          交易點數
+        </span>
+
+        <strong
+          id="pointsPreview"
+          class="points-value"
+        >
+          —
+        </strong>
+
       </div>
+
     </div>
+
 
     <div class="two">
 
       <div class="field">
-        <label>停損價</label>
-        <input id="stopLoss" type="number" step="any">
+
+        <label>
+          停損價
+        </label>
+
+        <input
+          id="stopLoss"
+          type="number"
+          step="any"
+        >
+
       </div>
 
+
       <div class="field">
-        <label>停利價</label>
-        <input id="takeProfit" type="number" step="any">
+
+        <label>
+          停利價
+        </label>
+
+        <input
+          id="takeProfit"
+          type="number"
+          step="any"
+        >
+
       </div>
 
     </div>
+
 
     <div class="two">
 
       <div class="field">
-        <label>口數</label>
-        <input id="quantity" type="number" step="any" value="1">
+
+        <label>
+          口數
+        </label>
+
+        <input
+          id="quantity"
+          type="number"
+          step="any"
+          value="1"
+        >
+
       </div>
+
 
       <div class="field">
-        <label>手續費 / 成本</label>
-        <input id="fee" type="number" step="any" value="0">
+
+        <label>
+          手續費 / 成本
+        </label>
+
+        <input
+          id="fee"
+          type="number"
+          step="any"
+          value="0"
+        >
+
       </div>
 
     </div>
 
-    <div class="field">
-      <label>實際獲利 / 虧損金額</label>
-      <input id="profit" type="number" step="any">
-    </div>
 
     <div class="field">
-      <label>每一單紀錄</label>
+
+      <label>
+        實際獲利 / 虧損金額
+      </label>
+
+      <input
+        id="profit"
+        type="number"
+        step="any"
+      >
+
+    </div>
+
+
+    <div class="field">
+
+      <label>
+        每一單紀錄
+      </label>
+
       <textarea id="note"></textarea>
+
     </div>
 
-    <button class="primary" onclick="saveTrade()">
+
+    <button
+      class="primary"
+      onclick="saveTrade()"
+    >
       儲存交易
     </button>
 
@@ -635,31 +862,57 @@ button{
 </section>
 
 
+
+<!-- AI 分析 -->
+
 <section id="analysisPage" class="page">
 
-  <div class="sub">OBJECTIVE AI REVIEW</div>
-  <h1>AI 客觀分析</h1>
+  <div class="sub">
+    OBJECTIVE AI REVIEW
+  </div>
+
+  <h1>
+    AI 客觀分析
+  </h1>
 
   <div class="ai-info">
     AI 只依照已記錄的交易資料進行事後分析，不推測情緒或主觀動機。
   </div>
 
   <div class="section">
-    <div class="section-title">逐筆交易分析</div>
+
+    <div class="section-title">
+      逐筆交易分析
+    </div>
+
     <div id="analysisList"></div>
+
   </div>
 
 </section>
 
 
+
+<!-- 績效 -->
+
 <section id="statsPage" class="page">
 
-  <div class="sub">PERFORMANCE</div>
-  <h1>績效統計</h1>
+  <div class="sub">
+    PERFORMANCE
+  </div>
+
+  <h1>
+    績效統計
+  </h1>
 
   <div class="card">
-    <div class="section-title">商品別績效</div>
+
+    <div class="section-title">
+      商品別績效
+    </div>
+
     <div id="productStats"></div>
+
   </div>
 
 </section>
@@ -667,27 +920,46 @@ button{
 </div>
 
 
+
+<!-- 底部選單 -->
+
 <div class="bottom">
+
   <div class="nav">
 
-    <button id="homeBtn" class="active" onclick="showPage('home')">
+    <button
+      id="homeBtn"
+      class="active"
+      onclick="showPage('home')"
+    >
       首頁
     </button>
 
-    <button id="addBtn" onclick="showPage('add')">
+    <button
+      id="addBtn"
+      onclick="showPage('add')"
+    >
       新增交易
     </button>
 
-    <button id="analysisBtn" onclick="showPage('analysis')">
+    <button
+      id="analysisBtn"
+      onclick="showPage('analysis')"
+    >
       AI 分析
     </button>
 
-    <button id="statsBtn" onclick="showPage('stats')">
+    <button
+      id="statsBtn"
+      onclick="showPage('stats')"
+    >
       績效
     </button>
 
   </div>
+
 </div>
+
 
 
 <script>
@@ -695,17 +967,22 @@ button{
 const API =
 "https://futures-ai-worker.s4112930.workers.dev";
 
+
 let trades =
 JSON.parse(
-  localStorage.getItem("futuresTrades")
+  localStorage.getItem(
+    "futuresTrades"
+  )
 ) || [];
 
 
+
 /* =========================
-   重大事件
+   重大經濟事件
 ========================= */
 
 const economicEvents = [
+
   {
     id:"nfp-2026-09",
     name:"美國非農就業",
@@ -716,6 +993,7 @@ const economicEvents = [
     previous:null,
     unit:"K"
   },
+
   {
     id:"ppi-2026-09",
     name:"美國生產者物價指數",
@@ -726,6 +1004,7 @@ const economicEvents = [
     previous:null,
     unit:"%"
   },
+
   {
     id:"cpi-2026-09",
     name:"美國消費者物價指數",
@@ -736,6 +1015,7 @@ const economicEvents = [
     previous:null,
     unit:"%"
   }
+
 ];
 
 
@@ -749,6 +1029,7 @@ function renderEconomicEvents(){
   const now =
   new Date();
 
+
   box.innerHTML =
   economicEvents
   .map(event => {
@@ -761,11 +1042,11 @@ function renderEconomicEvents(){
     const diff =
     eventTime - now;
 
-    let status =
-    "";
 
-    let countdown =
-    "";
+    let status;
+
+    let countdown;
+
 
     if(diff > 0){
 
@@ -773,7 +1054,9 @@ function renderEconomicEvents(){
       "尚未公布";
 
       countdown =
-      formatCountdown(diff);
+      formatCountdown(
+        diff
+      );
 
     }else{
 
@@ -784,6 +1067,7 @@ function renderEconomicEvents(){
       "等待官方數值更新";
 
     }
+
 
     return `
       <div class="event-card">
@@ -815,20 +1099,24 @@ function renderEconomicEvents(){
 
         </div>
 
+
         <div class="event-countdown">
           ${countdown}
         </div>
+
 
         <div class="event-result">
 
           官方實際值：
           ${
             event.actual !== null
-            ? escapeHTML(
-                event.actual +
-                event.unit
-              )
-            : "尚未公布"
+            ?
+            escapeHTML(
+              event.actual +
+              event.unit
+            )
+            :
+            "尚未公布"
           }
 
           <br>
@@ -836,11 +1124,13 @@ function renderEconomicEvents(){
           前值：
           ${
             event.previous !== null
-            ? escapeHTML(
-                event.previous +
-                event.unit
-              )
-            : "尚未填入"
+            ?
+            escapeHTML(
+              event.previous +
+              event.unit
+            )
+            :
+            "尚未填入"
           }
 
         </div>
@@ -852,6 +1142,7 @@ function renderEconomicEvents(){
   .join("");
 
 }
+
 
 
 function formatCountdown(ms){
@@ -880,6 +1171,7 @@ function formatCountdown(ms){
   totalMinutes %
   60;
 
+
   if(days > 0){
 
     return (
@@ -891,6 +1183,7 @@ function formatCountdown(ms){
     );
 
   }
+
 
   if(hours > 0){
 
@@ -904,6 +1197,7 @@ function formatCountdown(ms){
 
   }
 
+
   return (
     "距離公布還有 " +
     Math.max(
@@ -914,6 +1208,7 @@ function formatCountdown(ms){
   );
 
 }
+
 
 
 function formatEventTime(d){
@@ -932,65 +1227,112 @@ function formatEventTime(d){
 }
 
 
+
 /* =========================
-   原本功能
+   頁面欄位
 ========================= */
 
 const syncMonth =
-document.getElementById("syncMonth");
+document.getElementById(
+  "syncMonth"
+);
 
 const productSelect =
-document.getElementById("productSelect");
+document.getElementById(
+  "productSelect"
+);
 
 const otherProductBox =
-document.getElementById("otherProductBox");
+document.getElementById(
+  "otherProductBox"
+);
 
 const otherProduct =
-document.getElementById("otherProduct");
+document.getElementById(
+  "otherProduct"
+);
 
 const direction =
-document.getElementById("direction");
+document.getElementById(
+  "direction"
+);
 
 const entryTime =
-document.getElementById("entryTime");
+document.getElementById(
+  "entryTime"
+);
 
 const exitTime =
-document.getElementById("exitTime");
+document.getElementById(
+  "exitTime"
+);
 
 const entryPrice =
-document.getElementById("entryPrice");
+document.getElementById(
+  "entryPrice"
+);
 
 const exitPrice =
-document.getElementById("exitPrice");
+document.getElementById(
+  "exitPrice"
+);
 
 const stopLoss =
-document.getElementById("stopLoss");
+document.getElementById(
+  "stopLoss"
+);
 
 const takeProfit =
-document.getElementById("takeProfit");
+document.getElementById(
+  "takeProfit"
+);
 
 const quantity =
-document.getElementById("quantity");
+document.getElementById(
+  "quantity"
+);
 
 const fee =
-document.getElementById("fee");
+document.getElementById(
+  "fee"
+);
 
 const profit =
-document.getElementById("profit");
+document.getElementById(
+  "profit"
+);
 
 const note =
-document.getElementById("note");
+document.getElementById(
+  "note"
+);
 
 const pointsPreview =
-document.getElementById("pointsPreview");
+document.getElementById(
+  "pointsPreview"
+);
 
+
+
+/* =========================
+   月份選單
+========================= */
 
 function buildMonthOptions(){
 
   const now =
   new Date();
 
-  for(let i = 0; i < 12; i++){
+
+  syncMonth.innerHTML =
+  "";
+
+
+  for(
+    let i = 0;
+    i < 12;
+    i++
+  ){
 
     const d =
     new Date(
@@ -999,24 +1341,37 @@ function buildMonthOptions(){
       1
     );
 
+
     const value =
     d.getFullYear() +
     "-" +
     String(
       d.getMonth() + 1
-    ).padStart(2,"0");
+    )
+    .padStart(
+      2,
+      "0"
+    );
+
 
     const option =
-    document.createElement("option");
+    document.createElement(
+      "option"
+    );
+
 
     option.value =
     value;
 
+
     option.textContent =
     d.getFullYear() +
     " 年 " +
-    (d.getMonth() + 1) +
+    (
+      d.getMonth() + 1
+    ) +
     " 月";
+
 
     syncMonth.appendChild(
       option
@@ -1026,6 +1381,11 @@ function buildMonthOptions(){
 
 }
 
+
+
+/* =========================
+   IG 帳戶
+========================= */
 
 async function loadIGAccount(){
 
@@ -1039,6 +1399,7 @@ async function loadIGAccount(){
     "igAvailableBalance"
   );
 
+
   try{
 
     const response =
@@ -1047,31 +1408,44 @@ async function loadIGAccount(){
       "/ig/accounts"
     );
 
+
     const data =
     await response.json();
+
 
     if(
       !response.ok ||
       !data.ok
     ){
+
       throw new Error(
         data.error ||
         "帳戶資料讀取失敗"
       );
+
     }
+
 
     const accounts =
     Array.isArray(
       data.accounts
     )
-    ? data.accounts
-    : [];
+    ?
+    data.accounts
+    :
+    [];
 
-    if(!accounts.length){
+
+    if(
+      !accounts.length
+    ){
+
       throw new Error(
         "沒有取得 IG 帳戶"
       );
+
     }
+
 
     const account =
     accounts.find(
@@ -1081,35 +1455,49 @@ async function loadIGAccount(){
     ||
     accounts[0];
 
+
     const currency =
     account.currency ||
     "USD";
+
 
     const balance =
     Number(
       account.balance?.balance
     );
 
+
     const available =
     Number(
       account.balance?.available
     );
 
+
     balanceBox.innerText =
-    Number.isFinite(balance)
-    ? money(
-        balance,
-        currency
-      )
-    : "資料不足";
+    Number.isFinite(
+      balance
+    )
+    ?
+    money(
+      balance,
+      currency
+    )
+    :
+    "資料不足";
+
 
     availableBox.innerText =
-    Number.isFinite(available)
-    ? money(
-        available,
-        currency
-      )
-    : "資料不足";
+    Number.isFinite(
+      available
+    )
+    ?
+    money(
+      available,
+      currency
+    )
+    :
+    "資料不足";
+
 
   }catch(error){
 
@@ -1124,61 +1512,134 @@ async function loadIGAccount(){
 }
 
 
+
+/* =========================
+   IG 商品分類
+========================= */
+
 function normalizeIGProduct(name){
 
   const text =
-  String(name || "").trim();
+  String(
+    name || ""
+  )
+  .trim();
+
 
   const upper =
   text.toUpperCase();
 
+
   if(
-    upper.includes("US TECH 100") ||
-    upper.includes("NASDAQ 100")
+    upper.includes(
+      "US TECH 100"
+    )
+    ||
+    upper.includes(
+      "NASDAQ"
+    )
   ){
+
     return "NQ";
+
   }
 
+
   if(
-    upper.includes("WALL STREET") ||
-    upper.includes("DOW")
+    upper.includes(
+      "WALL STREET"
+    )
+    ||
+    upper.includes(
+      "DOW"
+    )
+    ||
+    upper.includes(
+      "US 30"
+    )
   ){
+
     return "YM";
+
   }
 
-  if(
-    upper.includes("TAIWAN INDEX") ||
-    upper.includes("TAIWAN 50") ||
-    text.includes("台灣指數") ||
-    text.includes("台指")
-  ){
-    return "台指";
-  }
 
   if(
-    upper.includes("GOLD") ||
-    text.includes("黃金")
+    upper.includes(
+      "BITCOIN"
+    )
+    ||
+    upper.includes(
+      "BTC"
+    )
   ){
-    return "黃金";
-  }
 
-  if(
-    upper.includes("SILVER") ||
-    text.includes("白銀")
-  ){
-    return "白銀";
-  }
-
-  if(
-    upper.includes("BITCOIN") ||
-    upper.includes("BTC")
-  ){
     return "BTC";
+
   }
 
-  return text;
+
+  if(
+    upper.includes(
+      "TAIWAN INDEX"
+    )
+    ||
+    upper.includes(
+      "TAIWAN 25"
+    )
+    ||
+    upper.includes(
+      "TAIEX"
+    )
+    ||
+    text.includes(
+      "台灣指數"
+    )
+    ||
+    text.includes(
+      "台指"
+    )
+  ){
+
+    return "台指";
+
+  }
+
+
+  if(
+    upper.includes(
+      "GOLD"
+    )
+    ||
+    text.includes(
+      "黃金"
+    )
+  ){
+
+    return "黃金";
+
+  }
+
+
+  if(
+    upper.includes(
+      "SILVER"
+    )
+    ||
+    text.includes(
+      "白銀"
+    )
+  ){
+
+    return "白銀";
+
+  }
+
+
+  return null;
 
 }
+
 
 
 function isAllowedProduct(product){
@@ -1190,28 +1651,40 @@ function isAllowedProduct(product){
     "台指",
     "黃金",
     "白銀"
-  ].includes(product);
+  ].includes(
+    product
+  );
 
 }
 
+
+
+/* =========================
+   手動商品選擇
+========================= */
 
 productSelect.addEventListener(
   "change",
   function(){
 
     if(
-      productSelect.value === "其他"
+      productSelect.value ===
+      "其他"
     ){
 
       otherProductBox
       .classList
-      .remove("hidden");
+      .remove(
+        "hidden"
+      );
 
     }else{
 
       otherProductBox
       .classList
-      .add("hidden");
+      .add(
+        "hidden"
+      );
 
       otherProduct.value =
       "";
@@ -1222,11 +1695,13 @@ productSelect.addEventListener(
 );
 
 
+
 [
   direction,
   entryPrice,
   exitPrice
-].forEach(el => {
+]
+.forEach(el => {
 
   el.addEventListener(
     "input",
@@ -1241,28 +1716,47 @@ productSelect.addEventListener(
 });
 
 
+
+/* =========================
+   點數計算
+========================= */
+
 function calculatePointsFromValues(
   tradeDirection,
   entry,
   exit
 ){
 
-  return tradeDirection === "做多"
-  ? exit - entry
-  : entry - exit;
+  return (
+    tradeDirection === "做多"
+    ?
+    exit - entry
+    :
+    entry - exit
+  );
 
 }
+
 
 
 function calculatePoints(){
 
   return calculatePointsFromValues(
+
     direction.value,
-    Number(entryPrice.value),
-    Number(exitPrice.value)
+
+    Number(
+      entryPrice.value
+    ),
+
+    Number(
+      exitPrice.value
+    )
+
   );
 
 }
+
 
 
 function updatePoints(){
@@ -1276,118 +1770,256 @@ function updatePoints(){
     "—";
 
     return;
+
   }
+
 
   const points =
   calculatePoints();
 
+
   pointsPreview.innerText =
-  (points > 0 ? "+" : "") +
-  formatNumber(points) +
+  (
+    points > 0
+    ?
+    "+"
+    :
+    ""
+  )
+  +
+  formatNumber(
+    points
+  )
+  +
   " 點";
 
 }
 
 
+
+/* =========================
+   時間
+========================= */
+
 function parseManualTime(value){
 
-  if(!value){
+  if(
+    !value
+  ){
+
     return null;
+
   }
 
+
   const normalized =
-  value.trim().replace(/-/g,"/");
+  value
+  .trim()
+  .replace(
+    /-/g,
+    "/"
+  );
+
 
   const match =
   normalized.match(
     /^(\d{4})\/(\d{1,2})\/(\d{1,2})\s+(\d{1,2}):(\d{2})$/
   );
 
-  if(!match){
+
+  if(
+    !match
+  ){
+
     return null;
+
   }
+
 
   const d =
   new Date(
-    Number(match[1]),
-    Number(match[2]) - 1,
-    Number(match[3]),
-    Number(match[4]),
-    Number(match[5])
+
+    Number(
+      match[1]
+    ),
+
+    Number(
+      match[2]
+    ) - 1,
+
+    Number(
+      match[3]
+    ),
+
+    Number(
+      match[4]
+    ),
+
+    Number(
+      match[5]
+    )
+
   );
 
-  return Number.isNaN(
-    d.getTime()
-  )
-  ? null
-  : d;
+
+  return (
+    Number.isNaN(
+      d.getTime()
+    )
+    ?
+    null
+    :
+    d
+  );
 
 }
+
 
 
 function localTimeString(d){
 
   return (
-    d.getFullYear() +
-    "-" +
+
+    d.getFullYear()
+
+    +
+
+    "-"
+
+    +
+
     String(
       d.getMonth() + 1
-    ).padStart(2,"0") +
-    "-" +
+    )
+    .padStart(
+      2,
+      "0"
+    )
+
+    +
+
+    "-"
+
+    +
+
     String(
       d.getDate()
-    ).padStart(2,"0") +
-    "T" +
+    )
+    .padStart(
+      2,
+      "0"
+    )
+
+    +
+
+    "T"
+
+    +
+
     String(
       d.getHours()
-    ).padStart(2,"0") +
-    ":" +
+    )
+    .padStart(
+      2,
+      "0"
+    )
+
+    +
+
+    ":"
+
+    +
+
     String(
       d.getMinutes()
-    ).padStart(2,"0")
+    )
+    .padStart(
+      2,
+      "0"
+    )
+
   );
 
 }
 
 
+
 function toStorageTime(value){
 
   const d =
-  parseManualTime(value);
+  parseManualTime(
+    value
+  );
 
-  return d
-  ? localTimeString(d)
-  : "";
+
+  return (
+    d
+    ?
+    localTimeString(
+      d
+    )
+    :
+    ""
+  );
 
 }
+
 
 
 function igUtcToLocal(value){
 
-  if(!value){
+  if(
+    !value
+  ){
+
     return "";
+
   }
+
 
   let text =
-  String(value).trim();
+  String(
+    value
+  )
+  .trim();
+
 
   if(
-    !text.endsWith("Z") &&
-    !/[+-]\d\d:\d\d$/.test(text)
+    !text.endsWith(
+      "Z"
+    )
+    &&
+    !/[+-]\d\d:\d\d$/.test(
+      text
+    )
   ){
-    text += "Z";
+
+    text +=
+    "Z";
+
   }
 
-  const d =
-  new Date(text);
 
-  return Number.isNaN(
-    d.getTime()
-  )
-  ? ""
-  : localTimeString(d);
+  const d =
+  new Date(
+    text
+  );
+
+
+  return (
+    Number.isNaN(
+      d.getTime()
+    )
+    ?
+    ""
+    :
+    localTimeString(
+      d
+    )
+  );
 
 }
+
 
 
 function calculateHoldingMinutes(
@@ -1396,141 +2028,283 @@ function calculateHoldingMinutes(
 ){
 
   const a =
-  new Date(start);
+  new Date(
+    start
+  );
 
   const b =
-  new Date(end);
+  new Date(
+    end
+  );
+
 
   if(
-    Number.isNaN(a.getTime()) ||
-    Number.isNaN(b.getTime())
+    Number.isNaN(
+      a.getTime()
+    )
+    ||
+    Number.isNaN(
+      b.getTime()
+    )
   ){
+
     return null;
+
   }
+
 
   const diff =
   b - a;
 
-  return diff < 0
-  ? null
-  : Math.round(
-      diff / 60000
-    );
+
+  return (
+    diff < 0
+    ?
+    null
+    :
+    Math.round(
+      diff /
+      60000
+    )
+  );
 
 }
 
+
+
+/* =========================
+   頁面切換
+========================= */
 
 function showPage(page){
 
   document
-  .querySelectorAll(".page")
+  .querySelectorAll(
+    ".page"
+  )
   .forEach(
     el =>
-    el.classList.remove("active")
+    el.classList.remove(
+      "active"
+    )
   );
 
+
   document
-  .querySelectorAll(".nav button")
+  .querySelectorAll(
+    ".nav button"
+  )
   .forEach(
     el =>
-    el.classList.remove("active")
+    el.classList.remove(
+      "active"
+    )
   );
+
 
   document
   .getElementById(
-    page + "Page"
+    page +
+    "Page"
   )
   ?.classList
-  .add("active");
+  .add(
+    "active"
+  );
+
 
   document
   .getElementById(
-    page + "Btn"
+    page +
+    "Btn"
   )
   ?.classList
-  .add("active");
+  .add(
+    "active"
+  );
 
 }
 
+
+
+/* =========================
+   儲存手動交易
+========================= */
 
 function saveTrade(){
 
   let productName =
   productSelect.value;
 
-  if(!productName){
-    alert("請選擇操作商品");
-    return;
-  }
 
   if(
-    productName === "其他"
+    !productName
   ){
-    productName =
-    otherProduct.value.trim();
+
+    alert(
+      "請選擇操作商品"
+    );
+
+    return;
+
   }
+
+
+  if(
+    productName ===
+    "其他"
+  ){
+
+    productName =
+    otherProduct.value
+    .trim();
+
+
+    if(
+      !productName
+    ){
+
+      alert(
+        "請輸入商品名稱"
+      );
+
+      return;
+
+    }
+
+  }
+
 
   const entry =
   toStorageTime(
     entryTime.value
   );
 
+
   const exit =
   toStorageTime(
     exitTime.value
   );
 
-  if(!entry || !exit){
+
+  if(
+    !entry ||
+    !exit
+  ){
+
     alert(
       "時間格式請輸入例如：2026/08/29 11:51"
     );
+
     return;
+
   }
+
 
   if(
     entryPrice.value === "" ||
     exitPrice.value === "" ||
     profit.value === ""
   ){
+
     alert(
       "請完整輸入進出場點位與損益"
     );
+
     return;
+
   }
 
+
   trades.unshift({
-    id:Date.now(),
-    source:"manual",
-    currency:"TWD",
-    product:productName,
-    direction:direction.value,
-    entryTime:entry,
-    exitTime:exit,
-    entryPrice:Number(entryPrice.value),
-    exitPrice:Number(exitPrice.value),
-    stopLoss:stopLoss.value,
-    takeProfit:takeProfit.value,
-    quantity:Number(quantity.value || 1),
-    fee:Number(fee.value || 0),
-    points:calculatePoints(),
+
+    id:
+    Date.now(),
+
+    source:
+    "manual",
+
+    currency:
+    "TWD",
+
+    product:
+    productName,
+
+    direction:
+    direction.value,
+
+    entryTime:
+    entry,
+
+    exitTime:
+    exit,
+
+    entryPrice:
+    Number(
+      entryPrice.value
+    ),
+
+    exitPrice:
+    Number(
+      exitPrice.value
+    ),
+
+    stopLoss:
+    stopLoss.value,
+
+    takeProfit:
+    takeProfit.value,
+
+    quantity:
+    Number(
+      quantity.value ||
+      1
+    ),
+
+    fee:
+    Number(
+      fee.value ||
+      0
+    ),
+
+    points:
+    calculatePoints(),
+
     holdingMinutes:
-      calculateHoldingMinutes(
-        entry,
-        exit
-      ),
-    profit:Number(profit.value),
-    note:note.value,
-    aiAnalysis:null
+    calculateHoldingMinutes(
+      entry,
+      exit
+    ),
+
+    profit:
+    Number(
+      profit.value
+    ),
+
+    note:
+    note.value,
+
+    aiAnalysis:
+    null
+
   });
+
 
   saveTrades();
 
   render();
 
-  showPage("home");
+  showPage(
+    "home"
+  );
 
 }
 
+
+
+/* =========================
+   IG 月份同步
+========================= */
 
 async function syncIGMonth(){
 
@@ -1539,18 +2313,25 @@ async function syncIGMonth(){
     "igSyncBtn"
   );
 
+
   const status =
   document.getElementById(
     "igSyncStatus"
   );
+
 
   const [
     year,
     month
   ] =
   syncMonth.value
-  .split("-")
-  .map(Number);
+  .split(
+    "-"
+  )
+  .map(
+    Number
+  );
+
 
   const start =
   new Date(
@@ -1562,6 +2343,7 @@ async function syncIGMonth(){
     0
   );
 
+
   const end =
   new Date(
     year,
@@ -1572,112 +2354,171 @@ async function syncIGMonth(){
     59
   );
 
+
   button.disabled =
   true;
 
+
   button.innerText =
   "同步中…";
+
 
   try{
 
     const response =
     await fetch(
+
       API +
       "/ig/transactions" +
       "?from=" +
       encodeURIComponent(
         start
         .toISOString()
-        .slice(0,19)
-      ) +
+        .slice(
+          0,
+          19
+        )
+      )
+      +
       "&to=" +
       encodeURIComponent(
         end
         .toISOString()
-        .slice(0,19)
+        .slice(
+          0,
+          19
+        )
       )
+
     );
+
 
     const data =
     await response.json();
+
 
     if(
       !response.ok ||
       !data.ok
     ){
+
       throw new Error(
         data.error ||
         "同步失敗"
       );
+
     }
+
 
     const raw =
     Array.isArray(
       data.transactions
     )
-    ? data.transactions
-    : [];
+    ?
+    data.transactions
+    :
+    [];
 
-    let imported = 0;
-    let duplicate = 0;
-    let excluded = 0;
 
-    raw.forEach(item => {
+    let imported =
+    0;
 
-      if(
-        !isRealTrade(item)
-      ){
-        return;
-      }
 
-      const product =
-      normalizeIGProduct(
-        item.instrumentName
-      );
+    let duplicate =
+    0;
 
-      if(
-        !isAllowedProduct(product)
-      ){
-        excluded++;
-        return;
-      }
 
-      const uniqueId =
-      item.reference ||
-      createIGFallbackId(item);
+    let excluded =
+    0;
 
-      if(
-        trades.some(
-          t =>
-          t.igUniqueId === uniqueId ||
-          (
-            item.reference &&
-            t.igReference ===
-            item.reference
+
+    raw.forEach(
+      item => {
+
+
+        if(
+          !isRealTrade(
+            item
           )
-        )
-      ){
-        duplicate++;
-        return;
-      }
+        ){
 
-      const converted =
-      convertIGTrade(
-        item,
-        uniqueId
-      );
+          return;
 
-      if(converted){
+        }
 
-        trades.push(
-          converted
+
+        const product =
+        normalizeIGProduct(
+          item.instrumentName
         );
 
-        imported++;
+
+        if(
+          !product ||
+          !isAllowedProduct(
+            product
+          )
+        ){
+
+          excluded++;
+
+          return;
+
+        }
+
+
+        const uniqueId =
+        item.reference
+        ||
+        createIGFallbackId(
+          item
+        );
+
+
+        if(
+          trades.some(
+            t =>
+            t.igUniqueId ===
+            uniqueId
+            ||
+            (
+              item.reference
+              &&
+              t.igReference ===
+              item.reference
+            )
+          )
+        ){
+
+          duplicate++;
+
+          return;
+
+        }
+
+
+        const converted =
+        convertIGTrade(
+          item,
+          uniqueId
+        );
+
+
+        if(
+          converted
+        ){
+
+          trades.push(
+            converted
+          );
+
+          imported++;
+
+        }
 
       }
+    );
 
-    });
 
     trades.sort(
       (a,b) =>
@@ -1692,11 +2533,13 @@ async function syncIGMonth(){
       )
     );
 
+
     saveTrades();
 
     render();
 
     await loadIGAccount();
+
 
     status.innerText =
     year +
@@ -1710,6 +2553,7 @@ async function syncIGMonth(){
     excluded +
     " 筆。";
 
+
   }catch(error){
 
     status.innerText =
@@ -1718,8 +2562,10 @@ async function syncIGMonth(){
 
   }
 
+
   button.disabled =
   false;
+
 
   button.innerText =
   "同步這個月份";
@@ -1727,22 +2573,34 @@ async function syncIGMonth(){
 }
 
 
+
+/* =========================
+   判斷 IG 真實交易
+========================= */
+
 function isRealTrade(item){
 
   if(
     !item ||
-    typeof item !== "object"
+    typeof item !==
+    "object"
   ){
+
     return false;
+
   }
+
 
   const type =
   String(
     item.transactionType ||
     ""
-  ).toUpperCase();
+  )
+  .toUpperCase();
+
 
   const excluded = [
+
     "DIVIDEND",
     "WITH",
     "DEPOSIT",
@@ -1750,45 +2608,74 @@ function isRealTrade(item){
     "INTEREST",
     "CHARGE",
     "FEE"
+
   ];
+
 
   if(
     excluded.some(
       x =>
-      type.includes(x)
+      type.includes(
+        x
+      )
     )
   ){
+
     return false;
+
   }
+
 
   const open =
   parseIGNumber(
     item.openLevel
   );
 
+
   const close =
   parseIGNumber(
     item.closeLevel
   );
+
 
   const size =
   parseIGNumber(
     item.size
   );
 
+
   return (
-    Number.isFinite(open) &&
-    Number.isFinite(close) &&
-    Number.isFinite(size) &&
+
+    Number.isFinite(
+      open
+    )
+
+    &&
+
+    Number.isFinite(
+      close
+    )
+
+    &&
+
+    Number.isFinite(
+      size
+    )
+
+    &&
+
     size !== 0
+
   );
 
 }
 
 
+
 function createIGFallbackId(item){
 
   return [
+
     item.instrumentName,
     item.openDateUtc,
     item.dateUtc,
@@ -1796,10 +2683,19 @@ function createIGFallbackId(item){
     item.closeLevel,
     item.size,
     item.profitAndLoss
-  ].join("|");
+
+  ]
+  .join(
+    "|"
+  );
 
 }
 
+
+
+/* =========================
+   IG → App 格式
+========================= */
 
 function convertIGTrade(
   item,
@@ -1811,116 +2707,145 @@ function convertIGTrade(
     item.openLevel
   );
 
+
   const close =
   parseIGNumber(
     item.closeLevel
   );
+
 
   const size =
   parseIGNumber(
     item.size
   );
 
+
   const entry =
   igUtcToLocal(
     item.openDateUtc
   );
+
 
   const exit =
   igUtcToLocal(
     item.dateUtc
   );
 
+
   if(
     !entry ||
     !exit
   ){
+
     return null;
+
   }
+
 
   const tradeDirection =
   size >= 0
-  ? "做多"
-  : "做空";
+  ?
+  "做多"
+  :
+  "做空";
+
 
   return {
-    id:
-      Date.now() +
-      Math.floor(
-        Math.random() *
-        1000000
-      ),
 
-    source:"ig",
+    id:
+    Date.now()
+    +
+    Math.floor(
+      Math.random() *
+      1000000
+    ),
+
+    source:
+    "ig",
 
     igUniqueId:
-      uniqueId,
+    uniqueId,
 
     igReference:
-      item.reference || "",
+    item.reference ||
+    "",
 
     igOriginalProduct:
-      item.instrumentName || "",
+    item.instrumentName ||
+    "",
 
     product:
-      normalizeIGProduct(
-        item.instrumentName
-      ),
+    normalizeIGProduct(
+      item.instrumentName
+    ),
 
     currency:
-      normalizeCurrency(
-        item.currency
-      ),
+    normalizeCurrency(
+      item.currency
+    ),
 
     direction:
-      tradeDirection,
+    tradeDirection,
 
     entryTime:
-      entry,
+    entry,
 
     exitTime:
-      exit,
+    exit,
 
     entryPrice:
-      open,
+    open,
 
     exitPrice:
-      close,
+    close,
 
-    stopLoss:"",
-    takeProfit:"",
+    stopLoss:
+    "",
+
+    takeProfit:
+    "",
 
     quantity:
-      Math.abs(size),
+    Math.abs(
+      size
+    ),
 
-    fee:0,
+    fee:
+    0,
 
     points:
-      calculatePointsFromValues(
-        tradeDirection,
-        open,
-        close
-      ),
+    calculatePointsFromValues(
+      tradeDirection,
+      open,
+      close
+    ),
 
     holdingMinutes:
-      calculateHoldingMinutes(
-        entry,
-        exit
-      ),
+    calculateHoldingMinutes(
+      entry,
+      exit
+    ),
 
     profit:
-      parseIGProfit(
-        item.profitAndLoss
-      ),
+    parseIGProfit(
+      item.profitAndLoss
+    ),
 
     note:
-      "由 IG Trading 自動匯入",
+    "由 IG Trading 自動匯入",
 
-    aiAnalysis:null
+    aiAnalysis:
+    null
+
   };
 
 }
 
+
+
+/* =========================
+   數字解析
+========================= */
 
 function parseIGNumber(value){
 
@@ -1928,67 +2853,113 @@ function parseIGNumber(value){
     value === null ||
     value === undefined
   ){
+
     return NaN;
+
   }
 
+
   const cleaned =
-  String(value)
-  .replace(/,/g,"")
-  .replace(/[^\d+\-.]/g,"")
+  String(
+    value
+  )
+  .replace(
+    /,/g,
+    ""
+  )
+  .replace(
+    /[^\d+\-.]/g,
+    ""
+  )
   .trim();
 
-  return Number(cleaned);
+
+  return Number(
+    cleaned
+  );
 
 }
+
 
 
 function parseIGProfit(value){
 
   const n =
-  parseIGNumber(value);
+  parseIGNumber(
+    value
+  );
 
-  return Number.isFinite(n)
-  ? n
-  : 0;
+
+  return (
+    Number.isFinite(
+      n
+    )
+    ?
+    n
+    :
+    0
+  );
 
 }
+
 
 
 function normalizeCurrency(value){
 
   const text =
-  String(value || "")
+  String(
+    value ||
+    ""
+  )
   .trim()
   .toUpperCase();
+
 
   if(
     text === "$" ||
     text === "US$" ||
     text === "USD"
   ){
+
     return "USD";
+
   }
+
 
   if(
     text === "NT$" ||
     text === "TWD"
   ){
+
     return "TWD";
+
   }
 
-  return text || "USD";
+
+  return (
+    text ||
+    "USD"
+  );
 
 }
 
+
+
+/* =========================
+   Local Storage
+========================= */
 
 function saveTrades(){
 
   localStorage.setItem(
     "futuresTrades",
-    JSON.stringify(trades)
+    JSON.stringify(
+      trades
+    )
   );
 
 }
+
 
 
 function deleteTrade(id){
@@ -1998,14 +2969,18 @@ function deleteTrade(id){
       "確定刪除這筆交易嗎？"
     )
   ){
+
     return;
+
   }
+
 
   trades =
   trades.filter(
     t =>
     t.id !== id
   );
+
 
   saveTrades();
 
@@ -2014,23 +2989,40 @@ function deleteTrade(id){
 }
 
 
+
+/* =========================
+   金額格式
+========================= */
+
 function money(
   value,
   currency = "TWD"
 ){
 
   const number =
-  Number(value) || 0;
+  Number(
+    value
+  )
+  ||
+  0;
+
 
   const sign =
   number > 0
-  ? "+"
-  : number < 0
-  ? "-"
-  : "";
+  ?
+  "+"
+  :
+  number < 0
+  ?
+  "-"
+  :
+  "";
+
 
   const amount =
-  Math.abs(number)
+  Math.abs(
+    number
+  )
   .toLocaleString(
     "zh-TW",
     {
@@ -2038,17 +3030,34 @@ function money(
     }
   );
 
-  if(
-    currency === "USD"
-  ){
-    return sign + "US$" + amount;
-  }
 
   if(
-    currency === "TWD"
+    currency ===
+    "USD"
   ){
-    return sign + "NT$" + amount;
+
+    return (
+      sign +
+      "US$" +
+      amount
+    );
+
   }
+
+
+  if(
+    currency ===
+    "TWD"
+  ){
+
+    return (
+      sign +
+      "NT$" +
+      amount
+    );
+
+  }
+
 
   return (
     sign +
@@ -2060,9 +3069,12 @@ function money(
 }
 
 
+
 function formatNumber(value){
 
-  return Number(value)
+  return Number(
+    value
+  )
   .toLocaleString(
     "zh-TW",
     {
@@ -2073,18 +3085,28 @@ function formatNumber(value){
 }
 
 
+
 function formatTime(value){
 
   const d =
-  new Date(value);
+  new Date(
+    value
+  );
+
 
   if(
     Number.isNaN(
       d.getTime()
     )
   ){
-    return value || "未填寫";
+
+    return (
+      value ||
+      "未填寫"
+    );
+
   }
+
 
   return d.toLocaleString(
     "zh-TW",
@@ -2099,6 +3121,7 @@ function formatTime(value){
 }
 
 
+
 function formatHolding(t){
 
   const minutes =
@@ -2106,73 +3129,119 @@ function formatHolding(t){
     t.holdingMinutes
   );
 
+
   if(
     !Number.isFinite(
       minutes
     )
   ){
+
     return "資料不足";
+
   }
+
 
   if(
     minutes < 60
   ){
-    return minutes + " 分鐘";
+
+    return (
+      minutes +
+      " 分鐘"
+    );
+
   }
+
 
   const hours =
   Math.floor(
-    minutes / 60
+    minutes /
+    60
   );
 
-  const rest =
-  minutes % 60;
 
-  return rest
-  ? hours + " 小時 " + rest + " 分鐘"
-  : hours + " 小時";
+  const rest =
+  minutes %
+  60;
+
+
+  return (
+    rest
+    ?
+    hours +
+    " 小時 " +
+    rest +
+    " 分鐘"
+    :
+    hours +
+    " 小時"
+  );
 
 }
 
 
+
+/* =========================
+   幣別統計
+========================= */
+
 function totalsByCurrency(list){
 
-  const result = {};
+  const result =
+  {};
 
-  list.forEach(t => {
 
-    const currency =
-    t.currency ||
-    "TWD";
+  list.forEach(
+    t => {
 
-    if(
-      result[currency] === undefined
-    ){
-      result[currency] = 0;
+      const currency =
+      t.currency ||
+      "TWD";
+
+
+      if(
+        result[currency] ===
+        undefined
+      ){
+
+        result[currency] =
+        0;
+
+      }
+
+
+      result[currency] +=
+      Number(
+        t.profit ||
+        0
+      );
+
     }
+  );
 
-    result[currency] +=
-    Number(
-      t.profit || 0
-    );
-
-  });
 
   return result;
 
 }
 
 
+
 function formatTotals(totals){
 
   const entries =
-  Object.entries(totals);
+  Object.entries(
+    totals
+  );
+
 
   if(
     !entries.length
   ){
+
     return "NT$0";
+
   }
+
 
   return entries
   .map(
@@ -2182,50 +3251,256 @@ function formatTotals(totals){
       currency
     )
   )
-  .join(" / ");
+  .join(
+    " / "
+  );
 
 }
 
+
+
+function formatAverageProfit(list){
+
+  if(
+    !list.length
+  ){
+
+    return "NT$0";
+
+  }
+
+
+  const totals =
+  totalsByCurrency(
+    list
+  );
+
+
+  const result =
+  Object.entries(
+    totals
+  )
+  .map(
+    ([currency,total]) => {
+
+      const count =
+      list.filter(
+        t =>
+        (
+          t.currency ||
+          "TWD"
+        )
+        ===
+        currency
+      )
+      .length;
+
+
+      if(
+        !count
+      ){
+
+        return null;
+
+      }
+
+
+      return money(
+        total /
+        count,
+        currency
+      );
+
+    }
+  )
+  .filter(
+    Boolean
+  );
+
+
+  return (
+    result.length
+    ?
+    result.join(
+      " / "
+    )
+    :
+    "NT$0"
+  );
+
+}
+
+
+
+/* =========================
+   首頁統計
+========================= */
 
 function renderHome(){
 
   const now =
   new Date();
 
+
+  const todayKey =
+  now.getFullYear()
+  +
+  "-"
+  +
+  String(
+    now.getMonth() + 1
+  )
+  .padStart(
+    2,
+    "0"
+  )
+  +
+  "-"
+  +
+  String(
+    now.getDate()
+  )
+  .padStart(
+    2,
+    "0"
+  );
+
+
   const monthly =
-  trades.filter(t => {
+  trades.filter(
+    t => {
 
-    const d =
-    new Date(
-      t.entryTime
-    );
+      const d =
+      new Date(
+        t.entryTime
+      );
 
-    return (
-      !Number.isNaN(
-        d.getTime()
-      ) &&
-      d.getFullYear() ===
-      now.getFullYear() &&
-      d.getMonth() ===
-      now.getMonth()
-    );
 
-  });
+      return (
+
+        !Number.isNaN(
+          d.getTime()
+        )
+
+        &&
+
+        d.getFullYear() ===
+        now.getFullYear()
+
+        &&
+
+        d.getMonth() ===
+        now.getMonth()
+
+      );
+
+    }
+  );
+
+
+  const yearly =
+  trades.filter(
+    t => {
+
+      const d =
+      new Date(
+        t.entryTime
+      );
+
+
+      return (
+
+        !Number.isNaN(
+          d.getTime()
+        )
+
+        &&
+
+        d.getFullYear() ===
+        now.getFullYear()
+
+      );
+
+    }
+  );
+
+
+  const todayTrades =
+  trades.filter(
+    t => {
+
+      const d =
+      new Date(
+        t.entryTime
+      );
+
+
+      if(
+        Number.isNaN(
+          d.getTime()
+        )
+      ){
+
+        return false;
+
+      }
+
+
+      const key =
+      d.getFullYear()
+      +
+      "-"
+      +
+      String(
+        d.getMonth() + 1
+      )
+      .padStart(
+        2,
+        "0"
+      )
+      +
+      "-"
+      +
+      String(
+        d.getDate()
+      )
+      .padStart(
+        2,
+        "0"
+      );
+
+
+      return (
+        key ===
+        todayKey
+      );
+
+    }
+  );
+
 
   const wins =
   trades.filter(
     t =>
-    Number(t.profit) > 0
-  ).length;
+    Number(
+      t.profit
+    ) > 0
+  )
+  .length;
+
 
   const rate =
   trades.length
-  ? Math.round(
-      wins /
-      trades.length *
-      100
-    )
-  : 0;
+  ?
+  Math.round(
+    wins /
+    trades.length *
+    100
+  )
+  :
+  0;
+
+
 
   document
   .getElementById(
@@ -2238,6 +3513,7 @@ function renderHome(){
     )
   );
 
+
   document
   .getElementById(
     "monthProfit"
@@ -2249,12 +3525,49 @@ function renderHome(){
     )
   );
 
+
+  document
+  .getElementById(
+    "yearProfit"
+  )
+  .innerText =
+  formatTotals(
+    totalsByCurrency(
+      yearly
+    )
+  );
+
+
+  document
+  .getElementById(
+    "todayProfit"
+  )
+  .innerText =
+  formatTotals(
+    totalsByCurrency(
+      todayTrades
+    )
+  );
+
+
+  document
+  .getElementById(
+    "averageProfit"
+  )
+  .innerText =
+  formatAverageProfit(
+    trades
+  );
+
+
   document
   .getElementById(
     "winRate"
   )
   .innerText =
-  rate + "%";
+  rate +
+  "%";
+
 
   document
   .getElementById(
@@ -2263,106 +3576,194 @@ function renderHome(){
   .innerText =
   trades.length;
 
+
+
   const list =
   document.getElementById(
     "tradeList"
   );
 
-  if(!trades.length){
+
+  if(
+    !trades.length
+  ){
 
     list.innerHTML =
     '<div class="empty">目前還沒有交易紀錄</div>';
 
     return;
+
   }
 
+
   list.innerHTML =
-  trades.map(t => `
-    <div class="trade">
+  trades
+  .map(
+    t => `
 
-      <div class="trade-top">
+      <div class="trade">
 
-        <div>
+        <div class="trade-top">
 
-          <div class="trade-name">
-            ${escapeHTML(t.product)}
+          <div>
+
+            <div class="trade-name">
+              ${escapeHTML(t.product)}
+            </div>
+
+            <div class="small">
+
+              ${escapeHTML(t.direction)}
+
+              ・
+
+              ${formatTime(t.entryTime)}
+
+            </div>
+
+
+            ${
+              t.source === "ig"
+              ?
+              '<span class="source-badge">IG 自動匯入</span>'
+              :
+              ""
+            }
+
+
+            ${
+              t.igOriginalProduct
+              ?
+              `
+              <div class="small">
+                原始商品：
+                ${escapeHTML(t.igOriginalProduct)}
+              </div>
+              `
+              :
+              ""
+            }
+
           </div>
 
-          <div class="small">
-            ${escapeHTML(t.direction)}
-            ・
-            ${formatTime(t.entryTime)}
-          </div>
 
-          ${
-            t.source === "ig"
-            ?
-            '<span class="source-badge">IG 自動匯入</span>'
-            :
-            ""
-          }
+          <strong
+            class="${
+              Number(
+                t.profit
+              ) >= 0
+              ?
+              "green"
+              :
+              "red"
+            }"
+          >
+
+            ${
+              money(
+                t.profit,
+                t.currency ||
+                "TWD"
+              )
+            }
+
+          </strong>
 
         </div>
 
-        <strong
-          class="${
-            Number(t.profit) >= 0
-            ? "green"
-            : "red"
-          }"
+
+        <div class="detail-grid">
+
+          <div class="detail-item">
+
+            <span>
+              進場點位
+            </span>
+
+            ${
+              t.entryPrice ??
+              "未填寫"
+            }
+
+          </div>
+
+
+          <div class="detail-item">
+
+            <span>
+              出場點位
+            </span>
+
+            ${
+              t.exitPrice ??
+              "未填寫"
+            }
+
+          </div>
+
+
+          <div class="detail-item">
+
+            <span>
+              交易點數
+            </span>
+
+            ${
+              Number.isFinite(
+                Number(
+                  t.points
+                )
+              )
+              ?
+              formatNumber(
+                t.points
+              )
+              +
+              " 點"
+              :
+              "資料不足"
+            }
+
+          </div>
+
+
+          <div class="detail-item">
+
+            <span>
+              持倉時間
+            </span>
+
+            ${
+              formatHolding(
+                t
+              )
+            }
+
+          </div>
+
+        </div>
+
+
+        <button
+          class="delete"
+          onclick="deleteTrade(${t.id})"
         >
-          ${
-            money(
-              t.profit,
-              t.currency || "TWD"
-            )
-          }
-        </strong>
+          刪除
+        </button>
 
       </div>
 
-      <div class="detail-grid">
-
-        <div class="detail-item">
-          <span>進場點位</span>
-          ${t.entryPrice ?? "未填寫"}
-        </div>
-
-        <div class="detail-item">
-          <span>出場點位</span>
-          ${t.exitPrice ?? "未填寫"}
-        </div>
-
-        <div class="detail-item">
-          <span>交易點數</span>
-          ${
-            Number.isFinite(
-              Number(t.points)
-            )
-            ? formatNumber(t.points) + " 點"
-            : "資料不足"
-          }
-        </div>
-
-        <div class="detail-item">
-          <span>持倉時間</span>
-          ${formatHolding(t)}
-        </div>
-
-      </div>
-
-      <button
-        class="delete"
-        onclick="deleteTrade(${t.id})"
-      >
-        刪除
-      </button>
-
-    </div>
-  `).join("");
+    `
+  )
+  .join("");
 
 }
 
+
+
+/* =========================
+   AI 分析
+========================= */
 
 async function runAIAnalysis(id){
 
@@ -2372,25 +3773,37 @@ async function runAIAnalysis(id){
     t.id === id
   );
 
-  if(!trade){
+
+  if(
+    !trade
+  ){
+
     return;
+
   }
+
 
   const button =
   document.getElementById(
-    "btn-" + id
+    "btn-" +
+    id
   );
+
 
   const box =
   document.getElementById(
-    "ai-" + id
+    "ai-" +
+    id
   );
+
 
   button.disabled =
   true;
 
+
   button.innerText =
   "AI 分析中…";
+
 
   try{
 
@@ -2398,54 +3811,71 @@ async function runAIAnalysis(id){
     await fetch(
       API,
       {
-        method:"POST",
+
+        method:
+        "POST",
+
         headers:{
           "Content-Type":
           "application/json"
         },
+
         body:
-          JSON.stringify(
-            trade
-          )
+        JSON.stringify(
+          trade
+        )
+
       }
     );
 
+
     const data =
     await response.json();
+
 
     if(
       !response.ok ||
       !data.ok
     ){
+
       throw new Error(
         data.error ||
         "AI 分析失敗"
       );
+
     }
+
 
     trade.aiAnalysis =
     data.analysis;
 
+
     saveTrades();
+
 
     box.innerHTML =
     renderAIResult(
       data.analysis
     );
 
+
   }catch(error){
 
     box.innerHTML =
-    '<div class="small red">' +
+    '<div class="small red">'
+    +
     escapeHTML(
       error.message
-    ) +
+    )
+    +
     '</div>';
 
   }
 
+
   button.disabled =
   false;
+
 
   button.innerText =
   "重新分析";
@@ -2453,53 +3883,105 @@ async function runAIAnalysis(id){
 }
 
 
+
 function renderAIResult(a){
 
   if(
     !a ||
-    typeof a !== "object"
+    typeof a !==
+    "object"
   ){
+
     return "資料不足";
+
   }
 
+
   return `
-    <div class="analysis-card">
-      <div class="analysis-title">交易摘要</div>
-      <div class="analysis-text">
-        ${escapeHTML(a.summary || "資料不足")}
-      </div>
-    </div>
 
     <div class="analysis-card">
-      <div class="analysis-title">進場分析</div>
-      <div class="analysis-text">
-        ${escapeHTML(a.entryAnalysis || "資料不足")}
+
+      <div class="analysis-title">
+        交易摘要
       </div>
+
+      <div class="analysis-text">
+        ${escapeHTML(
+          a.summary ||
+          "資料不足"
+        )}
+      </div>
+
     </div>
 
-    <div class="analysis-card">
-      <div class="analysis-title">出場分析</div>
-      <div class="analysis-text">
-        ${escapeHTML(a.exitAnalysis || "資料不足")}
-      </div>
-    </div>
 
     <div class="analysis-card">
-      <div class="analysis-title">風險管理</div>
-      <div class="analysis-text">
-        ${escapeHTML(a.riskManagement || "資料不足")}
+
+      <div class="analysis-title">
+        進場分析
       </div>
+
+      <div class="analysis-text">
+        ${escapeHTML(
+          a.entryAnalysis ||
+          "資料不足"
+        )}
+      </div>
+
     </div>
 
+
     <div class="analysis-card">
-      <div class="analysis-title">客觀結論</div>
-      <div class="analysis-text">
-        ${escapeHTML(a.objectiveConclusion || "資料不足")}
+
+      <div class="analysis-title">
+        出場分析
       </div>
+
+      <div class="analysis-text">
+        ${escapeHTML(
+          a.exitAnalysis ||
+          "資料不足"
+        )}
+      </div>
+
     </div>
+
+
+    <div class="analysis-card">
+
+      <div class="analysis-title">
+        風險管理
+      </div>
+
+      <div class="analysis-text">
+        ${escapeHTML(
+          a.riskManagement ||
+          "資料不足"
+        )}
+      </div>
+
+    </div>
+
+
+    <div class="analysis-card">
+
+      <div class="analysis-title">
+        客觀結論
+      </div>
+
+      <div class="analysis-text">
+        ${escapeHTML(
+          a.objectiveConclusion ||
+          "資料不足"
+        )}
+      </div>
+
+    </div>
+
   `;
 
 }
+
 
 
 function renderAnalysis(){
@@ -2509,56 +3991,86 @@ function renderAnalysis(){
     "analysisList"
   );
 
-  if(!trades.length){
+
+  if(
+    !trades.length
+  ){
 
     list.innerHTML =
     '<div class="empty">目前沒有交易資料</div>';
 
     return;
+
   }
 
+
   list.innerHTML =
-  trades.map(t => `
-    <div class="analysis-block">
+  trades
+  .map(
+    t => `
 
-      <div class="trade-name">
-        ${escapeHTML(t.product)}
-      </div>
+      <div class="analysis-block">
 
-      <div class="small">
-        ${escapeHTML(t.direction)}
-        ・
-        ${formatTime(t.entryTime)}
-      </div>
+        <div class="trade-name">
+          ${escapeHTML(t.product)}
+        </div>
 
-      <button
-        id="btn-${t.id}"
-        class="primary"
-        style="margin-top:14px;"
-        onclick="runAIAnalysis(${t.id})"
-      >
-        ${
-          t.aiAnalysis
-          ? "重新分析"
-          : "AI 客觀分析"
-        }
-      </button>
+        <div class="small">
 
-      <div id="ai-${t.id}">
-        ${
-          t.aiAnalysis
-          ? renderAIResult(
+          ${escapeHTML(t.direction)}
+
+          ・
+
+          ${formatTime(t.entryTime)}
+
+        </div>
+
+
+        <button
+          id="btn-${t.id}"
+          class="primary"
+          style="margin-top:14px;"
+          onclick="runAIAnalysis(${t.id})"
+        >
+
+          ${
+            t.aiAnalysis
+            ?
+            "重新分析"
+            :
+            "AI 客觀分析"
+          }
+
+        </button>
+
+
+        <div id="ai-${t.id}">
+
+          ${
+            t.aiAnalysis
+            ?
+            renderAIResult(
               t.aiAnalysis
             )
-          : ""
-        }
+            :
+            ""
+          }
+
+        </div>
+
       </div>
 
-    </div>
-  `).join("");
+    `
+  )
+  .join("");
 
 }
 
+
+
+/* =========================
+   商品績效
+========================= */
 
 function renderStats(){
 
@@ -2567,91 +4079,164 @@ function renderStats(){
     "productStats"
   );
 
-  const groups = {};
 
-  trades.forEach(t => {
+  const groups =
+  {};
 
-    const key =
-    t.product +
-    "|" +
-    (
-      t.currency ||
-      "TWD"
-    );
 
-    if(!groups[key]){
-      groups[key] = {
-        product:t.product,
-        currency:
-        t.currency || "TWD",
-        count:0,
-        wins:0,
-        pnl:0
-      };
+  trades.forEach(
+    t => {
+
+      const key =
+      t.product
+      +
+      "|"
+      +
+      (
+        t.currency ||
+        "TWD"
+      );
+
+
+      if(
+        !groups[key]
+      ){
+
+        groups[key] = {
+
+          product:
+          t.product,
+
+          currency:
+          t.currency ||
+          "TWD",
+
+          count:
+          0,
+
+          wins:
+          0,
+
+          pnl:
+          0
+
+        };
+
+      }
+
+
+      groups[key].count++;
+
+
+      groups[key].pnl +=
+      Number(
+        t.profit ||
+        0
+      );
+
+
+      if(
+        Number(
+          t.profit
+        ) > 0
+      ){
+
+        groups[key].wins++;
+
+      }
+
     }
+  );
 
-    groups[key].count++;
 
-    groups[key].pnl +=
-    Number(
-      t.profit || 0
-    );
+  const values =
+  Object.values(
+    groups
+  );
 
-    if(
-      Number(t.profit) > 0
-    ){
-      groups[key].wins++;
-    }
 
-  });
+  if(
+    !values.length
+  ){
+
+    target.innerHTML =
+    '<div class="empty">目前沒有績效資料</div>';
+
+    return;
+
+  }
+
 
   target.innerHTML =
-  Object
-  .values(groups)
-  .map(g => {
+  values
+  .map(
+    g => {
 
-    const rate =
-    Math.round(
-      g.wins /
-      g.count *
-      100
-    );
+      const rate =
+      Math.round(
+        g.wins /
+        g.count *
+        100
+      );
 
-    return `
-      <div class="product-row">
 
-        <div>
-          <strong>
-            ${escapeHTML(g.product)}
+      return `
+
+        <div class="product-row">
+
+          <div>
+
+            <strong>
+              ${escapeHTML(g.product)}
+            </strong>
+
+            <div class="small">
+
+              ${g.count} 筆
+
+              ・
+
+              勝率 ${rate}%
+
+            </div>
+
+          </div>
+
+
+          <strong
+            class="${
+              g.pnl >= 0
+              ?
+              "green"
+              :
+              "red"
+            }"
+          >
+
+            ${
+              money(
+                g.pnl,
+                g.currency
+              )
+            }
+
           </strong>
 
-          <div class="small">
-            ${g.count} 筆・勝率 ${rate}%
-          </div>
         </div>
 
-        <strong
-          class="${
-            g.pnl >= 0
-            ? "green"
-            : "red"
-          }"
-        >
-          ${
-            money(
-              g.pnl,
-              g.currency
-            )
-          }
-        </strong>
+      `;
 
-      </div>
-    `;
-
-  }).join("");
+    }
+  )
+  .join("");
 
 }
 
+
+
+/* =========================
+   安全文字
+========================= */
 
 function escapeHTML(value){
 
@@ -2660,31 +4245,48 @@ function escapeHTML(value){
     "div"
   );
 
+
   div.innerText =
   String(
-    value ?? ""
+    value ??
+    ""
   );
+
 
   return div.innerHTML;
 
 }
 
 
+
+/* =========================
+   總渲染
+========================= */
+
 function render(){
 
   renderHome();
+
   renderAnalysis();
+
   renderStats();
+
   renderEconomicEvents();
 
 }
 
+
+
+/* =========================
+   啟動
+========================= */
 
 buildMonthOptions();
 
 render();
 
 loadIGAccount();
+
 
 setInterval(
   renderEconomicEvents,
@@ -2694,4 +4296,5 @@ setInterval(
 </script>
 
 </body>
+
 </html>
