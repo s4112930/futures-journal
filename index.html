@@ -1,4354 +1,586 @@
-<!DOCTYPE html>
-<html lang="zh-Hant">
-
-<head>
-
-<meta charset="UTF-8">
-
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0, viewport-fit=cover"
->
-
-<meta
-  name="apple-mobile-web-app-capable"
-  content="yes"
->
-
-<meta
-  name="theme-color"
-  content="#f4f1eb"
->
-
-<title>期貨交易日誌</title>
-
-<style>
-
-:root{
-  --bg:#f4f1eb;
-  --card:#ffffff;
-  --text:#38424a;
-  --muted:#90989c;
-  --blue:#839aaa;
-  --green:#82988a;
-  --red:#b77f7f;
-  --border:#e4e0da;
-  --soft:#f1f2ef;
-  --soft2:#f8f7f4;
-}
-
-*{
-  box-sizing:border-box;
-}
-
-html,
-body{
-  margin:0;
-  padding:0;
-  background:var(--bg);
-  color:var(--text);
-  font-family:
-  -apple-system,
-  BlinkMacSystemFont,
-  "PingFang TC",
-  "Noto Sans TC",
-  sans-serif;
-}
-
-.app{
-  width:100%;
-  max-width:620px;
-  margin:auto;
-  padding:26px 16px 110px;
-}
-
-h1{
-  margin:0 0 22px;
-  font-size:27px;
-  font-weight:800;
-}
-
-.sub{
-  margin-bottom:5px;
-  color:var(--muted);
-  font-size:12px;
-  letter-spacing:2px;
-}
-
-.card{
-  width:100%;
-  padding:16px;
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:18px;
-}
-
-.stats{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-}
-
-.stat-label{
-  color:var(--muted);
-  font-size:13px;
-}
-
-.stat-value{
-  margin-top:8px;
-  font-size:20px;
-  font-weight:750;
-  line-height:1.4;
-}
-
-.green{
-  color:var(--green);
-}
-
-.red{
-  color:var(--red);
-}
-
-.section{
-  margin-top:28px;
-}
-
-.section-title{
-  margin-bottom:12px;
-  font-size:17px;
-  font-weight:750;
-}
-
-.field{
-  width:100%;
-  margin-bottom:16px;
-}
-
-label{
-  display:block;
-  margin:0 0 7px 3px;
-  color:var(--muted);
-  font-size:13px;
-  font-weight:550;
-}
-
-input,
-select,
-textarea{
-  display:block;
-  width:100%;
-  max-width:100%;
-  min-width:0;
-  padding:13px;
-  border:1px solid var(--border);
-  border-radius:13px;
-  background:#fff;
-  color:var(--text);
-  font-family:inherit;
-  font-size:16px;
-  outline:none;
-}
-
-select{
-  height:52px;
-}
-
-textarea{
-  min-height:95px;
-  resize:vertical;
-}
-
-.time-box{
-  margin-bottom:14px;
-}
-
-.time-input{
-  height:52px;
-}
-
-.two{
-  display:grid;
-  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
-  gap:10px;
-}
-
-@media(max-width:360px){
-
-  .two{
-    grid-template-columns:1fr;
-  }
-
-}
-
-.points-box{
-  padding:14px;
-  margin-bottom:16px;
-  background:var(--soft);
-  border-radius:14px;
-}
-
-.points-row{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
-}
-
-.points-title{
-  color:var(--muted);
-  font-size:13px;
-}
-
-.points-value{
-  font-size:19px;
-  font-weight:750;
-}
-
-.help{
-  margin-top:6px;
-  color:var(--muted);
-  font-size:11px;
-  line-height:1.6;
-}
-
-button{
-  font-family:inherit;
-  cursor:pointer;
-}
-
-.primary{
-  width:100%;
-  padding:15px;
-  border:0;
-  border-radius:14px;
-  background:var(--blue);
-  color:#fff;
-  font-size:16px;
-  font-weight:750;
-}
-
-.primary:disabled{
-  opacity:.55;
-}
-
-.secondary{
-  width:100%;
-  margin-top:9px;
-  padding:12px;
-  border:1px solid var(--border);
-  border-radius:13px;
-  background:#fff;
-  color:var(--muted);
-  font-size:13px;
-}
-
-.sync-box{
-  margin-top:18px;
-}
-
-.sync-status{
-  margin-top:10px;
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.7;
-}
-
-.source-badge{
-  display:inline-block;
-  margin-top:7px;
-  padding:4px 8px;
-  border-radius:999px;
-  background:#edf0ef;
-  color:#6e7c76;
-  font-size:11px;
-}
-
-.page{
-  display:none;
-}
-
-.page.active{
-  display:block;
-}
-
-.trade{
-  padding:15px;
-  margin-bottom:11px;
-  background:#fff;
-  border:1px solid var(--border);
-  border-radius:17px;
-}
-
-.trade-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:12px;
-}
-
-.trade-name{
-  font-size:16px;
-  font-weight:750;
-}
-
-.small{
-  margin-top:5px;
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.6;
-}
-
-.detail-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-  margin-top:13px;
-}
-
-.detail-item{
-  padding:11px;
-  background:#f8f8f6;
-  border-radius:12px;
-  font-size:14px;
-}
-
-.detail-item span{
-  display:block;
-  margin-bottom:5px;
-  color:var(--muted);
-  font-size:11px;
-}
-
-.rr{
-  margin-top:9px;
-  padding:10px;
-  background:#f6f5f1;
-  border-radius:12px;
-  color:var(--muted);
-  font-size:12px;
-}
-
-.delete{
-  margin-top:12px;
-  padding:0;
-  border:0;
-  background:none;
-  color:var(--red);
-  font-size:12px;
-}
-
-.ai-info{
-  padding:15px;
-  background:#edf0ef;
-  border-radius:16px;
-  font-size:14px;
-  line-height:1.8;
-}
-
-.analysis-block{
-  margin-bottom:14px;
-  padding:15px;
-  background:#fff;
-  border:1px solid var(--border);
-  border-radius:17px;
-}
-
-.analysis-card{
-  margin-top:10px;
-  padding:14px;
-  background:var(--soft2);
-  border-radius:13px;
-}
-
-.analysis-title{
-  margin-bottom:7px;
-  color:var(--muted);
-  font-size:12px;
-}
-
-.analysis-text{
-  font-size:14px;
-  line-height:1.75;
-}
-
-.chips{
-  display:flex;
-  flex-wrap:wrap;
-  gap:7px;
-}
-
-.chip{
-  padding:6px 9px;
-  background:#e9eeea;
-  border-radius:999px;
-  color:#647268;
-  font-size:12px;
-}
-
-.warning{
-  background:#f3ebe7;
-  color:#8c6b61;
-}
-
-.product-row{
-  display:flex;
-  justify-content:space-between;
-  gap:12px;
-  padding:13px 0;
-  border-bottom:1px solid var(--border);
-}
-
-.product-row:last-child{
-  border-bottom:0;
-}
-
-.empty{
-  padding:30px 10px;
-  text-align:center;
-  color:var(--muted);
-  font-size:13px;
-}
-
-.hidden{
-  display:none;
-}
-
-.bottom{
-  position:fixed;
-  left:0;
-  right:0;
-  bottom:0;
-  z-index:50;
-  background:rgba(255,255,255,.96);
-  border-top:1px solid var(--border);
-  padding:
-  8px
-  8px
-  calc(8px + env(safe-area-inset-bottom));
-}
-
-.nav{
-  width:100%;
-  max-width:620px;
-  margin:auto;
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-}
-
-.nav button{
-  padding:10px 3px;
-  border:0;
-  background:none;
-  color:var(--muted);
-  font-size:12px;
-}
-
-.nav button.active{
-  color:var(--blue);
-  font-weight:750;
-}
-
-</style>
-
-</head>
-
-
-<body>
-
-<div class="app">
-
-
-<section
-  id="homePage"
-  class="page active"
->
-
-  <div class="sub">
-    MY TRADING JOURNAL
-  </div>
-
-  <h1>
-    期貨交易日誌
-  </h1>
-
-
-  <div class="stats">
-
-    <div class="card">
-
-      <div class="stat-label">
-        總損益
-      </div>
-
-      <div
-        id="totalProfit"
-        class="stat-value"
-      >
-        NT$0
-      </div>
-
-    </div>
-
-
-    <div class="card">
-
-      <div class="stat-label">
-        本月損益
-      </div>
-
-      <div
-        id="monthProfit"
-        class="stat-value"
-      >
-        NT$0
-      </div>
-
-    </div>
-
-
-    <div class="card">
-
-      <div class="stat-label">
-        勝率
-      </div>
-
-      <div
-        id="winRate"
-        class="stat-value"
-      >
-        0%
-      </div>
-
-    </div>
-
-
-    <div class="card">
-
-      <div class="stat-label">
-        交易筆數
-      </div>
-
-      <div
-        id="tradeCount"
-        class="stat-value"
-      >
-        0
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div class="sync-box">
-
-    <button
-      id="igSyncBtn"
-      class="primary"
-      onclick="syncIGTrades()"
-    >
-      同步 IG 交易
-    </button>
-
-    <div
-      id="igSyncStatus"
-      class="sync-status"
-    >
-      自動同步最近 30 天的 NQ、YM、BTC、台指、黃金、白銀。
-    </div>
-
-  </div>
-
-
-  <div class="section">
-
-    <div class="section-title">
-      最近交易
-    </div>
-
-    <div id="tradeList"></div>
-
-  </div>
-
-</section>
-
-
-
-<section
-  id="addPage"
-  class="page"
->
-
-  <div class="sub">
-    NEW TRADE
-  </div>
-
-  <h1>
-    新增交易
-  </h1>
-
-
-  <div class="card">
-
-
-    <div class="field">
-
-      <label>
-        操作商品
-      </label>
-
-      <select id="productSelect">
-
-        <option value="">
-          請選擇商品
-        </option>
-
-        <option value="NQ">
-          NQ
-        </option>
-
-        <option value="YM">
-          YM
-        </option>
-
-        <option value="BTC">
-          BTC
-        </option>
-
-        <option value="台指">
-          台指
-        </option>
-
-        <option value="黃金">
-          黃金
-        </option>
-
-        <option value="白銀">
-          白銀
-        </option>
-
-        <option value="其他">
-          其他
-        </option>
-
-      </select>
-
-    </div>
-
-
-    <div
-      id="otherProductBox"
-      class="field hidden"
-    >
-
-      <label>
-        其他商品名稱
-      </label>
-
-      <input
-        id="otherProduct"
-        placeholder="輸入商品名稱"
-      >
-
-    </div>
-
-
-    <div class="field">
-
-      <label>
-        方向
-      </label>
-
-      <select id="direction">
-
-        <option value="做多">
-          做多
-        </option>
-
-        <option value="做空">
-          做空
-        </option>
-
-      </select>
-
-    </div>
-
-
-    <div class="time-box">
-
-      <label>
-        進場時間
-      </label>
-
-      <input
-        id="entryTime"
-        class="time-input"
-        type="text"
-        inputmode="text"
-        placeholder="例如 2026/08/29 11:51"
-      >
-
-    </div>
-
-
-    <div class="time-box">
-
-      <label>
-        出場時間
-      </label>
-
-      <input
-        id="exitTime"
-        class="time-input"
-        type="text"
-        inputmode="text"
-        placeholder="例如 2026/08/29 12:03"
-      >
-
-    </div>
-
-
-    <div class="two">
-
-      <div class="field">
-
-        <label>
-          進場點位
-        </label>
-
-        <input
-          id="entryPrice"
-          type="number"
-          step="any"
-          inputmode="decimal"
-        >
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          出場點位
-        </label>
-
-        <input
-          id="exitPrice"
-          type="number"
-          step="any"
-          inputmode="decimal"
-        >
-
-      </div>
-
-    </div>
-
-
-    <div class="points-box">
-
-      <div class="points-row">
-
-        <span class="points-title">
-          交易點數
-        </span>
-
-        <strong
-          id="pointsPreview"
-          class="points-value"
-        >
-          —
-        </strong>
-
-      </div>
-
-    </div>
-
-
-    <div class="two">
-
-      <div class="field">
-
-        <label>
-          停損價
-        </label>
-
-        <input
-          id="stopLoss"
-          type="number"
-          step="any"
-        >
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          停利價
-        </label>
-
-        <input
-          id="takeProfit"
-          type="number"
-          step="any"
-        >
-
-      </div>
-
-    </div>
-
-
-    <div class="two">
-
-      <div class="field">
-
-        <label>
-          口數
-        </label>
-
-        <input
-          id="quantity"
-          type="number"
-          min="1"
-          step="1"
-          value="1"
-        >
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          手續費 / 成本
-        </label>
-
-        <input
-          id="fee"
-          type="number"
-          min="0"
-          step="any"
-          value="0"
-        >
-
-      </div>
-
-    </div>
-
-
-    <div class="field">
-
-      <label>
-        實際獲利 / 虧損金額
-      </label>
-
-      <input
-        id="profit"
-        type="number"
-        step="any"
-        inputmode="decimal"
-      >
-
-      <div class="help">
-        手動新增預設以新台幣記錄；IG 匯入會保留原始幣別。
-      </div>
-
-    </div>
-
-
-    <div class="field">
-
-      <label>
-        每一單紀錄
-      </label>
-
-      <textarea
-        id="note"
-        placeholder="可記錄進場依據、行情、交易規則或其他可驗證資訊"
-      ></textarea>
-
-    </div>
-
-
-    <button
-      class="primary"
-      onclick="saveTrade()"
-    >
-      儲存交易
-    </button>
-
-  </div>
-
-</section>
-
-
-
-<section
-  id="analysisPage"
-  class="page"
->
-
-  <div class="sub">
-    OBJECTIVE AI REVIEW
-  </div>
-
-  <h1>
-    AI 客觀分析
-  </h1>
-
-
-  <div class="ai-info">
-
-    <strong>
-      分析原則
-    </strong>
-
-    <br><br>
-
-    AI 只依照已記錄的交易資料進行事後分析，
-    不推測情緒、心理、人格或主觀動機。
-
-    <br><br>
-
-    交易點數與持倉時間由 App 自動計算。
-
-  </div>
-
-
-  <div class="section">
-
-    <div class="section-title">
-      逐筆交易分析
-    </div>
-
-    <div id="analysisList"></div>
-
-  </div>
-
-</section>
-
-
-
-<section
-  id="statsPage"
-  class="page"
->
-
-  <div class="sub">
-    PERFORMANCE
-  </div>
-
-  <h1>
-    績效統計
-  </h1>
-
-
-  <div class="card">
-
-    <div class="section-title">
-      商品別績效
-    </div>
-
-    <div id="productStats"></div>
-
-  </div>
-
-</section>
-
-</div>
-
-
-
-<div class="bottom">
-
-  <div class="nav">
-
-    <button
-      id="homeBtn"
-      class="active"
-      onclick="showPage('home')"
-    >
-      首頁
-    </button>
-
-    <button
-      id="addBtn"
-      onclick="showPage('add')"
-    >
-      新增交易
-    </button>
-
-    <button
-      id="analysisBtn"
-      onclick="showPage('analysis')"
-    >
-      AI 分析
-    </button>
-
-    <button
-      id="statsBtn"
-      onclick="showPage('stats')"
-    >
-      績效
-    </button>
-
-  </div>
-
-</div>
-
-
-
-<script>
-
-const AI_API =
-"https://futures-ai-worker.s4112930.workers.dev";
-
-
-let trades =
-JSON.parse(
-  localStorage.getItem(
-    "futuresTrades"
-  )
-) || [];
-
-
-
-const productSelect =
-document.getElementById(
-  "productSelect"
-);
-
-const otherProductBox =
-document.getElementById(
-  "otherProductBox"
-);
-
-const otherProduct =
-document.getElementById(
-  "otherProduct"
-);
-
-const direction =
-document.getElementById(
-  "direction"
-);
-
-const entryTime =
-document.getElementById(
-  "entryTime"
-);
-
-const exitTime =
-document.getElementById(
-  "exitTime"
-);
-
-const entryPrice =
-document.getElementById(
-  "entryPrice"
-);
-
-const exitPrice =
-document.getElementById(
-  "exitPrice"
-);
-
-const stopLoss =
-document.getElementById(
-  "stopLoss"
-);
-
-const takeProfit =
-document.getElementById(
-  "takeProfit"
-);
-
-const quantity =
-document.getElementById(
-  "quantity"
-);
-
-const fee =
-document.getElementById(
-  "fee"
-);
-
-const profit =
-document.getElementById(
-  "profit"
-);
-
-const note =
-document.getElementById(
-  "note"
-);
-
-const pointsPreview =
-document.getElementById(
-  "pointsPreview"
-);
-
-
-
-/* ==============================
-   IG 舊資料自動整理
-============================== */
-
-migrateExistingIGTrades();
-
-
-
-function migrateExistingIGTrades(){
-
-  let changed = false;
-
-  trades =
-  trades.filter(
-    t => {
-
-      if(
-        t.source !== "ig"
-      ){
-        return true;
-      }
-
-      const originalName =
-      t.igOriginalProduct ||
-      t.product ||
-      "";
-
-      const normalized =
-      normalizeIGProduct(
-        originalName
-      );
-
-      if(
-        !isAllowedNormalizedProduct(
-          normalized
-        )
-      ){
-
-        changed = true;
-        return false;
-
-      }
-
-      if(
-        t.product !==
-        normalized
-      ){
-
-        t.product =
-        normalized;
-
-        changed = true;
-
-      }
-
-      return true;
-
-    }
-  );
-
-
-  if(changed){
-
-    localStorage.setItem(
-      "futuresTrades",
-      JSON.stringify(
-        trades
-      )
-    );
-
-  }
-
-}
-
-
-
-/* ==============================
-   表單事件
-============================== */
-
-productSelect.addEventListener(
-  "change",
-  function(){
-
-    if(
-      productSelect.value ===
-      "其他"
-    ){
-
-      otherProductBox
-      .classList
-      .remove(
-        "hidden"
-      );
-
-    }else{
-
-      otherProductBox
-      .classList
-      .add(
-        "hidden"
-      );
-
-      otherProduct.value =
-      "";
-
+export default {
+  async fetch(request, env) {
+    const url = new URL(request.url);
+
+    const headers = {
+      "Access-Control-Allow-Origin": "https://s4112930.github.io",
+      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+      "Content-Type": "application/json; charset=UTF-8"
+    };
+
+    if (request.method === "OPTIONS") {
+      return new Response(null, {
+        status: 204,
+        headers
+      });
     }
 
-  }
-);
-
-
-
-[
-  entryTime,
-  exitTime
-].forEach(
-  el => {
-
-    el.addEventListener(
-      "focus",
-      function(){
-
-        if(
-          !el.value
-        ){
-
-          el.value =
-          getCurrentTimeText();
-
-        }
-
-      }
-    );
-
-  }
-);
-
-
-
-[
-  direction,
-  entryPrice,
-  exitPrice
-].forEach(
-  el => {
-
-    el.addEventListener(
-      "input",
-      updatePoints
-    );
-
-    el.addEventListener(
-      "change",
-      updatePoints
-    );
-
-  }
-);
-
-
-
-function updatePoints(){
-
-  if(
-    entryPrice.value === "" ||
-    exitPrice.value === ""
-  ){
-
-    pointsPreview.innerText =
-    "—";
-
-    pointsPreview.className =
-    "points-value";
-
-    return;
-
-  }
-
-
-  const points =
-  calculatePoints();
-
-
-  pointsPreview.innerText =
-  (
-    points > 0
-    ?
-    "+"
-    :
-    ""
-  ) +
-  formatNumber(points) +
-  " 點";
-
-
-  pointsPreview.className =
-  "points-value " +
-  (
-    points > 0
-    ?
-    "green"
-    :
-    points < 0
-    ?
-    "red"
-    :
-    ""
-  );
-
-}
-
-
-
-function calculatePoints(){
-
-  const entry =
-  Number(
-    entryPrice.value
-  );
-
-  const exit =
-  Number(
-    exitPrice.value
-  );
-
-
-  if(
-    direction.value ===
-    "做多"
-  ){
-
-    return (
-      exit -
-      entry
-    );
-
-  }
-
-
-  return (
-    entry -
-    exit
-  );
-
-}
-
-
-
-/* ==============================
-   時間工具
-============================== */
-
-function getCurrentTimeText(){
-
-  const d =
-  new Date();
-
-
-  return (
-    d.getFullYear() +
-    "/" +
-    String(
-      d.getMonth() + 1
-    ).padStart(
-      2,
-      "0"
-    ) +
-    "/" +
-    String(
-      d.getDate()
-    ).padStart(
-      2,
-      "0"
-    ) +
-    " " +
-    String(
-      d.getHours()
-    ).padStart(
-      2,
-      "0"
-    ) +
-    ":" +
-    String(
-      d.getMinutes()
-    ).padStart(
-      2,
-      "0"
-    )
-  );
-
-}
-
-
-
-function parseTimeText(
-  value
-){
-
-  if(
-    !value
-  ){
-
-    return null;
-
-  }
-
-
-  const normalized =
-  value
-  .trim()
-  .replace(
-    /-/g,
-    "/"
-  );
-
-
-  const match =
-  normalized.match(
-    /^(\d{4})\/(\d{1,2})\/(\d{1,2})\s+(\d{1,2}):(\d{2})$/
-  );
-
-
-  if(
-    !match
-  ){
-
-    return null;
-
-  }
-
-
-  const d =
-  new Date(
-    Number(match[1]),
-    Number(match[2]) - 1,
-    Number(match[3]),
-    Number(match[4]),
-    Number(match[5])
-  );
-
-
-  if(
-    Number.isNaN(
-      d.getTime()
-    )
-  ){
-
-    return null;
-
-  }
-
-
-  return d;
-
-}
-
-
-
-function localStorageTime(
-  d
-){
-
-  return (
-    d.getFullYear() +
-    "-" +
-    String(
-      d.getMonth() + 1
-    ).padStart(
-      2,
-      "0"
-    ) +
-    "-" +
-    String(
-      d.getDate()
-    ).padStart(
-      2,
-      "0"
-    ) +
-    "T" +
-    String(
-      d.getHours()
-    ).padStart(
-      2,
-      "0"
-    ) +
-    ":" +
-    String(
-      d.getMinutes()
-    ).padStart(
-      2,
-      "0"
-    )
-  );
-
-}
-
-
-
-function toStorageTime(
-  value
-){
-
-  const d =
-  parseTimeText(
-    value
-  );
-
-
-  if(
-    !d
-  ){
-
-    return "";
-
-  }
-
-
-  return localStorageTime(
-    d
-  );
-
-}
-
-
-
-function calculateHoldingMinutes(
-  start,
-  end
-){
-
-  const startDate =
-  new Date(
-    start
-  );
-
-  const endDate =
-  new Date(
-    end
-  );
-
-
-  if(
-    Number.isNaN(
-      startDate.getTime()
-    ) ||
-    Number.isNaN(
-      endDate.getTime()
-    )
-  ){
-
-    return null;
-
-  }
-
-
-  const diff =
-  endDate -
-  startDate;
-
-
-  if(
-    diff < 0
-  ){
-
-    return null;
-
-  }
-
-
-  return Math.round(
-    diff /
-    60000
-  );
-
-}
-
-
-
-/* ==============================
-   分頁
-============================== */
-
-function showPage(
-  page
-){
-
-  document
-  .querySelectorAll(
-    ".page"
-  )
-  .forEach(
-    x =>
-    x.classList.remove(
-      "active"
-    )
-  );
-
-
-  document
-  .querySelectorAll(
-    ".nav button"
-  )
-  .forEach(
-    x =>
-    x.classList.remove(
-      "active"
-    )
-  );
-
-
-  const pageElement =
-  document.getElementById(
-    page +
-    "Page"
-  );
-
-
-  const buttonElement =
-  document.getElementById(
-    page +
-    "Btn"
-  );
-
-
-  if(
-    pageElement
-  ){
-
-    pageElement
-    .classList
-    .add(
-      "active"
-    );
-
-  }
-
-
-  if(
-    buttonElement
-  ){
-
-    buttonElement
-    .classList
-    .add(
-      "active"
-    );
-
-  }
-
-}
-
-
-
-/* ==============================
-   手動新增交易
-============================== */
-
-function saveTrade(){
-
-  let productName =
-  productSelect.value;
-
-
-  if(
-    !productName
-  ){
-
-    alert(
-      "請選擇操作商品"
-    );
-
-    return;
-
-  }
-
-
-  if(
-    productName ===
-    "其他"
-  ){
-
-    productName =
-    otherProduct
-    .value
-    .trim();
-
-
-    if(
-      !productName
-    ){
-
-      alert(
-        "請輸入其他商品名稱"
-      );
-
-      return;
-
-    }
-
-  }
-
-
-  const entryStorage =
-  toStorageTime(
-    entryTime.value
-  );
-
-
-  const exitStorage =
-  toStorageTime(
-    exitTime.value
-  );
-
-
-  if(
-    !entryStorage
-  ){
-
-    alert(
-      "進場時間格式請輸入：2026/08/29 11:51"
-    );
-
-    return;
-
-  }
-
-
-  if(
-    !exitStorage
-  ){
-
-    alert(
-      "出場時間格式請輸入：2026/08/29 12:03"
-    );
-
-    return;
-
-  }
-
-
-  if(
-    new Date(
-      exitStorage
-    ) <
-    new Date(
-      entryStorage
-    )
-  ){
-
-    alert(
-      "出場時間不能早於進場時間"
-    );
-
-    return;
-
-  }
-
-
-  if(
-    entryPrice.value === "" ||
-    exitPrice.value === ""
-  ){
-
-    alert(
-      "請輸入進場與出場點位"
-    );
-
-    return;
-
-  }
-
-
-  if(
-    profit.value === ""
-  ){
-
-    alert(
-      "請輸入實際獲利或虧損金額"
-    );
-
-    return;
-
-  }
-
-
-  const trade =
-  {
-
-    id:
-    Date.now(),
-
-    source:
-    "manual",
-
-    currency:
-    "TWD",
-
-    product:
-    productName,
-
-    direction:
-    direction.value,
-
-    entryTime:
-    entryStorage,
-
-    exitTime:
-    exitStorage,
-
-    entryPrice:
-    Number(
-      entryPrice.value
-    ),
-
-    exitPrice:
-    Number(
-      exitPrice.value
-    ),
-
-    stopLoss:
-    stopLoss.value,
-
-    takeProfit:
-    takeProfit.value,
-
-    quantity:
-    Number(
-      quantity.value ||
-      1
-    ),
-
-    fee:
-    Number(
-      fee.value ||
-      0
-    ),
-
-    points:
-    calculatePoints(),
-
-    holdingMinutes:
-    calculateHoldingMinutes(
-      entryStorage,
-      exitStorage
-    ),
-
-    profit:
-    Number(
-      profit.value
-    ),
-
-    note:
-    note.value,
-
-    aiAnalysis:
-    null
-
-  };
-
-
-  trades.unshift(
-    trade
-  );
-
-
-  saveTrades();
-
-  clearForm();
-
-  render();
-
-  showPage(
-    "home"
-  );
-
-}
-
-
-
-/* ==============================
-   IG 同步
-============================== */
-
-async function syncIGTrades(){
-
-  const button =
-  document.getElementById(
-    "igSyncBtn"
-  );
-
-  const status =
-  document.getElementById(
-    "igSyncStatus"
-  );
-
-
-  button.disabled =
-  true;
-
-  button.innerText =
-  "同步中…";
-
-
-  status.innerText =
-  "正在讀取 IG 最近 30 天交易紀錄…";
-
-
-  try{
-
-    const now =
-    new Date();
-
-    const from =
-    new Date();
-
-    from.setDate(
-      from.getDate() -
-      30
-    );
-
-
-    const response =
-    await fetch(
-      AI_API +
-      "/ig/transactions" +
-      "?from=" +
-      encodeURIComponent(
-        toIGQueryTime(
-          from
-        )
-      ) +
-      "&to=" +
-      encodeURIComponent(
-        toIGQueryTime(
-          now
-        )
-      )
-    );
-
-
-    const data =
-    await response.json();
-
-
-    if(
-      !response.ok ||
-      !data.ok
-    ){
-
-      throw new Error(
-        data.error ||
-        "讀取 IG 交易失敗"
-      );
-
-    }
-
-
-    const raw =
-    Array.isArray(
-      data.transactions
-    )
-    ?
-    data.transactions
-    :
-    [];
-
-
-    let imported =
-    0;
-
-    let duplicated =
-    0;
-
-    let excluded =
-    0;
-
-    let ignored =
-    0;
-
-
-    raw.forEach(
-      item => {
-
-        if(
-          !isRealIGTrade(
-            item
-          )
-        ){
-
-          ignored++;
-
-          return;
-
-        }
-
-
-        const product =
-        normalizeIGProduct(
-          item.instrumentName
+    try {
+
+      /* =========================
+         IG Secret 測試
+      ========================= */
+
+      if (url.pathname === "/ig/test") {
+        return jsonResponse(
+          {
+            ok: true,
+            IG_API_KEY: !!env.IG_API_KEY,
+            IG_IDENTIFIER: !!env.IG_IDENTIFIER,
+            IG_PASSWORD: !!env.IG_PASSWORD
+          },
+          200,
+          headers
         );
+      }
 
 
-        if(
-          !isAllowedNormalizedProduct(
-            product
-          )
-        ){
+      /* =========================
+         IG 登入測試
+      ========================= */
 
-          excluded++;
+      if (url.pathname === "/ig/login-test") {
+        const session = await loginIG(env);
 
-          return;
-
-        }
-
-
-        if(
-          item.reference &&
-          trades.some(
-            t =>
-            t.igReference ===
-            item.reference
-          )
-        ){
-
-          duplicated++;
-
-          return;
-
-        }
-
-
-        const converted =
-        convertIGTrade(
-          item
+        return jsonResponse(
+          {
+            ok: true,
+            message: "IG 登入成功",
+            currentAccountId:
+              session.currentAccountId || null
+          },
+          200,
+          headers
         );
-
-
-        if(
-          !converted
-        ){
-
-          ignored++;
-
-          return;
-
-        }
-
-
-        trades.push(
-          converted
-        );
-
-
-        imported++;
-
-      }
-    );
-
-
-    trades.sort(
-      (
-        a,
-        b
-      ) =>
-      new Date(
-        b.exitTime ||
-        b.entryTime
-      )
-      -
-      new Date(
-        a.exitTime ||
-        a.entryTime
-      )
-    );
-
-
-    saveTrades();
-
-    render();
-
-
-    status.innerText =
-    "同步完成：新增 " +
-    imported +
-    " 筆" +
-    "，重複 " +
-    duplicated +
-    " 筆" +
-    "，排除其他商品 " +
-    excluded +
-    " 筆。";
-
-
-  }catch(
-    error
-  ){
-
-    status.innerText =
-    "同步失敗：" +
-    error.message;
-
-  }
-
-
-  button.disabled =
-  false;
-
-  button.innerText =
-  "同步 IG 交易";
-
-}
-
-
-
-function toIGQueryTime(
-  d
-){
-
-  return d
-  .toISOString()
-  .slice(
-    0,
-    19
-  );
-
-}
-
-
-
-/* ==============================
-   IG 商品分類
-============================== */
-
-function normalizeIGProduct(
-  name
-){
-
-  const text =
-  String(
-    name ||
-    ""
-  )
-  .trim();
-
-
-  const upper =
-  text
-  .toUpperCase();
-
-
-  if(
-    upper.includes(
-      "US TECH 100"
-    ) ||
-    upper.includes(
-      "NASDAQ 100"
-    )
-  ){
-
-    return "NQ";
-
-  }
-
-
-  if(
-    upper.includes(
-      "WALL STREET"
-    ) ||
-    upper.includes(
-      "DOW"
-    )
-  ){
-
-    return "YM";
-
-  }
-
-
-  if(
-    upper.includes(
-      "TAIWAN INDEX"
-    ) ||
-    upper.includes(
-      "TAIWAN 50"
-    ) ||
-    text.includes(
-      "台灣指數"
-    ) ||
-    text.includes(
-      "台指"
-    )
-  ){
-
-    return "台指";
-
-  }
-
-
-  if(
-    upper.includes(
-      "GOLD"
-    ) ||
-    text.includes(
-      "黃金"
-    )
-  ){
-
-    return "黃金";
-
-  }
-
-
-  if(
-    upper.includes(
-      "SILVER"
-    ) ||
-    text.includes(
-      "白銀"
-    )
-  ){
-
-    return "白銀";
-
-  }
-
-
-  if(
-    upper.includes(
-      "BITCOIN"
-    ) ||
-    upper.includes(
-      "BTC"
-    )
-  ){
-
-    return "BTC";
-
-  }
-
-
-  return text;
-
-}
-
-
-
-function isAllowedNormalizedProduct(
-  product
-){
-
-  return [
-    "NQ",
-    "YM",
-    "BTC",
-    "台指",
-    "黃金",
-    "白銀"
-  ]
-  .includes(
-    product
-  );
-
-}
-
-
-
-/* ==============================
-   IG 真實交易判斷
-============================== */
-
-function isRealIGTrade(
-  item
-){
-
-  if(
-    !item ||
-    typeof item !==
-    "object"
-  ){
-
-    return false;
-
-  }
-
-
-  const type =
-  String(
-    item.transactionType ||
-    ""
-  )
-  .toUpperCase();
-
-
-  const excludedTypes =
-  [
-    "DIVIDEND",
-    "WITH",
-    "DEPOSIT",
-    "TRANSFER",
-    "INTEREST",
-    "CHARGE",
-    "FEE"
-  ];
-
-
-  if(
-    excludedTypes.some(
-      x =>
-      type.includes(
-        x
-      )
-    )
-  ){
-
-    return false;
-
-  }
-
-
-  const open =
-  parseIGNumber(
-    item.openLevel
-  );
-
-
-  const close =
-  parseIGNumber(
-    item.closeLevel
-  );
-
-
-  const size =
-  parseIGNumber(
-    item.size
-  );
-
-
-  return (
-    Number.isFinite(
-      open
-    ) &&
-    Number.isFinite(
-      close
-    ) &&
-    Number.isFinite(
-      size
-    ) &&
-    size !==
-    0
-  );
-
-}
-
-
-
-/* ==============================
-   IG → App
-============================== */
-
-function convertIGTrade(
-  item
-){
-
-  const open =
-  parseIGNumber(
-    item.openLevel
-  );
-
-
-  const close =
-  parseIGNumber(
-    item.closeLevel
-  );
-
-
-  const signedSize =
-  parseIGNumber(
-    item.size
-  );
-
-
-  if(
-    !Number.isFinite(
-      open
-    ) ||
-    !Number.isFinite(
-      close
-    ) ||
-    !Number.isFinite(
-      signedSize
-    )
-  ){
-
-    return null;
-
-  }
-
-
-  const tradeDirection =
-  signedSize >=
-  0
-  ?
-  "做多"
-  :
-  "做空";
-
-
-  const entryStorage =
-  igUtcToLocalStorage(
-    item.openDateUtc
-  );
-
-
-  const exitStorage =
-  igUtcToLocalStorage(
-    item.dateUtc
-  );
-
-
-  if(
-    !entryStorage ||
-    !exitStorage
-  ){
-
-    return null;
-
-  }
-
-
-  const pointMove =
-  tradeDirection ===
-  "做多"
-  ?
-  close -
-  open
-  :
-  open -
-  close;
-
-
-  return {
-
-    id:
-    Date.now() +
-    Math.floor(
-      Math.random() *
-      1000000
-    ),
-
-    source:
-    "ig",
-
-    igReference:
-    item.reference ||
-    "",
-
-    igOriginalProduct:
-    item.instrumentName ||
-    "",
-
-    currency:
-    normalizeCurrency(
-      item.currency
-    ),
-
-    product:
-    normalizeIGProduct(
-      item.instrumentName
-    ),
-
-    direction:
-    tradeDirection,
-
-    entryTime:
-    entryStorage,
-
-    exitTime:
-    exitStorage,
-
-    entryPrice:
-    open,
-
-    exitPrice:
-    close,
-
-    stopLoss:
-    "",
-
-    takeProfit:
-    "",
-
-    quantity:
-    Math.abs(
-      signedSize
-    ),
-
-    fee:
-    0,
-
-    points:
-    pointMove,
-
-    holdingMinutes:
-    calculateHoldingMinutes(
-      entryStorage,
-      exitStorage
-    ),
-
-    profit:
-    parseIGProfit(
-      item.profitAndLoss
-    ),
-
-    note:
-    "由 IG Trading 自動匯入",
-
-    aiAnalysis:
-    null
-
-  };
-
-}
-
-
-
-function parseIGNumber(
-  value
-){
-
-  if(
-    value ===
-    null ||
-    value ===
-    undefined
-  ){
-
-    return NaN;
-
-  }
-
-
-  const cleaned =
-  String(
-    value
-  )
-  .replace(
-    /,/g,
-    ""
-  )
-  .replace(
-    /[^\d+\-.]/g,
-    ""
-  )
-  .trim();
-
-
-  if(
-    !cleaned ||
-    cleaned ===
-    "+" ||
-    cleaned ===
-    "-" ||
-    cleaned ===
-    "."
-  ){
-
-    return NaN;
-
-  }
-
-
-  return Number(
-    cleaned
-  );
-
-}
-
-
-
-function parseIGProfit(
-  value
-){
-
-  const number =
-  parseIGNumber(
-    value
-  );
-
-
-  return Number.isFinite(
-    number
-  )
-  ?
-  number
-  :
-  0;
-
-}
-
-
-
-function normalizeCurrency(
-  value
-){
-
-  const currency =
-  String(
-    value ||
-    ""
-  )
-  .trim()
-  .toUpperCase();
-
-
-  if(
-    currency ===
-    "$" ||
-    currency ===
-    "US$"
-  ){
-
-    return "USD";
-
-  }
-
-
-  if(
-    currency ===
-    "NT$" ||
-    currency ===
-    "TWD"
-  ){
-
-    return "TWD";
-
-  }
-
-
-  return (
-    currency ||
-    "USD"
-  );
-
-}
-
-
-
-function igUtcToLocalStorage(
-  value
-){
-
-  if(
-    !value
-  ){
-
-    return "";
-
-  }
-
-
-  let text =
-  String(
-    value
-  )
-  .trim();
-
-
-  if(
-    !text.endsWith(
-      "Z"
-    ) &&
-    !/[+-]\d\d:\d\d$/
-    .test(
-      text
-    )
-  ){
-
-    text +=
-    "Z";
-
-  }
-
-
-  const d =
-  new Date(
-    text
-  );
-
-
-  if(
-    Number.isNaN(
-      d.getTime()
-    )
-  ){
-
-    return "";
-
-  }
-
-
-  return localStorageTime(
-    d
-  );
-
-}
-
-
-
-/* ==============================
-   儲存 / 刪除
-============================== */
-
-function saveTrades(){
-
-  localStorage.setItem(
-    "futuresTrades",
-    JSON.stringify(
-      trades
-    )
-  );
-
-}
-
-
-
-function clearForm(){
-
-  productSelect.value =
-  "";
-
-  otherProduct.value =
-  "";
-
-  otherProductBox
-  .classList
-  .add(
-    "hidden"
-  );
-
-  direction.value =
-  "做多";
-
-  entryTime.value =
-  "";
-
-  exitTime.value =
-  "";
-
-  entryPrice.value =
-  "";
-
-  exitPrice.value =
-  "";
-
-  stopLoss.value =
-  "";
-
-  takeProfit.value =
-  "";
-
-  quantity.value =
-  "1";
-
-  fee.value =
-  "0";
-
-  profit.value =
-  "";
-
-  note.value =
-  "";
-
-  pointsPreview.innerText =
-  "—";
-
-  pointsPreview.className =
-  "points-value";
-
-}
-
-
-
-function deleteTrade(
-  id
-){
-
-  if(
-    !confirm(
-      "確定刪除這筆交易嗎？"
-    )
-  ){
-
-    return;
-
-  }
-
-
-  trades =
-  trades.filter(
-    t =>
-    t.id !==
-    id
-  );
-
-
-  saveTrades();
-
-  render();
-
-}
-
-
-
-/* ==============================
-   顯示工具
-============================== */
-
-function money(
-  n,
-  currency =
-  "TWD"
-){
-
-  const number =
-  Number(
-    n
-  ) ||
-  0;
-
-
-  const sign =
-  number >
-  0
-  ?
-  "+"
-  :
-  number <
-  0
-  ?
-  "-"
-  :
-  "";
-
-
-  const amount =
-  Math.abs(
-    number
-  )
-  .toLocaleString(
-    "zh-TW",
-    {
-      maximumFractionDigits:
-      2
-    }
-  );
-
-
-  if(
-    currency ===
-    "USD"
-  ){
-
-    return (
-      sign +
-      "US$" +
-      amount
-    );
-
-  }
-
-
-  if(
-    currency ===
-    "TWD"
-  ){
-
-    return (
-      sign +
-      "NT$" +
-      amount
-    );
-
-  }
-
-
-  return (
-    sign +
-    currency +
-    " " +
-    amount
-  );
-
-}
-
-
-
-function formatNumber(
-  n
-){
-
-  return Number(
-    n
-  )
-  .toLocaleString(
-    "zh-TW",
-    {
-      maximumFractionDigits:
-      4
-    }
-  );
-
-}
-
-
-
-function formatTime(
-  time
-){
-
-  if(
-    !time
-  ){
-
-    return "未填寫";
-
-  }
-
-
-  const d =
-  new Date(
-    time
-  );
-
-
-  if(
-    Number.isNaN(
-      d.getTime()
-    )
-  ){
-
-    return time;
-
-  }
-
-
-  return d
-  .toLocaleString(
-    "zh-TW",
-    {
-      month:
-      "2-digit",
-
-      day:
-      "2-digit",
-
-      hour:
-      "2-digit",
-
-      minute:
-      "2-digit"
-    }
-  );
-
-}
-
-
-
-function formatHolding(
-  t
-){
-
-  let minutes =
-  Number(
-    t.holdingMinutes
-  );
-
-
-  if(
-    !Number.isFinite(
-      minutes
-    )
-  ){
-
-    minutes =
-    calculateHoldingMinutes(
-      t.entryTime,
-      t.exitTime
-    );
-
-  }
-
-
-  if(
-    minutes ===
-    null ||
-    !Number.isFinite(
-      minutes
-    )
-  ){
-
-    return "資料不足";
-
-  }
-
-
-  if(
-    minutes <
-    60
-  ){
-
-    return (
-      minutes +
-      " 分鐘"
-    );
-
-  }
-
-
-  const hours =
-  Math.floor(
-    minutes /
-    60
-  );
-
-
-  const rest =
-  minutes %
-  60;
-
-
-  if(
-    rest ===
-    0
-  ){
-
-    return (
-      hours +
-      " 小時"
-    );
-
-  }
-
-
-  return (
-    hours +
-    " 小時 " +
-    rest +
-    " 分鐘"
-  );
-
-}
-
-
-
-/* ==============================
-   風險報酬比
-============================== */
-
-function calculateRR(
-  t
-){
-
-  const entry =
-  Number(
-    t.entryPrice
-  );
-
-  const stop =
-  Number(
-    t.stopLoss
-  );
-
-  const target =
-  Number(
-    t.takeProfit
-  );
-
-
-  if(
-    !entry ||
-    !stop ||
-    !target
-  ){
-
-    return null;
-
-  }
-
-
-  let risk;
-
-  let reward;
-
-
-  if(
-    t.direction ===
-    "做多"
-  ){
-
-    risk =
-    entry -
-    stop;
-
-    reward =
-    target -
-    entry;
-
-  }else{
-
-    risk =
-    stop -
-    entry;
-
-    reward =
-    entry -
-    target;
-
-  }
-
-
-  if(
-    risk <=
-    0 ||
-    reward <=
-    0
-  ){
-
-    return null;
-
-  }
-
-
-  return (
-    reward /
-    risk
-  );
-
-}
-
-
-
-/* ==============================
-   幣別統計
-============================== */
-
-function totalsByCurrency(
-  list
-){
-
-  const totals =
-  {};
-
-
-  list.forEach(
-    t => {
-
-      const currency =
-      t.currency ||
-      "TWD";
-
-
-      if(
-        !totals[
-          currency
-        ]
-      ){
-
-        totals[
-          currency
-        ] =
-        0;
-
       }
 
 
-      totals[
-        currency
-      ] +=
-      Number(
-        t.profit ||
-        0
-      );
-
-    }
-  );
-
-
-  return totals;
-
-}
-
-
-
-function formatCurrencyTotals(
-  totals
-){
-
-  const entries =
-  Object.entries(
-    totals
-  );
-
-
-  if(
-    !entries.length
-  ){
-
-    return "NT$0";
-
-  }
-
-
-  return entries
-  .map(
-    (
-      [
-        currency,
-        value
-      ]
-    ) =>
-    money(
-      value,
-      currency
-    )
-  )
-  .join(
-    " / "
-  );
-
-}
-
-
-
-/* ==============================
-   首頁
-============================== */
-
-function renderHome(){
-
-  const now =
-  new Date();
-
-
-  const monthly =
-  trades.filter(
-    t => {
-
-      if(
-        !t.entryTime
-      ){
-
-        return false;
-
-      }
-
-
-      const d =
-      new Date(
-        t.entryTime
-      );
-
-
-      if(
-        Number.isNaN(
-          d.getTime()
-        )
-      ){
-
-        return false;
-
-      }
-
-
-      return (
-        d.getMonth() ===
-        now.getMonth()
-        &&
-        d.getFullYear() ===
-        now.getFullYear()
-      );
-
-    }
-  );
-
-
-  const wins =
-  trades.filter(
-    t =>
-    Number(
-      t.profit
-    ) >
-    0
-  ).length;
-
-
-  const rate =
-  trades.length
-  ?
-  Math.round(
-    wins /
-    trades.length *
-    100
-  )
-  :
-  0;
-
-
-  document
-  .getElementById(
-    "totalProfit"
-  )
-  .innerText =
-  formatCurrencyTotals(
-    totalsByCurrency(
-      trades
-    )
-  );
-
-
-  document
-  .getElementById(
-    "monthProfit"
-  )
-  .innerText =
-  formatCurrencyTotals(
-    totalsByCurrency(
-      monthly
-    )
-  );
-
-
-  document
-  .getElementById(
-    "winRate"
-  )
-  .innerText =
-  rate +
-  "%";
-
-
-  document
-  .getElementById(
-    "tradeCount"
-  )
-  .innerText =
-  trades.length;
-
-
-  const tradeList =
-  document.getElementById(
-    "tradeList"
-  );
-
-
-  if(
-    !trades.length
-  ){
-
-    tradeList.innerHTML =
-    `
-    <div class="empty">
-      目前還沒有交易紀錄
-    </div>
-    `;
-
-    return;
-
-  }
-
-
-  tradeList.innerHTML =
-  trades.map(
-    t => {
-
-      const rr =
-      calculateRR(
-        t
-      );
-
-
-      return `
-
-      <div class="trade">
-
-        <div class="trade-top">
-
-          <div>
-
-            <div class="trade-name">
-              ${escapeHTML(t.product)}
-            </div>
-
-            <div class="small">
-
-              ${escapeHTML(t.direction)}
-
-              ・
-
-              ${formatTime(t.entryTime)}
-
-            </div>
-
-            ${
-              t.source ===
-              "ig"
-              ?
-              `
-              <span class="source-badge">
-                IG 自動匯入
-              </span>
-              `
-              :
-              ""
-            }
-
-          </div>
-
-
-          <strong
-            class="${
-              Number(t.profit) >=
-              0
-              ?
-              "green"
-              :
-              "red"
-            }"
-          >
-
-            ${
-              money(
-                t.profit,
-                t.currency ||
-                "TWD"
-              )
-            }
-
-          </strong>
-
-        </div>
-
-
-        <div class="detail-grid">
-
-          <div class="detail-item">
-
-            <span>
-              進場點位
-            </span>
-
-            ${
-              t.entryPrice ??
-              "未填寫"
-            }
-
-          </div>
-
-
-          <div class="detail-item">
-
-            <span>
-              出場點位
-            </span>
-
-            ${
-              t.exitPrice ??
-              "未填寫"
-            }
-
-          </div>
-
-
-          <div class="detail-item">
-
-            <span>
-              交易點數
-            </span>
-
-            ${
-              t.points !==
-              undefined
-              ?
-              formatNumber(
-                t.points
-              ) +
-              " 點"
-              :
-              "資料不足"
-            }
-
-          </div>
-
-
-          <div class="detail-item">
-
-            <span>
-              持倉時間
-            </span>
-
-            ${
-              formatHolding(
-                t
-              )
-            }
-
-          </div>
-
-        </div>
-
-
-        ${
-          rr
-          ?
-          `
-          <div class="rr">
-
-            預設風險報酬比：
-            約 1 :
-            ${rr.toFixed(2)}
-
-          </div>
-          `
-          :
-          `
-          <div class="rr">
-            風險報酬比：資料不足
-          </div>
-          `
-        }
-
-
-        ${
-          t.note
-          ?
-          `
-          <div
-            class="small"
-            style="margin-top:10px;"
-          >
-            ${escapeHTML(t.note)}
-          </div>
-          `
-          :
-          ""
-        }
-
-
-        <button
-          class="delete"
-          onclick="deleteTrade(${t.id})"
-        >
-          刪除
-        </button>
-
-      </div>
-
-      `;
-
-    }
-  )
-  .join("");
-
-}
-
-
-
-/* ==============================
-   AI
-============================== */
-
-async function runAIAnalysis(
-  id
-){
-
-  const trade =
-  trades.find(
-    t =>
-    t.id ===
-    id
-  );
-
-
-  if(
-    !trade
-  ){
-
-    return;
-
-  }
-
-
-  const resultBox =
-  document.getElementById(
-    "ai-" +
-    id
-  );
-
-
-  const button =
-  document.getElementById(
-    "btn-" +
-    id
-  );
-
-
-  button.disabled =
-  true;
-
-  button.innerText =
-  "AI 分析中…";
-
-
-  resultBox.innerHTML =
-  `
-  <div class="small">
-    正在進行客觀分析，請稍候…
-  </div>
-  `;
-
-
-  try{
-
-    const response =
-    await fetch(
-      AI_API,
-      {
-
-        method:
-        "POST",
-
-        headers:{
-          "Content-Type":
-          "application/json"
-        },
-
-        body:
-        JSON.stringify(
-          trade
-        )
-
-      }
-    );
-
-
-    const data =
-    await response.json();
-
-
-    if(
-      !response.ok ||
-      !data.ok
-    ){
-
-      throw new Error(
-        data.error ||
-        "AI 分析失敗"
-      );
-
-    }
-
-
-    trade.aiAnalysis =
-    data.analysis;
-
-
-    saveTrades();
-
-
-    resultBox.innerHTML =
-    renderAIResult(
-      data.analysis,
-      trade
-    );
-
-
-    button.disabled =
-    false;
-
-
-    button.innerText =
-    "重新分析";
-
-
-  }catch(
-    error
-  ){
-
-    resultBox.innerHTML =
-    `
-    <div class="small red">
-
-      AI 分析失敗：
-      ${escapeHTML(error.message)}
-
-    </div>
-    `;
-
-
-    button.disabled =
-    false;
-
-
-    button.innerText =
-    "重新嘗試";
-
-  }
-
-}
-
-
-
-function renderAIResult(
-  a,
-  trade
-){
-
-  if(
-    !a ||
-    typeof a !==
-    "object"
-  ){
-
-    return `
-    <div class="small red">
-      AI 回傳資料格式異常
-    </div>
-    `;
-
-  }
-
-
-  const verified =
-  Array.isArray(
-    a.verifiedFactors
-  )
-  ?
-  a.verifiedFactors
-  :
-  [];
-
-
-  const missing =
-  Array.isArray(
-    a.missingData
-  )
-  ?
-  a.missingData
-  :
-  [];
-
-
-  const actualPoints =
-  trade.points !==
-  undefined
-  ?
-  formatNumber(
-    trade.points
-  ) +
-  " 點"
-  :
-  "資料不足";
-
-
-  return `
-
-  <div class="analysis-card">
-
-    <div class="analysis-title">
-      交易摘要
-    </div>
-
-    <div class="analysis-text">
-      ${escapeHTML(a.summary || "資料不足")}
-    </div>
-
-  </div>
-
-
-  <div class="analysis-card">
-
-    <div class="analysis-title">
-      持倉時間
-    </div>
-
-    <div class="analysis-text">
-      ${escapeHTML(formatHolding(trade))}
-    </div>
-
-  </div>
-
-
-  <div class="analysis-card">
-
-    <div class="analysis-title">
-      價格變化
-    </div>
-
-    <div class="analysis-text">
-      ${escapeHTML(actualPoints)}
-    </div>
-
-  </div>
-
-
-  <div class="analysis-card">
-
-    <div class="analysis-title">
-      進場分析
-    </div>
-
-    <div class="analysis-text">
-      ${escapeHTML(a.entryAnalysis || "資料不足")}
-    </div>
-
-  </div>
-
-
-  <div class="analysis-card">
-
-    <div class="analysis-title">
-      出場分析
-    </div>
-
-    <div class="analysis-text">
-      ${escapeHTML(a.exitAnalysis || "資料不足")}
-    </div>
-
-  </div>
-
-
-  <div class="analysis-card">
-
-    <div class="analysis-title">
-      風險管理
-    </div>
-
-    <div class="analysis-text">
-      ${escapeHTML(a.riskManagement || "資料不足")}
-    </div>
-
-  </div>
-
-
-  <div class="analysis-card">
-
-    <div class="analysis-title">
-      可驗證因素
-    </div>
-
-    <div class="chips">
-
-      ${
-        verified.length
-        ?
-        verified.map(
-          item =>
-          `
-          <span class="chip">
-            ${escapeHTML(item)}
-          </span>
-          `
-        ).join("")
-        :
-        `
-        <span class="chip">
-          沒有足夠資料
-        </span>
-        `
-      }
-
-    </div>
-
-  </div>
-
-
-  <div class="analysis-card">
-
-    <div class="analysis-title">
-      資料不足項目
-    </div>
-
-    <div class="chips">
-
-      ${
-        missing.length
-        ?
-        missing.map(
-          item =>
-          `
-          <span class="chip warning">
-            ${escapeHTML(item)}
-          </span>
-          `
-        ).join("")
-        :
-        `
-        <span class="chip">
-          無明顯缺少項目
-        </span>
-        `
-      }
-
-    </div>
-
-  </div>
-
-
-  <div class="analysis-card">
-
-    <div class="analysis-title">
-      客觀結論
-    </div>
-
-    <div class="analysis-text">
-      ${escapeHTML(a.objectiveConclusion || "資料不足")}
-    </div>
-
-  </div>
-
-  `;
-
-}
-
-
-
-/* ==============================
-   AI 頁面
-============================== */
-
-function renderAnalysis(){
-
-  const analysisList =
-  document.getElementById(
-    "analysisList"
-  );
-
-
-  if(
-    !trades.length
-  ){
-
-    analysisList.innerHTML =
-    `
-    <div class="empty">
-      新增交易後才會產生分析
-    </div>
-    `;
-
-    return;
-
-  }
-
-
-  analysisList.innerHTML =
-  trades.map(
-    t => {
-
-      const saved =
-      t.aiAnalysis &&
-      typeof t.aiAnalysis ===
-      "object"
-      ?
-      renderAIResult(
-        t.aiAnalysis,
-        t
-      )
-      :
-      `
-      <div
-        class="small"
-        style="margin-top:12px;"
-      >
-        尚未執行 AI 客觀分析
-      </div>
-      `;
-
-
-      return `
-
-      <div class="analysis-block">
-
-        <div class="trade-top">
-
-          <div>
-
-            <div class="trade-name">
-              ${escapeHTML(t.product)}
-            </div>
-
-            <div class="small">
-
-              ${escapeHTML(t.direction)}
-
-              ・
-
-              ${formatTime(t.entryTime)}
-
-            </div>
-
-            ${
-              t.source ===
-              "ig"
-              ?
-              `
-              <span class="source-badge">
-                IG 自動匯入
-              </span>
-              `
-              :
-              ""
-            }
-
-          </div>
-
-
-          <strong
-            class="${
-              Number(t.profit) >=
-              0
-              ?
-              "green"
-              :
-              "red"
-            }"
-          >
-
-            ${
-              money(
-                t.profit,
-                t.currency ||
-                "TWD"
-              )
-            }
-
-          </strong>
-
-        </div>
-
-
-        <div class="detail-grid">
-
-          <div class="detail-item">
-
-            <span>
-              進場價
-            </span>
-
-            ${
-              t.entryPrice ||
-              "未填寫"
-            }
-
-          </div>
-
-
-          <div class="detail-item">
-
-            <span>
-              出場價
-            </span>
-
-            ${
-              t.exitPrice ||
-              "未填寫"
-            }
-
-          </div>
-
-
-          <div class="detail-item">
-
-            <span>
-              停損價
-            </span>
-
-            ${
-              t.stopLoss ||
-              "未填寫"
-            }
-
-          </div>
-
-
-          <div class="detail-item">
-
-            <span>
-              停利價
-            </span>
-
-            ${
-              t.takeProfit ||
-              "未填寫"
-            }
-
-          </div>
-
-        </div>
-
-
-        <button
-          id="btn-${t.id}"
-          class="primary"
-          style="margin-top:14px;"
-          onclick="runAIAnalysis(${t.id})"
-        >
-
-          ${
-            t.aiAnalysis
-            ?
-            "重新分析"
-            :
-            "AI 客觀分析"
-          }
-
-        </button>
-
-
-        <div
-          id="ai-${t.id}"
-        >
-          ${saved}
-        </div>
-
-      </div>
-
-      `;
-
-    }
-  )
-  .join("");
-
-}
-
-
-
-/* ==============================
-   績效
-============================== */
-
-function renderProductStats(){
-
-  const productStats =
-  document.getElementById(
-    "productStats"
-  );
-
-
-  if(
-    !trades.length
-  ){
-
-    productStats.innerHTML =
-    `
-    <div class="empty">
-      目前沒有可統計的交易資料
-    </div>
-    `;
-
-    return;
-
-  }
-
-
-  const groups =
-  {};
-
-
-  trades.forEach(
-    t => {
-
-      const key =
-      t.product +
-      "||" +
-      (
-        t.currency ||
-        "TWD"
-      );
-
-
-      if(
-        !groups[
-          key
-        ]
-      ){
-
-        groups[
-          key
-        ] =
-        {
-          name:
-          t.product,
-
-          currency:
-          t.currency ||
-          "TWD",
-
-          count:
-          0,
-
-          wins:
-          0,
-
-          pnl:
-          0
-        };
-
-      }
-
-
-      groups[
-        key
-      ].count++;
-
-
-      groups[
-        key
-      ].pnl +=
-      Number(
-        t.profit ||
-        0
-      );
-
-
-      if(
-        Number(
-          t.profit
-        ) >
-        0
-      ){
-
-        groups[
-          key
-        ].wins++;
-
-      }
-
-    }
-  );
-
-
-  productStats.innerHTML =
-  Object
-  .values(
-    groups
-  )
-  .map(
-    data => {
-
-      const rate =
-      Math.round(
-        data.wins /
-        data.count *
-        100
-      );
-
-
-      return `
-
-      <div class="product-row">
-
-        <div>
-
-          <strong>
-            ${escapeHTML(data.name)}
-          </strong>
-
-          <div class="small">
-
-            ${data.count} 筆
-
-            ・
-
-            勝率 ${rate}%
-
-          </div>
-
-        </div>
-
-
-        <strong
-          class="${
-            data.pnl >=
-            0
-            ?
-            "green"
-            :
-            "red"
-          }"
-        >
-
-          ${
-            money(
-              data.pnl,
-              data.currency
+      /* =========================
+         IG 帳戶
+      ========================= */
+
+      if (url.pathname === "/ig/accounts") {
+        const session = await loginIG(env);
+
+        const response = await fetch(
+          "https://api.ig.com/gateway/deal/accounts",
+          {
+            method: "GET",
+            headers: igHeaders(
+              env,
+              session,
+              "1"
             )
           }
+        );
 
-        </strong>
+        const data =
+          await parseResponse(response);
 
-      </div>
+        if (!response.ok) {
+          return jsonResponse(
+            {
+              ok: false,
+              error: "取得 IG 帳戶失敗",
+              status: response.status,
+              detail: data
+            },
+            response.status,
+            headers
+          );
+        }
 
-      `;
+        return jsonResponse(
+          {
+            ok: true,
+            accounts: data.accounts || []
+          },
+          200,
+          headers
+        );
+      }
 
+
+      /* =========================
+         IG 一年交易紀錄
+         自動翻頁
+      ========================= */
+
+      if (url.pathname === "/ig/transactions") {
+        const session = await loginIG(env);
+
+        const from =
+          url.searchParams.get("from");
+
+        const to =
+          url.searchParams.get("to");
+
+        const pageSize = 100;
+
+        let pageNumber = 1;
+
+        let allTransactions = [];
+
+        let totalPages = 1;
+
+        const MAX_PAGES = 100;
+
+        do {
+          const igUrl = new URL(
+            "https://api.ig.com/gateway/deal/history/transactions"
+          );
+
+          igUrl.searchParams.set(
+            "type",
+            "ALL"
+          );
+
+          igUrl.searchParams.set(
+            "pageSize",
+            String(pageSize)
+          );
+
+          igUrl.searchParams.set(
+            "pageNumber",
+            String(pageNumber)
+          );
+
+          if (from) {
+            igUrl.searchParams.set(
+              "from",
+              from
+            );
+          }
+
+          if (to) {
+            igUrl.searchParams.set(
+              "to",
+              to
+            );
+          }
+
+          const response = await fetch(
+            igUrl.toString(),
+            {
+              method: "GET",
+              headers: igHeaders(
+                env,
+                session,
+                "2"
+              )
+            }
+          );
+
+          const data =
+            await parseResponse(response);
+
+          if (!response.ok) {
+            return jsonResponse(
+              {
+                ok: false,
+                error:
+                  "取得 IG 交易紀錄失敗",
+                status:
+                  response.status,
+                page:
+                  pageNumber,
+                detail:
+                  data
+              },
+              response.status,
+              headers
+            );
+          }
+
+          const pageTransactions =
+            Array.isArray(
+              data.transactions
+            )
+            ? data.transactions
+            : [];
+
+          allTransactions.push(
+            ...pageTransactions
+          );
+
+          const reportedTotalPages =
+            Number(
+              data?.metadata
+                ?.pageData
+                ?.totalPages
+            );
+
+          if (
+            Number.isFinite(
+              reportedTotalPages
+            ) &&
+            reportedTotalPages > 0
+          ) {
+            totalPages =
+              reportedTotalPages;
+          } else {
+            totalPages =
+              pageTransactions.length <
+              pageSize
+                ? pageNumber
+                : pageNumber + 1;
+          }
+
+          pageNumber++;
+
+          if (
+            pageTransactions.length === 0
+          ) {
+            break;
+          }
+
+        } while (
+          pageNumber <= totalPages &&
+          pageNumber <= MAX_PAGES
+        );
+
+        return jsonResponse(
+          {
+            ok: true,
+            count:
+              allTransactions.length,
+            transactions:
+              allTransactions,
+            pagesFetched:
+              pageNumber - 1
+          },
+          200,
+          headers
+        );
+      }
+
+
+      /* =========================
+         AI 分析
+      ========================= */
+
+      if (request.method !== "POST") {
+        return jsonResponse(
+          {
+            ok: false,
+            error:
+              "Only POST requests are accepted."
+          },
+          405,
+          headers
+        );
+      }
+
+      const trade =
+        await request.json();
+
+      if (
+        !trade.product ||
+        !trade.direction
+      ) {
+        return jsonResponse(
+          {
+            ok: false,
+            error:
+              "缺少商品名稱或交易方向"
+          },
+          400,
+          headers
+        );
+      }
+
+      const systemPrompt = `
+你是一個期貨與CFD交易客觀分析系統。
+
+只分析已完成的交易紀錄。
+
+規則：
+1. 只能使用輸入資料中的可驗證資訊。
+2. 不得自行補充市場行情、成交量、新聞或技術指標。
+3. 不得推測交易者情緒、心理、人格或主觀動機。
+4. 禁止使用「貪心、恐懼、衝動、沒耐心、心態不好、太急」等主觀推測。
+5. 獲利不代表進場正確。
+6. 虧損不代表進場錯誤。
+7. 資料不足時必須明確說「資料不足，無法客觀判定」。
+8. 不提供未來買進、賣出、加碼、減碼或持有建議。
+9. 使用繁體中文。
+10. 簡潔、中性、專業。
+`;
+
+      const tradeText = `
+商品：${trade.product || "未提供"}
+方向：${trade.direction || "未提供"}
+進場時間：${trade.entryTime || "未提供"}
+出場時間：${trade.exitTime || "未提供"}
+進場價：${trade.entryPrice ?? "未提供"}
+出場價：${trade.exitPrice ?? "未提供"}
+停損價：${trade.stopLoss || "未提供"}
+停利價：${trade.takeProfit || "未提供"}
+口數：${trade.quantity ?? "未提供"}
+手續費：${trade.fee ?? "未提供"}
+交易點數：${trade.points ?? "未提供"}
+持倉分鐘：${trade.holdingMinutes ?? "未提供"}
+實際損益：${trade.profit ?? "未提供"}
+幣別：${trade.currency || "未提供"}
+個人紀錄：${trade.note || "未提供"}
+`;
+
+      const schema = {
+        type: "object",
+        properties: {
+          summary: {
+            type: "string"
+          },
+          holdingTime: {
+            type: "string"
+          },
+          priceChange: {
+            type: "string"
+          },
+          entryAnalysis: {
+            type: "string"
+          },
+          exitAnalysis: {
+            type: "string"
+          },
+          riskManagement: {
+            type: "string"
+          },
+          verifiedFactors: {
+            type: "array",
+            items: {
+              type: "string"
+            }
+          },
+          missingData: {
+            type: "array",
+            items: {
+              type: "string"
+            }
+          },
+          objectiveConclusion: {
+            type: "string"
+          }
+        },
+        required: [
+          "summary",
+          "holdingTime",
+          "priceChange",
+          "entryAnalysis",
+          "exitAnalysis",
+          "riskManagement",
+          "verifiedFactors",
+          "missingData",
+          "objectiveConclusion"
+        ]
+      };
+
+      const result =
+        await env.AI.run(
+          "@cf/meta/llama-3.1-8b-instruct-fast",
+          {
+            messages: [
+              {
+                role: "system",
+                content:
+                  systemPrompt
+              },
+              {
+                role: "user",
+                content:
+                  tradeText
+              }
+            ],
+            response_format: {
+              type:
+                "json_schema",
+              json_schema:
+                schema
+            },
+            max_tokens: 900,
+            temperature: 0.1
+          }
+        );
+
+      let analysis =
+        result.response;
+
+      if (
+        typeof analysis ===
+        "string"
+      ) {
+        analysis =
+          JSON.parse(analysis);
+      }
+
+      return jsonResponse(
+        {
+          ok: true,
+          analysis
+        },
+        200,
+        headers
+      );
+
+    } catch (error) {
+      return jsonResponse(
+        {
+          ok: false,
+          error:
+            "Worker 執行失敗",
+          detail:
+            String(error)
+        },
+        500,
+        headers
+      );
     }
-  )
-  .join("");
-
-}
+  }
+};
 
 
 
-/* ==============================
-   HTML 安全
-============================== */
+async function loginIG(env) {
 
-function escapeHTML(
-  text
-){
+  if (!env.IG_API_KEY) {
+    throw new Error(
+      "缺少 IG_API_KEY"
+    );
+  }
 
-  const div =
-  document.createElement(
-    "div"
+  if (!env.IG_IDENTIFIER) {
+    throw new Error(
+      "缺少 IG_IDENTIFIER"
+    );
+  }
+
+  if (!env.IG_PASSWORD) {
+    throw new Error(
+      "缺少 IG_PASSWORD"
+    );
+  }
+
+  const response = await fetch(
+    "https://api.ig.com/gateway/deal/session",
+    {
+      method: "POST",
+      headers: {
+        "X-IG-API-KEY":
+          env.IG_API_KEY,
+        "VERSION":
+          "2",
+        "Content-Type":
+          "application/json",
+        "Accept":
+          "application/json"
+      },
+      body:
+        JSON.stringify({
+          identifier:
+            env.IG_IDENTIFIER,
+          password:
+            env.IG_PASSWORD
+        })
+    }
   );
 
+  const body =
+    await parseResponse(response);
 
-  div.innerText =
-  String(
-    text ??
-    ""
+  if (!response.ok) {
+    throw new Error(
+      "IG 登入失敗：" +
+      response.status +
+      " " +
+      (
+        body?.errorCode ||
+        body?.error ||
+        "Unknown error"
+      )
+    );
+  }
+
+  const cst =
+    response.headers.get(
+      "CST"
+    );
+
+  const securityToken =
+    response.headers.get(
+      "X-SECURITY-TOKEN"
+    );
+
+  if (
+    !cst ||
+    !securityToken
+  ) {
+    throw new Error(
+      "IG 登入成功，但沒有取得安全 Token"
+    );
+  }
+
+  return {
+    ...body,
+    cst,
+    securityToken
+  };
+}
+
+
+
+function igHeaders(
+  env,
+  session,
+  version
+) {
+  return {
+    "X-IG-API-KEY":
+      env.IG_API_KEY,
+    "CST":
+      session.cst,
+    "X-SECURITY-TOKEN":
+      session.securityToken,
+    "VERSION":
+      version,
+    "Accept":
+      "application/json"
+  };
+}
+
+
+
+async function parseResponse(
+  response
+) {
+  const text =
+    await response.text();
+
+  if (!text) {
+    return {};
+  }
+
+  try {
+    return JSON.parse(text);
+  } catch {
+    return {
+      raw: text
+    };
+  }
+}
+
+
+
+function jsonResponse(
+  data,
+  status,
+  headers
+) {
+  return new Response(
+    JSON.stringify(data),
+    {
+      status,
+      headers
+    }
   );
-
-
-  return div.innerHTML;
-
 }
-
-
-
-/* ==============================
-   Render
-============================== */
-
-function render(){
-
-  renderHome();
-
-  renderAnalysis();
-
-  renderProductStats();
-
-}
-
-
-render();
-
-</script>
-
-
-</body>
-
-</html>
