@@ -1128,7 +1128,7 @@ AI 單筆損益原因分析
 
 
 <div class="ai-info">
-AI 會分析每一筆交易「為什麼賺錢或虧損」，並把原因分成已確認、可能因素與缺少資料。沒有資料的技術指標或市場原因不會自行猜測。
+AI 只依這筆交易已記錄的進出場、點數、損益、持倉時間、停損停利與備註，提供客觀檢討，不猜測市場或技術指標。
 </div>
 
 
@@ -5095,363 +5095,44 @@ async function runAIAnalysis(id){
 
 function renderAIResult(a){
 
-  if(
-    !a ||
-    typeof a !==
-    "object"
-  ){
-
+  if(!a || typeof a !== "object"){
     return "資料不足";
-
   }
 
-
-  const confirmed =
-  Array.isArray(
-    a.confirmedFactors
-  )
-  ?
-  a.confirmedFactors
-  :
-  [];
-
-
-  const possible =
-  Array.isArray(
-    a.possibleFactors
-  )
-  ?
-  a.possibleFactors
-  :
-  [];
-
-
-  const missing =
-  Array.isArray(
-    a.missingFactors
-  )
-  ?
-  a.missingFactors
-  :
-  [];
-
-
-  let resultClass =
-  "neutral";
-
-
-  if(
-    a.resultType ===
-    "獲利"
-  ){
-
-    resultClass =
-    "profit";
-
-  }
-
-
-  if(
-    a.resultType ===
-    "虧損"
-  ){
-
-    resultClass =
-    "loss";
-
-  }
-
-
-  return `
-
-
-    <div class="analysis-result ${resultClass}">
-
-      ${
-        escapeHTML(
-          a.resultType ||
-          "資料不足"
-        )
-      }
-
-    </div>
-
-
-    <div class="analysis-card">
-
-      <div class="analysis-title">
-        此單結果
-      </div>
-
-      <div class="analysis-text">
-
-        ${
-          escapeHTML(
-            a.resultSummary ||
-            "資料不足"
-          )
-        }
-
-      </div>
-
-    </div>
-
-
-    <div class="analysis-card">
-
-      <div class="analysis-title">
-        為什麼這單會賺錢 / 虧損
-      </div>
-
-      <div class="analysis-text">
-
-        ${
-          escapeHTML(
-            a.directReason ||
-            "資料不足"
-          )
-        }
-
-      </div>
-
-    </div>
-
-
-    <div class="analysis-card">
-
-      <div class="analysis-title">
-        已確認原因
-      </div>
-
-      <div class="analysis-text">
-
-        ${
-          confirmed.length
-          ?
-          confirmed
-          .map(
-            x =>
-            `
-            <div class="factor factor-confirmed">
-              ${escapeHTML(x)}
-            </div>
-            `
-          )
-          .join("")
-          :
-          "目前沒有足夠資料確認其他原因"
-        }
-
-      </div>
-
-    </div>
-
-
-    <div class="analysis-card">
-
-      <div class="analysis-title">
-        可能影響此單的因素
-      </div>
-
-      <div class="analysis-text">
-
-        ${
-          possible.length
-          ?
-          possible
-          .map(
-            x =>
-            `
-            <div class="factor factor-possible">
-              ${escapeHTML(x)}
-            </div>
-            `
-          )
-          .join("")
-          :
-          "目前沒有足夠資料支持其他可能因素"
-        }
-
-      </div>
-
-    </div>
-
-
-    <div class="analysis-card">
-
-      <div class="analysis-title">
-        尚缺少的關鍵資料
-      </div>
-
-      <div class="analysis-text">
-
-        ${
-          missing.length
-          ?
-          missing
-          .map(
-            x =>
-            `
-            <div class="factor factor-missing">
-              ${escapeHTML(x)}
-            </div>
-            `
-          )
-          .join("")
-          :
-          "目前沒有列出缺少資料"
-        }
-
-      </div>
-
-    </div>
-
-
-    <div class="analysis-card">
-
-      <div class="analysis-title">
-        進場分析
-      </div>
-
-      <div class="analysis-text">
-
-        ${
-          escapeHTML(
-            a.entryAnalysis ||
-            "資料不足，無法客觀判定"
-          )
-        }
-
-      </div>
-
-    </div>
-
-
-    <div class="analysis-card">
-
-      <div class="analysis-title">
-        出場分析
-      </div>
-
-      <div class="analysis-text">
-
-        ${
-          escapeHTML(
-            a.exitAnalysis ||
-            "資料不足，無法客觀判定"
-          )
-        }
-
-      </div>
-
-    </div>
-
-
-    <div class="analysis-card">
-
-      <div class="analysis-title">
-        風險管理
-      </div>
-
-      <div class="analysis-text">
-
-        ${
-          escapeHTML(
-            a.riskManagement ||
-            "資料不足，無法客觀判定"
-          )
-        }
-
-      </div>
-
-    </div>
-
-
-    <div class="analysis-card">
-
-      <div class="analysis-title">
-        持倉時間
-      </div>
-
-      <div class="analysis-text">
-
-        ${
-          escapeHTML(
-            a.holdingTimeAnalysis ||
-            "資料不足"
-          )
-        }
-
-      </div>
-
-    </div>
-
-
-    <div class="analysis-card">
-
-      <div class="analysis-title">
-        技術面
-      </div>
-
-      <div class="analysis-text">
-
-        ${
-          escapeHTML(
-            a.technicalAnalysis ||
-            "資料不足，無法客觀判定"
-          )
-        }
-
-      </div>
-
-    </div>
-
-
-    <div class="analysis-card">
-
-      <div class="analysis-title">
-        市場環境
-      </div>
-
-      <div class="analysis-text">
-
-        ${
-          escapeHTML(
-            a.marketContext ||
-            "資料不足，無法客觀判定"
-          )
-        }
-
-      </div>
-
-    </div>
-
-
-    <div class="analysis-card">
-
-      <div class="analysis-title">
-        AI 客觀結論
-      </div>
-
-      <div class="analysis-text">
-
-        ${
-          escapeHTML(
-            a.objectiveConclusion ||
-            "資料不足，無法客觀判定"
-          )
-        }
-
-      </div>
-
-    </div>
-
-
-  `;
-
+  const confirmed = Array.isArray(a.confirmedFactors)
+    ? a.confirmedFactors
+    : [];
+
+  let resultClass = "neutral";
+  if(a.resultType === "獲利") resultClass = "profit";
+  if(a.resultType === "虧損") resultClass = "loss";
+
+  const card = (title, value, fallback) =>
+    '<div class="analysis-card">' +
+      '<div class="analysis-title">' + title + '</div>' +
+      '<div class="analysis-text">' +
+        escapeHTML(value || fallback) +
+      '</div>' +
+    '</div>';
+
+  return (
+    '<div class="analysis-result ' + resultClass + '">' +
+      escapeHTML(a.resultType || "資料不足") +
+    '</div>' +
+    card("此單結果", a.resultSummary, "資料不足") +
+    card("直接原因", a.directReason, "資料不足，無法客觀判定") +
+    card(
+      "已確認資料",
+      confirmed.length ? confirmed.join("；") : "",
+      "目前沒有足夠資料確認"
+    ) +
+    card("進場分析", a.entryAnalysis, "資料不足，無法客觀判定") +
+    card("出場分析", a.exitAnalysis, "資料不足，無法客觀判定") +
+    card("風險管理", a.riskManagement, "停損、停利資料不足") +
+    card("持倉時間", a.holdingTimeAnalysis, "持倉時間資料不足") +
+    card("AI 客觀結論", a.objectiveConclusion, "資料不足，無法客觀判定")
+  );
 }
-
-
 /* =========================
    AI 分析頁
 ========================= */
