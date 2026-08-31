@@ -21,6 +21,14 @@ function assetsEnv() {
 }
 
 test("staging build rewrites API calls to same origin and removes legacy Worker URL", async () => {
+  const source = await readFile(join(root, "index.html"), "utf8");
+
+  assert.equal(
+    source.match(/\bconst\s+AI_API\s*=/g)?.length ?? 0,
+    1,
+    "index.html must declare AI_API exactly once"
+  );
+
   execFileSync(process.execPath, ["scripts/build-staging.mjs"], {
     cwd: root,
     stdio: "pipe"
@@ -30,6 +38,11 @@ test("staging build rewrites API calls to same origin and removes legacy Worker 
 
   assert.match(html, /const API =\s*window\.location\.origin;/);
   assert.match(html, /const AI_API =\s*API \+ "\/api\/analyze";/);
+  assert.equal(
+    html.match(/\bconst\s+AI_API\s*=/g)?.length ?? 0,
+    1,
+    "staging index.html must declare AI_API exactly once"
+  );
   assert.doesNotMatch(html, /futures-ai-worker\.s4112930\.workers\.dev/);
   assert.match(html, /noindex,nofollow,noarchive/);
 });
@@ -80,3 +93,4 @@ test("non-API staging requests fall through to Static Assets", async () => {
   assert.equal(response.status, 200);
   assert.equal(await response.text(), "asset:/client-route");
 });
+
