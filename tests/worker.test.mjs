@@ -150,7 +150,10 @@ test("forged or removed diagnostic routes are rejected", async () => {
 
 test("AI route returns the canonical versioned response schema", async () => {
   const token = await makeAccessToken();
-  const response = await worker.fetch(
+  const response = await withFetch(async (input) => {
+    if (String(input) === access.ACCESS_JWKS_URL) return jsonResponse(await jwksBody());
+    throw new Error("unexpected AI test fetch: " + String(input));
+  }, () => worker.fetch(
     request("/api/analyze", {
       method: "POST",
       headers: authHeaders(token),
@@ -174,7 +177,7 @@ test("AI route returns the canonical versioned response schema", async () => {
         }
       }
     }
-  );
+  ));
 
   const body = await response.json();
   assert.equal(response.status, 200);
@@ -260,7 +263,7 @@ test("IG transactions fetch every page and deduplicates records", async () => {
   const body = await response.json();
   const pageCalls = calls
     .map(call => new URL(call.input))
-    .filter(url => url.hostname === "api.ig.com");
+    .filter(url => url.pathname.endsWith("/history/transactions"));
 
   assert.equal(response.status, 200);
   assert.equal(body.count, 102);
