@@ -44,11 +44,11 @@ test("staging config uses Static Assets SPA routing without production secrets",
   assert.equal(config.assets.binding, "ASSETS");
   assert.equal(config.assets.not_found_handling, "single-page-application");
   assert.deepEqual(config.assets.run_worker_first, ["/health", "/ig/*", "/api/*"]);
-  assert.equal("ai" in config, false);
+  assert.equal(config.ai.binding, "AI");
   assert.equal("vars" in config, false);
 });
 
-test("staging health is available while sensitive routes stay disabled", async () => {
+test("staging health is available while sensitive routes require Access JWT", async () => {
   const env = assetsEnv();
 
   const health = await stagingWorker.fetch(
@@ -60,14 +60,14 @@ test("staging health is available while sensitive routes stay disabled", async (
   assert.equal(health.status, 200);
   assert.equal(healthBody.ok, true);
   assert.equal(healthBody.sameOriginApi, true);
-  assert.equal(healthBody.sensitiveRoutesEnabled, false);
+  assert.equal(healthBody.sensitiveRoutesEnabled, true);
 
   for (const path of ["/ig/accounts", "/ig/transactions", "/api/analyze"]) {
     const response = await stagingWorker.fetch(
       new Request(`https://staging.test${path}`, { method: path === "/api/analyze" ? "POST" : "GET" }),
       env
     );
-    assert.equal(response.status, 503);
+    assert.equal(response.status, 401);
   }
 });
 
