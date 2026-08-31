@@ -1,3 +1,8 @@
 IG_API_KEY=replace-with-local-development-value
 IG_IDENTIFIER=replace-with-local-development-value
 IG_PASSWORD=replace-with-local-development-value
+ACCESS_TEAM_DOMAIN=replace-with-cloudflare-access-team-domain
+ACCESS_AUD=replace-with-cloudflare-access-audience
+# Optional: leave blank to use https://<team-domain>/cdn-cgi/access/certs
+ACCESS_JWKS_URL=
+APP_ORIGIN=https://s4112930.github.io
