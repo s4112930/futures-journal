@@ -21,6 +21,14 @@ function assetsEnv() {
 }
 
 test("staging build rewrites API calls to same origin and removes legacy Worker URL", async () => {
+  const source = await readFile(join(root, "index.html"), "utf8");
+
+  assert.equal(
+    source.match(/\bconst\s+AI_API\s*=/g)?.length ?? 0,
+    1,
+    "index.html must declare AI_API exactly once"
+  );
+
   execFileSync(process.execPath, ["scripts/build-staging.mjs"], {
     cwd: root,
     stdio: "pipe"
@@ -30,6 +38,11 @@ test("staging build rewrites API calls to same origin and removes legacy Worker 
 
   assert.match(html, /const API =\s*window\.location\.origin;/);
   assert.match(html, /const AI_API =\s*API \+ "\/api\/analyze";/);
+  assert.equal(
+    html.match(/\bconst\s+AI_API\s*=/g)?.length ?? 0,
+    1,
+    "staging index.html must declare AI_API exactly once"
+  );
   assert.doesNotMatch(html, /futures-ai-worker\.s4112930\.workers\.dev/);
   assert.match(html, /noindex,nofollow,noarchive/);
 });
@@ -44,11 +57,11 @@ test("staging config uses Static Assets SPA routing without production secrets",
   assert.equal(config.assets.binding, "ASSETS");
   assert.equal(config.assets.not_found_handling, "single-page-application");
   assert.deepEqual(config.assets.run_worker_first, ["/health", "/ig/*", "/api/*"]);
-  assert.equal("ai" in config, false);
+  assert.equal(config.ai.binding, "AI");
   assert.equal("vars" in config, false);
 });
 
-test("staging health is available while sensitive routes stay disabled", async () => {
+test("staging health is available while sensitive routes require Access JWT", async () => {
   const env = assetsEnv();
 
   const health = await stagingWorker.fetch(
@@ -60,14 +73,14 @@ test("staging health is available while sensitive routes stay disabled", async (
   assert.equal(health.status, 200);
   assert.equal(healthBody.ok, true);
   assert.equal(healthBody.sameOriginApi, true);
-  assert.equal(healthBody.sensitiveRoutesEnabled, false);
+  assert.equal(healthBody.sensitiveRoutesEnabled, true);
 
   for (const path of ["/ig/accounts", "/ig/transactions", "/api/analyze"]) {
     const response = await stagingWorker.fetch(
       new Request(`https://staging.test${path}`, { method: path === "/api/analyze" ? "POST" : "GET" }),
       env
     );
-    assert.equal(response.status, 503);
+    assert.equal(response.status, 401);
   }
 });
 
@@ -80,3 +93,4 @@ test("non-API staging requests fall through to Static Assets", async () => {
   assert.equal(response.status, 200);
   assert.equal(await response.text(), "asset:/client-route");
 });
+

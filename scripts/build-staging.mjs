@@ -11,7 +11,16 @@ const outputPath = join(distDir, "index.html");
 let html = await readFile(sourcePath, "utf8");
 
 const apiBlock = `const API =\n"https://futures-ai-worker.s4112930.workers.dev";`;
-const aiFetch = `await fetch(\n      API,\n      {`;
+const aiFetch = `await fetch(\n      AI_API,\n      {`;
+const aiApiDeclaration = /\bconst\s+AI_API\s*=/g;
+
+function countAiApiDeclarations(source) {
+  return source.match(aiApiDeclaration)?.length ?? 0;
+}
+
+if (countAiApiDeclarations(html) !== 1) {
+  throw new Error("index.html 必須且只能包含一個 AI_API 宣告，停止 staging 建置。\n");
+}
 
 if (!html.includes(apiBlock)) {
   throw new Error("找不到預期的舊 Worker API 設定，停止 staging 建置。\n");
@@ -23,13 +32,12 @@ if (!html.includes(aiFetch)) {
 
 html = html.replace(
   apiBlock,
-  `const API =\nwindow.location.origin;\n\nconst AI_API =\nAPI + "/api/analyze";`
+  `const API =\nwindow.location.origin;`
 );
 
-html = html.replace(
-  aiFetch,
-  `await fetch(\n      AI_API,\n      {`
-);
+if (countAiApiDeclarations(html) !== 1) {
+  throw new Error("staging 輸出必須且只能包含一個 AI_API 宣告，停止建置。\n");
+}
 
 html = html.replace(
   "<title>期貨交易日誌</title>",
@@ -45,3 +53,4 @@ await mkdir(distDir, { recursive: true });
 await writeFile(outputPath, html, "utf8");
 
 console.log("staging assets built: dist/index.html");
+

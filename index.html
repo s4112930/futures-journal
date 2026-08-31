@@ -1363,6 +1363,9 @@ AI 分析
 const API =
 "https://futures-ai-worker.s4112930.workers.dev";
 
+const AI_API =
+API + "/api/analyze";
+
 
 let trades =
 JSON.parse(
@@ -1916,7 +1919,8 @@ async function loadIGAccount(){
     const response =
     await fetch(
       API +
-      "/ig/accounts"
+      "/ig/accounts",
+      { credentials: "include" }
     );
 
     const data =
@@ -2749,9 +2753,6 @@ async function syncIG(){
   let totalExcluded =
   0;
 
-  let warning100 =
-  false;
-
   let completed =
   0;
 
@@ -2790,16 +2791,6 @@ async function syncIG(){
 
       totalExcluded +=
       result.excluded;
-
-      if(
-        result.rawCount >=
-        100
-      ){
-
-        warning100 =
-        true;
-
-      }
 
       completed++;
 
@@ -2877,14 +2868,7 @@ async function syncIG(){
     totalDuplicate +
     " 筆，排除其他商品 " +
     totalExcluded +
-    " 筆。" +
-    (
-      warning100
-      ?
-      " 部分月份 IG 回傳達 100 筆資料，該月份若實際紀錄超過 100 筆，可能尚未完整匯入。"
-      :
-      ""
-    );
+    " 筆。";
 
   }catch(error){
 
@@ -3018,7 +3002,8 @@ async function syncOneMonth(
         0,
         19
       )
-    )
+    ),
+    { credentials: "include" }
 
   );
 
@@ -5014,8 +4999,11 @@ async function runAIAnalysis(id){
 
     const response =
     await fetch(
-      API,
+      AI_API,
       {
+
+        credentials:
+        "include",
 
         method:
         "POST",
@@ -5096,20 +5084,31 @@ async function runAIAnalysis(id){
 function renderAIResult(a){
 
   if(!a || typeof a !== "object"){
-    return "資料不足";
+    return '<div class="small red">AI 回應格式錯誤，請重新分析。</div>';
   }
 
-  const confirmed = Array.isArray(a.confirmedFactors)
-    ? a.confirmedFactors
-    : [];
+  const resultType =
+    ["獲利","虧損","持平","資料不足"].includes(a.resultType)
+    ? a.resultType
+    : "資料不足";
 
-  let resultClass = "neutral";
-  if(a.resultType === "獲利") resultClass = "profit";
-  if(a.resultType === "虧損") resultClass = "loss";
+  const resultClass =
+    resultType === "獲利"
+    ? "profit"
+    : resultType === "虧損"
+      ? "loss"
+      : "neutral";
+
+  const listText = value =>
+    Array.isArray(value) && value.length
+    ? value.join("；")
+    : "";
 
   const card = (title, value, fallback) =>
     '<div class="analysis-card">' +
-      '<div class="analysis-title">' + title + '</div>' +
+      '<div class="analysis-title">' +
+        escapeHTML(title) +
+      '</div>' +
       '<div class="analysis-text">' +
         escapeHTML(value || fallback) +
       '</div>' +
@@ -5117,22 +5116,44 @@ function renderAIResult(a){
 
   return (
     '<div class="analysis-result ' + resultClass + '">' +
-      escapeHTML(a.resultType || "資料不足") +
+      escapeHTML(resultType) +
     '</div>' +
     card("此單結果", a.resultSummary, "資料不足") +
     card("直接原因", a.directReason, "資料不足，無法客觀判定") +
     card(
-      "已確認資料",
-      confirmed.length ? confirmed.join("；") : "",
+      "已證實資料",
+      listText(a.confirmedFactors || a.verifiedFactors),
       "目前沒有足夠資料確認"
+    ) +
+    card(
+      "可能原因（推測）",
+      listText(a.possibleFactors || a.possibleReasons),
+      "未提供可能原因，不能自行推測"
+    ) +
+    card(
+      "缺少資料",
+      listText(a.missingFactors || a.missingData),
+      "沒有列出其他缺少資料"
     ) +
     card("進場分析", a.entryAnalysis, "資料不足，無法客觀判定") +
     card("出場分析", a.exitAnalysis, "資料不足，無法客觀判定") +
     card("風險管理", a.riskManagement, "停損、停利資料不足") +
-    card("持倉時間", a.holdingTimeAnalysis, "持倉時間資料不足") +
+    card(
+      "持倉時間",
+      a.holdingTimeAnalysis || a.holdingTime,
+      "持倉時間資料不足"
+    ) +
+    card(
+      "資料範圍",
+      (a.evidencePeriod || "單筆交易") +
+        "；樣本數：" +
+        (Number.isFinite(Number(a.sampleCount)) ? a.sampleCount : 1),
+      "單筆交易；樣本數：1"
+    ) +
     card("AI 客觀結論", a.objectiveConclusion, "資料不足，無法客觀判定")
   );
 }
+
 /* =========================
    AI 分析頁
 ========================= */

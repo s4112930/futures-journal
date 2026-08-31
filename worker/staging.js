@@ -1,3 +1,5 @@
+import apiWorker from "./index.js";
+
 function json(body, status = 200) {
   return new Response(JSON.stringify(body), {
     status,
@@ -9,7 +11,7 @@ function json(body, status = 200) {
 }
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
 
     if (url.pathname === "/health" && request.method === "GET") {
@@ -17,7 +19,7 @@ export default {
         ok: true,
         service: "futures-journal-staging",
         sameOriginApi: true,
-        sensitiveRoutesEnabled: false
+        sensitiveRoutesEnabled: true
       });
     }
 
@@ -25,13 +27,7 @@ export default {
       url.pathname.startsWith("/ig/") ||
       url.pathname === "/api/analyze"
     ) {
-      return json(
-        {
-          ok: false,
-          error: "Sensitive staging routes remain disabled until Cloudflare Access is configured."
-        },
-        503
-      );
+      return apiWorker.fetch(request, env, ctx);
     }
 
     return env.ASSETS.fetch(request);
