@@ -11,7 +11,7 @@ const outputPath = join(distDir, "index.html");
 let html = await readFile(sourcePath, "utf8");
 
 const apiBlock = `const API =\n"https://futures-ai-worker.s4112930.workers.dev";`;
-const aiFetch = `await fetch(\n      API,\n      {`;
+const aiFetch = `await fetch(\n      AI_API,\n      {`;
 
 if (!html.includes(apiBlock)) {
   throw new Error("找不到預期的舊 Worker API 設定，停止 staging 建置。\n");
@@ -24,11 +24,6 @@ if (!html.includes(aiFetch)) {
 html = html.replace(
   apiBlock,
   `const API =\nwindow.location.origin;\n\nconst AI_API =\nAPI + "/api/analyze";`
-);
-
-html = html.replace(
-  aiFetch,
-  `await fetch(\n      AI_API,\n      {`
 );
 
 html = html.replace(
