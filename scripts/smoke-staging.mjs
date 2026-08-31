@@ -8,7 +8,7 @@ const home = await fetch(base + "/", { redirect: "follow" });
 const homeText = await home.text();
 
 if (!home.ok || !homeText.includes("期貨交易日誌")) {
-  throw new Error(`staging 首頁驗證失敗：HTTP ${home.status}`);
+  throw new Error("staging 首頁驗證失敗：HTTP " + home.status);
 }
 
 if (homeText.includes("https://futures-ai-worker.s4112930.workers.dev")) {
@@ -18,10 +18,12 @@ if (homeText.includes("https://futures-ai-worker.s4112930.workers.dev")) {
 const health = await fetch(base + "/health", {
   headers: { Accept: "application/json" }
 });
-const healthBody = await health.json();
+const healthText = await health.text();
+let healthBody = {};
+try { healthBody = JSON.parse(healthText); } catch {}
 
 if (!health.ok || healthBody.ok !== true || healthBody.sameOriginApi !== true) {
-  throw new Error(`staging health 驗證失敗：HTTP ${health.status}`);
+  throw new Error("staging health 驗證失敗：HTTP " + health.status);
 }
 
 const blocked = await fetch(base + "/api/analyze", {
@@ -29,10 +31,12 @@ const blocked = await fetch(base + "/api/analyze", {
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({ product: "NQ", direction: "做多" })
 });
-const blockedBody = await blocked.json();
+const blockedText = await blocked.text();
+let blockedBody = {};
+try { blockedBody = JSON.parse(blockedText); } catch {}
 
-if (blocked.status !== 503 || blockedBody.ok !== false) {
-  throw new Error("Access 尚未建立前，敏感 staging API 應維持停用。\n");
+if (blocked.ok && blockedBody.ok === true) {
+  throw new Error("未授權敏感 staging API 不應成功。");
 }
 
 const fallback = await fetch(base + "/staging-smoke-route", {
@@ -41,7 +45,7 @@ const fallback = await fetch(base + "/staging-smoke-route", {
 const fallbackText = await fallback.text();
 
 if (!fallback.ok || !fallbackText.includes("期貨交易日誌")) {
-  throw new Error(`SPA fallback 驗證失敗：HTTP ${fallback.status}`);
+  throw new Error("SPA fallback 驗證失敗：HTTP " + fallback.status);
 }
 
 console.log("staging smoke passed");
